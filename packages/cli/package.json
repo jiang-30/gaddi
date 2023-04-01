@@ -1,0 +1,33 @@
+{
+  "name": "@gaddi/cli",
+  "version": "0.0.2",
+  "description": "",
+  "keywords": [],
+  "type": "module",
+  "bin": {
+    "gaddi": "./dist/index.js"
+  },
+  "author": "jiang-30 <514770300@qq.com>",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist",
+    "config.json",
+    "CHANGELOG.md",
+    "README.md",
+    "package.json"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:jiang-30/gaddi.git"
+  },
+  "bugs": "https://github.com/jiang-30/gaddi/issues",
+  "homepage": "https://gaddi.jiangbo.fun/cli/",
+  "scripts": {
+    "build": "rollup -c rollup.config.js"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

@@ -1,0 +1,35 @@
+{
+  "name": "@gaddi/utils",
+  "version": "0.0.1",
+  "description": "",
+  "author": "",
+  "homepage": "",
+  "license": "ISC",
+  "type": "module",
+  "main": "lib/index.js",
+  "module": "es/index.mjs",
+  "types": "es/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./lib/index.js",
+      "import": "./es/index.mjs",
+      "types": "./es/index.d.ts"
+    },
+    "./*": "./*"
+  },
+  "files": [
+    "es",
+    "lib"
+  ],
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "scripts": {
+    "build": "vite build"
+  },
+  "devDependencies": {},
+  "peerDependencies": {
+    "vue": "^3.2.47"
+  }
+}

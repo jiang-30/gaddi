@@ -1,0 +1,6 @@
+{
+  "name": "dist",
+  "mirrorUrl": "https://github.com/jiang-30/gaddi/releases/download",
+  "currentTag": "0.0.1",
+  "tagUrl": "https://api.github.com/repos/jiang-30/gaddi/releases/latest"
+}
