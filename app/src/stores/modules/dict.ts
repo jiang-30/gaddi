@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
-import { fetchDict } from '@/api/common'
 import localDicts from '@/constant/dict/index'
+import { fetchDict } from '@/api/common'
+import type { IDict } from '@/typings'
 
 const storeKey = 'DICT_STORE'
 let IS_INIT = false
@@ -18,7 +19,7 @@ export const useDictStore = defineStore({
   },
   state() {
     return {
-      dictList: localDicts,
+      dictList: <IDict[]>[],
       isInit: false,
     }
   },
@@ -46,7 +47,7 @@ export const useDictStore = defineStore({
       if (isLogin && !this.isInit) {
         this.isInit = true
         return fetchDict().then(({ data }) => {
-          this.dictList = data
+          this.dictList = [...data, ...localDicts]
         })
       }
     },

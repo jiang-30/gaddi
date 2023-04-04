@@ -3,7 +3,7 @@ import { createPinia } from 'pinia'
 export * from './modules/dict'
 export * from './modules/menu'
 export * from './modules/route'
-export * from './modules/setting'
+export * from './modules/config'
 export * from './modules/tab'
 export * from './modules/user'
 

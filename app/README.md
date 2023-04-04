@@ -7,6 +7,10 @@ lint
 
 ## TODO
 
+- api
+  login/fetchDict/fetchPermission/fetchProfile
+  dynamicDict: true/dynamicMenu: true/
+
 - useController
   base 数据
   组件状态及交互逻辑 -- 组件里引入交互逻辑

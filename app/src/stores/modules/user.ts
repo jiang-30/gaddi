@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import router from '@/router/index'
-import { fetchProfile, fetchPermission } from '@/api/account'
+import { fetchProfile } from '@/api/account'
 import type { IUserInfo } from '@/typings'
 import { useMenuStore, useDictStore, useTabStore, useRouteStore, useSettingStore } from '@/stores'
 
