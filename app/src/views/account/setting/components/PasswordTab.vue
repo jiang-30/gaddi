@@ -4,16 +4,30 @@
       <section class="w-[500px] p-10">
         <el-form ref="formRef" :model="formModel" :rules="formRules" label-position="top">
           <el-form-item label="原密码" prop="oldPassword">
-            <el-input v-model="formModel.oldPassword" type="password" placeholder="请输入原密码"></el-input>
+            <el-input
+              v-model="formModel.oldPassword"
+              type="password"
+              placeholder="请输入原密码"
+            ></el-input>
           </el-form-item>
           <el-form-item label="新密码" prop="password">
-            <el-input v-model="formModel.password" type="password" placeholder="请输入新密码"></el-input>
+            <el-input
+              v-model="formModel.password"
+              type="password"
+              placeholder="请输入新密码"
+            ></el-input>
           </el-form-item>
           <el-form-item label="确认密码" prop="rePassword">
-            <el-input v-model="formModel.rePassword" type="password" placeholder="请输入确认密码"></el-input>
+            <el-input
+              v-model="formModel.rePassword"
+              type="password"
+              placeholder="请输入确认密码"
+            ></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button class="w-full" type="primary" @click="onSubmit" :loading="loading">保存</el-button>
+            <el-button class="w-full" type="primary" @click="onSubmit" :loading="loading"
+              >保存</el-button
+            >
           </el-form-item>
         </el-form>
       </section>
@@ -21,8 +35,8 @@
   </el-tabs>
 </template>
 <script lang="ts" setup>
-import { useUserStore } from '@/stores'
-import { fetchUpdatePassword } from '@/api/account'
+import { useUserStore } from '@/store'
+import { fetchUpdatePassword } from '@/api/common'
 import { encrypt } from '@/utils/crypto-utils'
 import type { FormInstance, FormRules, FormItemRule } from 'element-plus'
 
@@ -35,7 +49,11 @@ const formModel = ref({
 })
 
 const passwordValidator: FormItemRule['validator'] = (rule, value, callback) => {
-  if (formModel.value.password && formModel.value.rePassword && formModel.value.password !== formModel.value.rePassword) {
+  if (
+    formModel.value.password &&
+    formModel.value.rePassword &&
+    formModel.value.password !== formModel.value.rePassword
+  ) {
     callback(new Error('俩次密码输入不一致'))
   }
   callback()

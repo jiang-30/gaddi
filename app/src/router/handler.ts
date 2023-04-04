@@ -1,5 +1,5 @@
 import type { IMenu } from '@/typings'
-import { defaultMenuConfig } from '../constant/default/menu'
+import { defaultMenuConfig } from '../constant/default-menu-config'
 
 // 菜单数据设置默认值
 // component: ''

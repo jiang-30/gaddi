@@ -15,7 +15,6 @@
     "src/router/handler.ts",
     "build/*.ts",
     "vite.config.*",
-    "vitest.config.*",
-    "cypress.config.*"
+    "vitest.config.*"
   ]
 }

@@ -27,7 +27,7 @@ meta:
 </template>
 
 <script lang="ts" setup>
-import { useUserStore } from "@/stores";
+import { useUserStore } from '@/store'
 
-const userInfo = useUserStore().userInfo;
+const userInfo = useUserStore().userInfo
 </script>

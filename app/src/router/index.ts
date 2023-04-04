@@ -5,7 +5,7 @@ import {
   type RouteRecordRaw,
 } from 'vue-router'
 import { setupLayouts } from 'virtual:generated-layouts'
-import { useSettingStore, useTabStore, useUserStore, useRouteStore } from '@/stores'
+import { useSettingStore, useTabStore, useUserStore, useRouteStore } from '@/store'
 import { allRoutes, constantRoutes } from './routes'
 import type { IMenu } from '@/typings'
 

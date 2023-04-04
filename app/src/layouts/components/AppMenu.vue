@@ -9,37 +9,33 @@
     unique-opened
     @select="onSelect"
   >
-    <AppMenuItem
-      v-for="menu in menuList"
-      :key="menu.name"
-      :menu="menu"
-    ></AppMenuItem>
+    <AppMenuItem v-for="menu in menuList" :key="menu.name" :menu="menu"></AppMenuItem>
   </el-menu>
 </template>
 
 <script lang="ts" setup>
-import AppMenuItem from "./AppMenuItem.vue";
-import { useMenuStore } from "@/stores";
-import type { IMenu } from "@/typings";
+import AppMenuItem from './AppMenuItem.vue'
+import { useMenuStore } from '@/store'
+import type { IMenu } from '@/typings'
 
 defineProps<{
-  mode: "horizontal" | "vertical";
-  menuList: IMenu[];
-  collapse: boolean;
-  bgColor?: string;
-  textColor?: string;
-}>();
+  mode: 'horizontal' | 'vertical'
+  menuList: IMenu[]
+  collapse: boolean
+  bgColor?: string
+  textColor?: string
+}>()
 
-const menuStore = useMenuStore();
-const router = useRouter();
-const defaultActive = ref("");
+const menuStore = useMenuStore()
+const router = useRouter()
+const defaultActive = ref('')
 
 watchEffect(() => {
-  defaultActive.value = router.currentRoute.value.name as string;
-});
+  defaultActive.value = router.currentRoute.value.name as string
+})
 
 function onSelect(index: string) {
-  menuStore.navTo(index);
+  menuStore.navTo(index)
 }
 </script>
 

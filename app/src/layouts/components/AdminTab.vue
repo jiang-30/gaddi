@@ -31,7 +31,7 @@
 
 <script lang="ts" setup>
 import { ArrowDown } from '@element-plus/icons-vue'
-import { useTabStore, useSettingStore } from '@/stores'
+import { useTabStore, useSettingStore } from '@/store'
 import type { TabsPaneContext } from 'element-plus'
 
 const router = useRouter()

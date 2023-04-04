@@ -30,7 +30,7 @@ meta:
 </template>
 <script setup lang="ts" name="Login">
 import UsernamePassword from './components/UsernamePassword.vue'
-import { useRouteStore, useUserStore } from '@/stores'
+import { useRouteStore, useUserStore } from '@/store'
 import type { ILoginInfo } from './index'
 
 const userStore = useUserStore()

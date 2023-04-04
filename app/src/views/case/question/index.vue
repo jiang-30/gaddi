@@ -40,7 +40,7 @@ meta:
 <script setup lang="ts">
 import QuestionFormView from './components/QuestionFormView.vue'
 import QuestionInfoView from './components/QuestionInfoView.vue'
-import { useDictStore } from '@/stores'
+import { useDictStore } from '@/store'
 import type { IQuestion } from './index'
 
 const questionFormRef = ref<typeof QuestionFormView>()
