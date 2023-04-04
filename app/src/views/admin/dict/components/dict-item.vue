@@ -12,7 +12,7 @@
 <script setup lang="ts">
 import type { ICrudOption } from '@gaddi/components'
 import type { IDictDataType } from '@/typings'
-import { useDictStore } from '@/stores'
+import { useDictStore } from '@/store'
 
 const visible = ref(false)
 const dictDataType = ref<IDictDataType>('list')

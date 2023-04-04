@@ -1,5 +1,5 @@
 import type { ICrudOption, ICrudApi, IPageModel, ITableData } from '@gaddi/components'
-import { useDictStore } from '@/stores'
+import { useDictStore } from '@/store'
 
 export const useModel = (): {
   api: ICrudApi

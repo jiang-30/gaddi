@@ -19,7 +19,7 @@ meta:
 </template>
 
 <script lang="ts" setup>
-import { useMenuStore } from '@/stores'
+import { useMenuStore } from '@/store'
 
 // console.log(useMenuStore().menuTree)
 // console.log(useMenuStore().getMenuTree())

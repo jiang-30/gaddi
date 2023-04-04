@@ -1,4 +1,4 @@
-whirls-plus 是一个 monorepo, 多个工程放到一个 git 仓库中;共享一套构建流程、代码规范.
+gaddi 是一个 monorepo, 多个工程放到一个 git 仓库中;共享一套构建流程、代码规范.
 
 通过 pnpm 管理依赖，通过 changesets 管理库的更新日志
 

@@ -1,4 +1,4 @@
-import { useDictStore } from '@/stores'
+import { useDictStore } from '@/store'
 
 export const useModel = () => {
   const api = ref({

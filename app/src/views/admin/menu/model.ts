@@ -1,5 +1,5 @@
 import type { ICrudOption, ICrudApi } from '@gaddi/components'
-import { useDictStore } from '@/stores'
+import { useDictStore } from '@/store'
 
 export const useModel = (tableData: Ref<any[]>) => {
   const api = ref<ICrudApi>({

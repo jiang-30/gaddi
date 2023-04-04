@@ -18,10 +18,7 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "lib": ["esnext", "dom"],
-    "types": [
-      "element-plus/global",
-      "unplugin-vue-define-options/macros-global"
-    ]
+    "types": ["element-plus/global", "unplugin-vue-define-options/macros-global"]
   },
   "include": ["src/**/*.ts", "src/**/*.vue", "./global.d.ts"]
 }

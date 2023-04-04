@@ -18,7 +18,7 @@
     <template #dropdown>
       <el-dropdown-menu>
         <el-dropdown-item
-          v-for="item in actionList.filter((row) => row.visible)"
+          v-for="item in actionList.filter(row => row.visible)"
           :key="item.key"
           :command="item.key"
           :icon="item.icon"
@@ -31,69 +31,64 @@
   </el-dropdown>
 </template>
 <script lang="ts" setup>
-import {
-  UserFilled,
-  Setting,
-  SwitchButton,
-  ArrowDown,
-} from "@element-plus/icons-vue";
-import { useUserStore, useSettingStore } from "@/stores";
-import { ElMessageBox } from "element-plus";
+import { UserFilled, Setting, SwitchButton, ArrowDown } from '@element-plus/icons-vue'
+import { useUserStore, useSettingStore } from '@/store'
+import { ElMessageBox } from 'element-plus'
 
 defineProps<{
-  textColor: string;
-}>();
-const router = useRouter();
-const appSettingRef = ref();
-const useSetting = useSettingStore();
-const userinfo = useUserStore().userInfo;
+  textColor: string
+}>()
+const router = useRouter()
+const appSettingRef = ref()
+const useSetting = useSettingStore()
+const userinfo = useUserStore().userInfo
 
 const actionList = [
   {
-    title: "个人中心",
-    key: "userCenter",
-    routeName: "UserCenter",
+    title: '个人中心',
+    key: 'userCenter',
+    routeName: 'UserCenter',
     icon: UserFilled,
     divided: false,
     visible: useSetting.userCenterBtn,
   },
   {
-    title: "账户设置",
-    key: "userSetting",
-    routeName: "UserSetting",
+    title: '账户设置',
+    key: 'userSetting',
+    routeName: 'UserSetting',
     icon: Setting,
     divided: false,
     visible: useSetting.userSettingBtn,
   },
   {
-    title: "退出登录",
-    key: "logout",
+    title: '退出登录',
+    key: 'logout',
     icon: SwitchButton,
     divided: true,
     visible: true,
   },
-];
+]
 
 function onCommand(command: string) {
-  const item = actionList.find((item) => item.key === command);
+  const item = actionList.find(item => item.key === command)
   switch (command) {
-    case "style":
+    case 'style':
       if (appSettingRef.value) {
-        appSettingRef.value.open();
+        appSettingRef.value.open()
       }
-      break;
-    case "logout":
-      ElMessageBox.confirm("确定要退出系统吗", "提示", { type: "warning" })
+      break
+    case 'logout':
+      ElMessageBox.confirm('确定要退出系统吗', '提示', { type: 'warning' })
         .then(async () => {
-          useUserStore().logoutHandler();
+          useUserStore().logoutHandler()
         })
-        .catch(() => {});
-      break;
+        .catch(() => {})
+      break
     default:
       if (item && item.routeName) {
         router.push({
           name: item.routeName,
-        });
+        })
       }
   }
 }

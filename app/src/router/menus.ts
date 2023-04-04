@@ -38,19 +38,8 @@ const menusList: Partial<IMenu>[] = [
     title: '可视化',
     icon: 'ic:sharp-bar-chart',
     isEnabled: true,
+    isShow: false,
     sort: 10,
-  },
-  {
-    id: 'data-home',
-    // parentId: '',
-    isEnabled: true,
-    type: 'page',
-    // component: '/data/home',
-    title: '可视化',
-    icon: 'ic:sharp-bar-chart',
-    isShow: true,
-    sort: 20,
-    layout: 'data',
   },
 ]
 

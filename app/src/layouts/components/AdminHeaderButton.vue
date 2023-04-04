@@ -22,9 +22,7 @@
   <el-tooltip v-if="useSetting.showThemeBtn" content="暗黑模式">
     <el-button
       link
-      @click="
-        useSetting.themeMode = useSetting.themeMode == 'dark' ? 'light' : 'dark'
-      "
+      @click="useSetting.themeMode = useSetting.themeMode == 'dark' ? 'light' : 'dark'"
     >
       <el-icon :size="26" :color="textColor">
         <icon-mdi-white-balance-sunny v-if="useSetting.themeMode == 'dark'" />
@@ -35,19 +33,19 @@
 </template>
 
 <script lang="ts" setup>
-import { useSettingStore } from "@/stores";
-import { useFullscreen } from "@vueuse/core";
+import { useSettingStore } from '@/store'
+import { useFullscreen } from '@vueuse/core'
 
 defineProps<{
-  textColor: string;
-}>();
+  textColor: string
+}>()
 
-const router = useRouter();
-const useSetting = useSettingStore();
-const { isFullscreen, toggle } = useFullscreen();
+const router = useRouter()
+const useSetting = useSettingStore()
+const { isFullscreen, toggle } = useFullscreen()
 
 // 页面跳转
 function onNav(pageName: string) {
-  router.push({ name: pageName });
+  router.push({ name: pageName })
 }
 </script>

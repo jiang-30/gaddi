@@ -37,8 +37,7 @@
 <script lang="ts" setup>
 import { User, Lock } from '@element-plus/icons-vue'
 import type { FormInstance, FormRules } from 'element-plus'
-import { fetchLogin } from '@/api/account'
-import { encrypt } from '@/utils/crypto-utils'
+import { fetchLogin } from '@/api/common'
 import type { ILoginInfo } from '../index'
 
 const emit = defineEmits<{
@@ -76,7 +75,6 @@ const onSubmit = (form: FormInstance | undefined) => {
       loading.value = true
       const params = {
         ...formData.value,
-        password: encrypt(formData.value.password),
       }
       fetchLogin(params)
         .then(({ data }) => {
