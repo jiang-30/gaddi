@@ -1,38 +1,34 @@
 <template>
-  <el-tabs>
-    <el-tab-pane label="密码设置">
-      <section class="w-[500px] p-10">
-        <el-form ref="formRef" :model="formModel" :rules="formRules" label-position="top">
-          <el-form-item label="原密码" prop="oldPassword">
-            <el-input
-              v-model="formModel.oldPassword"
-              type="password"
-              placeholder="请输入原密码"
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="新密码" prop="password">
-            <el-input
-              v-model="formModel.password"
-              type="password"
-              placeholder="请输入新密码"
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="确认密码" prop="rePassword">
-            <el-input
-              v-model="formModel.rePassword"
-              type="password"
-              placeholder="请输入确认密码"
-            ></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button class="w-full" type="primary" @click="onSubmit" :loading="loading"
-              >保存</el-button
-            >
-          </el-form-item>
-        </el-form>
-      </section>
-    </el-tab-pane>
-  </el-tabs>
+  <section class="w-[500px] p-10">
+    <el-form ref="formRef" :model="formModel" :rules="formRules" label-position="top">
+      <el-form-item label="原密码" prop="oldPassword">
+        <el-input
+          v-model="formModel.oldPassword"
+          type="password"
+          placeholder="请输入原密码"
+        ></el-input>
+      </el-form-item>
+      <el-form-item label="新密码" prop="password">
+        <el-input
+          v-model="formModel.password"
+          type="password"
+          placeholder="请输入新密码"
+        ></el-input>
+      </el-form-item>
+      <el-form-item label="确认密码" prop="rePassword">
+        <el-input
+          v-model="formModel.rePassword"
+          type="password"
+          placeholder="请输入确认密码"
+        ></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button class="w-full" type="primary" @click="onSubmit" :loading="loading">
+          保存
+        </el-button>
+      </el-form-item>
+    </el-form>
+  </section>
 </template>
 <script lang="ts" setup>
 import { useUserStore } from '@/store'

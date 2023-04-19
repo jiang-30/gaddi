@@ -7,9 +7,7 @@
     @command="onCommand"
   >
     <div class="admin-header-user-wrapper">
-      <el-avatar :icon="UserFilled" :src="userinfo.avatar" :size="30">
-        {{ userinfo.username?.slice(0, 1).toUpperCase() }}
-      </el-avatar>
+      <el-avatar :icon="UserFilled" :src="userinfo.avatar" :size="30" />
       <span class="admin-header-user__name">{{ userinfo.username }}</span>
       <el-icon :color="textColor">
         <ArrowDown />

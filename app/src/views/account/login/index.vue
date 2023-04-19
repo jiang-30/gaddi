@@ -57,7 +57,9 @@ function successHandler(data: ILoginInfo) {
         router.replace({ name: useRouteStore().indexPageName })
       }
     })
-    .catch(() => {})
+    .catch(error => {
+      console.log(error)
+    })
 }
 </script>
 

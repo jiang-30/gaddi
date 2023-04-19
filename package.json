@@ -18,7 +18,7 @@
     "dev:docs": "vitepress dev docs",
     "dev:app": "pnpm --filter @gaddi/app dev",
     "build:docs": "vitepress build docs",
-    "build:app": "node app.build.js & pnpm --filter @gaddi/app build",
+    "build:app": "node app.build.js",
     "build:cli": "pnpm --filter @jiang-30/cli build",
     "build:components": "pnpm --filter @gaddi/components build",
     "build:utils": "pnpm --filter @gaddi/utils build",

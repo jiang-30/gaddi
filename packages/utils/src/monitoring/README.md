@@ -2,7 +2,7 @@ log4js
 
 按照 5W1H 法则来分析前端异常，需要知道以下信息
 
-What，发⽣了什么错误：JS错误、异步错误、资源加载、接口错误等
+What，发⽣了什么错误：JS 错误、异步错误、资源加载、接口错误等
 When，出现的时间段，如时间戳
 Who，影响了多少用户，包括报错事件数、IP
 Where，出现的页面是哪些，包括页面、对应的设备信息
@@ -54,6 +54,7 @@ new Aegis({
   用户在每一个页面的停留时间
 
 ## 捕获异常
+
 - axios 拦截器中统一获取
 - js
 
@@ -66,20 +67,22 @@ user_name：触发异常的用户名
 page_route：异常的页面路由
 page_title：异常的页面名称
 
-
 ## 异常分类
+
 Error 是所有错误的基类，其他错误类型继承该类型。所有错误类型都共享相同的属性。
- class MyError extends Error {
-     constructor(message) {
-         super();
-         this.name = 'MyError'
-         this.message = message     }
- }
+class MyError extends Error {
+constructor(message) {
+super();
+this.name = 'MyError'
+this.message = message }
+}
+
 - Error.prototype.message 错误消息。对于用户创建的 Error 对象，这是构造函数的第一个参数提供的字符串。
 - Error.prototype.name 错误名称。这是由构造函数决定的。
 - Error.prototype.stack 错误堆栈
 
 JS 语法异常
+
 - SyntaxError：语法异常；词法分析和语法分析阶段产生得异常，绝大部分 SyntaxError 都可以通过配置编辑器的校验工具，从而在开发阶段避免。
 - ReferenceError：引用异常
 - RangeError：范围异常
@@ -88,10 +91,10 @@ JS 语法异常
 - TypeError: 类型异常
 - EvalError: Eval 方法异常
 - URIError: URI 相关方法产生的异常
-Ajax 请求异常；
-静态资源加载异常；
-Promise 异常；
-iframe 异常；
+  Ajax 请求异常；
+  静态资源加载异常；
+  Promise 异常；
+  iframe 异常；
 
 window.onerror 捕获语法异常
 
@@ -331,3 +334,26 @@ const key = crypto.createHash("md5").update(token + category + message).digest("
 其中错误总数会按照 category:"error" 的 sum(digit) 来求和，而影响人数只会按照记录的个数来计算。
 
 往期趋势中，会展示错误、500、502 和 504 错误、日志总数折线图，这些数据会被保存在一张额外的统计表中，这样就不必每次实时计算了
+
+export interface IItem {
+// 监控指标的大类
+kind: 'stability',
+//jsError
+errorType: 'jsError',
+// errorType: event.error.name,
+type: 'jsError',
+// 访问那个路径报错了
+url: '页面 URL',
+// 那个文件报错 event
+filename: string
+//报错信息 event.message,
+message: string
+// 行列信息
+position: string
+// 堆栈信息 格式化后的
+stack: string
+// selector
+// selector: lastEvent
+// ? getSelector(lastEvent.path || lastEvent.target)
+// : "",
+}

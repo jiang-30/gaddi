@@ -56,7 +56,8 @@ export function fetchPermission() {
       code: 1,
       data: {
         menus: [],
-        permissions: ['ROLE:ADMIN'],
+        roles: ['ADMIN'],
+        permissions: [],
       },
     })
   } else {

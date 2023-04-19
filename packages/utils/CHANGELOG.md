@@ -1,7 +1,7 @@
 # @gaddi/utils
 
-## 0.0.1
+## 0.0.1-alpha.1
 
-### Major Changes
+### Patch Changes
 
-- 基础版本
+- init

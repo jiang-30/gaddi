@@ -1,0 +1,14 @@
+{
+  "mode": "pre",
+  "tag": "alpha",
+  "initialVersions": {
+    "@gaddi/app": "0.0.2-alpha.1",
+    "@gaddi/cli": "0.0.1-alpha.1",
+    "@gaddi/components": "0.0.1-alpha.2",
+    "@gaddi/utils": "0.0.1-alpha.1"
+  },
+  "changesets": [
+    "green-eyes-applaud",
+    "plenty-pianos-tickle"
+  ]
+}

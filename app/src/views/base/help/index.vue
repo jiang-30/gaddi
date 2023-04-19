@@ -3,14 +3,14 @@ meta:
   isEnabled: true
   isStatic: true
   name: Help
-  title: 帮助文档
+  title: 帮助
   icon: mdi:account-box-multiple-outline
   layout: default
   isAuth: false
 </route>
 
 <template>
-  <div>help</div>
+  <div>常见问题</div>
 </template>
 
 <script setup lang="ts"></script>
