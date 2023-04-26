@@ -8,5 +8,5 @@ import WComponents from "@/packages/components/src/index";
 
 const app = createApp(App);
 app.use(ElementPlus, { locale: zhCn });
-app.use(WComponents, { axios: { a: "bbbb" } });
+app.use(WComponents, {});
 app.mount("#app");

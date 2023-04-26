@@ -12,7 +12,7 @@
           <span>{{ item.label }}</span>
         </template>
         <template #default>
-          <slot :name="item.prop + 'Info'" :model="infoModel" :field="item">
+          <slot :name="item.prop + 'Info'" :model="infoModel" :row="infoModel" :field="item">
             {{ formatValue(item, infoModel, null, null) }}
           </slot>
         </template>

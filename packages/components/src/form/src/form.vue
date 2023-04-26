@@ -5,7 +5,7 @@
       <el-row :gutter="10">
         <el-col v-for="field in _formFields" :key="field.prop" :span="field.span">
           <!-- 传递插槽 -->
-          <FormItem :field="field" :form-model="formModel">
+          <FormItem :field="field" :form-model="formModel" :row="formModel">
             <template
               v-for="item in Object.keys($slots).filter(item => item.endsWith('Form'))"
               v-slot:[item]="scopeProps"

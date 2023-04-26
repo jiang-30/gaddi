@@ -3,6 +3,7 @@ import type { TableProps, TableColumnCtx, DialogProps, PaginationProps } from 'e
 import type { crudProps, crudEmits } from './crud'
 import type Crud from './crud.vue'
 import type { IFieldType, IDictItem } from '../../typings'
+import type { TableColumn } from 'element-plus/es/components/table/src/table-column/defaults'
 
 // 表格数据类型
 export type ITableData = Record<string, any>
@@ -143,6 +144,10 @@ export interface ICrudAttrs extends IElTableAttrs, IElPaginationAttrs, IElDialog
 
   // 选择 列
   selectionColumn?: boolean
+  // 是否可以勾选
+  selectable?: TableColumnCtx<any>['selectable']
+  // 数据刷新后是否保留选项，需指定 row-key
+  reserveSelection?: boolean
 
   // 操作栏
   // printBtn
@@ -152,7 +157,7 @@ export interface ICrudAttrs extends IElTableAttrs, IElPaginationAttrs, IElDialog
   // searchShowBtn
 
   // 表格操作栏
-  rowAction?: boolean
+  isRowAction?: boolean
   rowActionWidth?: string | number
   rowActionTitle?: string
   rowActionFixed?: string

@@ -17,7 +17,9 @@
     <section v-loading="tableLoading ?? _tableLoading">
       <!-- 操作区域 -->
       <section class="w-crud-action">
-        <el-button type="primary" :icon="CirclePlus" @click="_onOpenCreate"> 新增 </el-button>
+
+        <el-button v-if="handlerBtnShow(__actionOption.isCreateBtn)" type="primary" :icon="CirclePlus" @click="_onOpenCreate"> 新增 </el-button>
+
         <slot name="action"></slot>
 
         <span class="w-crud-action-split"></span>
@@ -36,7 +38,7 @@
       </section>
 
       <!-- 表格区域 -->
-      <el-table :data="_currentTableData" v-bind="__tableAttrs">
+      <el-table ref="tableRef" :data="_currentTableData"  v-bind="{... $attrs, ...__tableAttrs}">
         <!-- expandColumn 展开 -->
         <el-table-column v-if="option.expandColumn === true" type="expand">
           <template #default="scopeProps">
@@ -45,7 +47,7 @@
         </el-table-column>
 
         <!-- selectionColumn 选择 -->
-        <el-table-column v-if="option.selectionColumn === true" type="selection" />
+        <el-table-column v-if="__selectionColumn.isShow" v-bind="__selectionColumn.attrs" type="selection" />
 
         <!-- indexColumn 序号 -->
         <el-table-column
@@ -71,11 +73,11 @@
           </template>
         </el-table-column>
 
-        <el-table-column v-bind="__tableColumnActionAttrs">
+        <el-table-column v-if="__actionOption.isRowAction" v-bind="__tableColumnActionAttrs">
           <template #default="scopeProps">
             <div class="w-crud-column-action">
               <el-button
-                v-if="option.isInfoBtn"
+                v-if="handlerBtnShow(__actionOption.isInfoBtn)"
                 text
                 type="info"
                 size="small"
@@ -85,6 +87,7 @@
                 详情
               </el-button>
               <el-button
+                v-if="handlerBtnShow(__actionOption.isUpdateBtn)"
                 text
                 type="primary"
                 size="small"
@@ -94,6 +97,7 @@
                 修改
               </el-button>
               <el-button
+                v-if="handlerBtnShow(__actionOption.isDeleteBtn)"
                 text
                 type="danger"
                 size="small"
@@ -165,7 +169,7 @@ import ColumnFilter from './column-filter.vue'
 import { WSearchForm, WForm, WInfo } from '../../index'
 import { crudProps, crudEmits } from './crud'
 import { useCrudOption } from './utils'
-import { ElMessageBox, ElNotification, type Action } from 'element-plus'
+import { ElMessageBox, ElNotification, type Action, type TableInstance } from 'element-plus'
 import { tools, formatValue } from '../../utils'
 
 // console.log("slots: ", useSlots());
@@ -173,6 +177,8 @@ import { tools, formatValue } from '../../utils'
 defineOptions({ name: 'WCrud' })
 const props = defineProps(crudProps)
 const emits = defineEmits(crudEmits)
+
+const tableRef = ref<TableInstance>()
 
 // 根据搜索栏控制搜索显示按钮的显示
 const searchShow = ref(true)
@@ -202,8 +208,10 @@ const checkedFields = ref<string[]>([])
 const _tableLoading = ref(false)
 
 // 格式化配置数据
-const { __tableFields, __tableColumnActionAttrs, __tableAttrs, __pageAttrs, __dialogAttrs } =
+const { __tableFields, __selectionColumn, __tableColumnActionAttrs, __tableAttrs, __pageAttrs, __dialogAttrs , __actionOption } =
   useCrudOption(props.option)
+
+
 
 // 初始值
 __tableFields.value.forEach(item => {
@@ -231,6 +239,14 @@ const _currentModelValue = computed({
     console.log(`set ${currentType.value} modelValue`)
   },
 })
+
+const handlerBtnShow = (isButton: boolean | Function) => {
+  if(typeof isButton == 'function') {
+    return isButton(_formModel)
+  } else {
+    return isButton
+  }
+}
 
 const _tableData = ref<any>([])
 const _currentTableData = computed({
@@ -267,10 +283,10 @@ const openHandler = () => {
 }
 
 // ========== 搜索 ==========
-const searchHandler = () => {
+const searchHandler = (_type: string) => {
   currentType.value = 'query'
   if (props.onQuery) {
-    props.onQuery()
+    props.onQuery(_type)
   } else if (props.api?.list && tools.axios) {
     // 查询全部列表
     _tableLoading.value = true
@@ -327,45 +343,45 @@ const searchHandler = () => {
 
 const changeSearchHandler = () => {
   props.pageModel.current = 1
-  searchHandler()
+  searchHandler('createOrDelete')
 }
 
 const _onRefresh = () => {
-  console.log('table refresh')
+  // console.log('table refresh')
   emits('refresh')
-  searchHandler()
+  searchHandler('refresh')
 }
 
 const _onSearchInit = () => {
-  console.log('search init')
+  // console.log('search init')
   emits('init')
-  searchHandler()
+  searchHandler('init')
 }
 
 const _onSearch = () => {
-  console.log('search')
+  // console.log('search')
   props.pageModel.current = 1
   emits('search')
-  searchHandler()
+  searchHandler('search')
 }
 
 const _onSearchReset = () => {
-  console.log('search reset')
+  // console.log('search reset')
   props.pageModel.current = 1
   emits('searchReset')
-  searchHandler()
+  searchHandler('searchReset')
 }
 
 const _onPageCurrentChange = (current: number) => {
-  console.log('page current change')
+  // console.log('page current change')
   emits('pageCurrentChange')
-  searchHandler()
+  searchHandler('page')
 }
 
 const _onPageSizeChange = (size: number) => {
-  console.log('page size change')
+  // console.log('page size change')
   emits('pageSizeChange')
-  searchHandler()
+  searchHandler('page')
 }
 
 const _onOpenCreate = (row: any = {}) => {
@@ -385,6 +401,8 @@ const _onOpenUpdate = (row: any) => {
   // 3. 打开弹窗
   openHandler()
 }
+
+// console.log('fffff', tools.axios)
 
 const _onOpenInfo = (row: any) => {
   // 1. 设置状态
@@ -490,7 +508,7 @@ const _onUpdateConfirm = (record: any, done: any) => {
       .axios(requestConfig)
       .then(() => {
         ElNotification({ title: '提示', message: '修改成功！', type: 'success' })
-        searchHandler()
+        searchHandler('update')
         done(true)
       })
       .catch(() => done())
@@ -505,8 +523,18 @@ const _onFormConfirm = (record: any, done: any, type: string) => {
   }
 }
 
+// 类型问题
+const getTable: () => any = () => {
+    return tableRef.value
+  }
+
+
 defineExpose({
-  table: null,
+  getTable,
+  refresh(){
+    props.pageModel.current = 1
+    searchHandler('reset')
+  },
   form: null,
   openCreate: _onOpenCreate,
   openUpdate: _onOpenUpdate,

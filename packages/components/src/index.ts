@@ -17,6 +17,7 @@ import { WRoll } from "./roll/index";
 
 export default <Plugin<{ axios?: AxiosInstance }>>{
   install: (app, option) => {
+    option = option ?? {}
     if (option.axios) {
       tools.axios = option.axios;
     }

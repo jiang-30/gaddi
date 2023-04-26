@@ -1,6 +1,6 @@
 import { computed } from 'vue'
 import type { TableProps, PaginationProps, DialogProps } from 'element-plus'
-import type { ICrudOption } from './type'
+import type { ICrudOption, ICrud } from './type'
 import { omitProperty, tools, fetchDict, dictData } from '../../utils'
 
 export const useCrudOption = (option: ICrudOption) => {
@@ -155,11 +155,49 @@ export const useCrudOption = (option: ICrudOption) => {
     }
   })
 
+  const __selectionColumn = computed(() => {
+    const attrs: {
+      selectable?: ICrudOption['selectable']
+      reserveSelection: boolean
+    } = {
+      reserveSelection: option.reserveSelection ?? true
+    }
+
+    if(option.selectable != undefined) {
+      attrs.selectable =  option.selectable
+    }
+
+    return {
+      isShow: option.selectionColumn ?? false,
+      attrs
+    }
+  })
+
+  const __actionOption = computed(() => {
+    return {
+      // 显示新增按钮
+      isCreateBtn: option.isCreateBtn ?? true,
+      // 显示操作列
+      isRowAction:  option.isRowAction ?? true,
+      // 显示详情按钮
+      isInfoBtn: option.isInfoBtn ?? false,
+      infoBtnDisabled: option.infoBtnDisabled ?? false,
+      // 显示修改按钮
+      isUpdateBtn: option.isUpdateBtn ?? true,
+      updateBtnDisabled: option.updateBtnDisabled ?? false,
+      // 显示删除按钮
+      isDeleteBtn: option.isDeleteBtn ?? true,
+      deleteBtnDisabled: option.deleteBtnDisabled ?? false
+    }
+  })
+
   return {
     __tableAttrs,
     __pageAttrs,
     __dialogAttrs,
     __tableFields,
+    __selectionColumn,
     __tableColumnActionAttrs,
+    __actionOption
   }
 }

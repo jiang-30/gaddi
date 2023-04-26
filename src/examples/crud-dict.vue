@@ -1,11 +1,15 @@
 <template>
-  <WCrud :option="option" :api="api">
+  <WCrud ref="crudRef" :option="option" :table-data="tableData" :api="api" :page-model="pageModel" :onSelectionChange="onSelectionChange">
     <template #row-action="{ row }">
       <el-button type="primary" text size="small" @click="onOpenItems(row)">
         字典项
       </el-button>
     </template>
   </WCrud>
+
+  <el-button type="primary" @click="onSelect">
+    选中
+  </el-button>
 
   <DictItem ref="itemRef" />
 </template>
@@ -15,12 +19,14 @@ import { ref } from "vue";
 import {
   ICrudApi,
   WCrud,
+  type ICrud,
   type ICrudOption,
   type IPageModel,
 } from "@/packages/components/src/index";
 import DictItem from "./dict-item.vue";
 
 const itemRef = ref<InstanceType<typeof DictItem>>();
+const crudRef = ref<ICrud>()
 
 const api = ref<ICrudApi>({
   page: "admin/dict/page",
@@ -30,8 +36,13 @@ const option = ref<ICrudOption>({
   stripe: true,
   dialogWidth: 600,
   align: "center",
+  selectionColumn: true,
+  rowKey: 'id',
   labelWidth: "100px",
   rowActionWidth: 230,
+  isCreateBtn: false,
+  isUpdateBtn: false,
+  isDeleteBtn: false,
   fields: [
     {
       label: "字典名称",
@@ -82,10 +93,39 @@ const option = ref<ICrudOption>({
 const tableLoading = ref(false);
 const pageModel = ref<IPageModel>({
   current: 1,
-  size: 10,
-  total: 0,
+  size: 5,
+  total: 7,
 });
-const tableData = ref<Record<string, any>[]>([]);
+const tableData = ref<Record<string, any>[]>([
+  { name: 'de', id: 1, },
+    {  name: '123123', id: 2, },
+    {  name: '123123', id: 3, },
+    {  name: '123123', id: 4, },
+    {  name: '123123', id: 5, },
+    {  name: '123123', id: 6, },
+    {  name: '123123', id: 7, }
+]);
+
+function onSelectionChange(args: any){
+  console.log(333, args)
+}
+
+function onSelect() {
+  crudRef.value?.getTable()?.toggleRowSelection(tableData.value[0], true)
+
+  console.log('see', crudRef.value?.getTable()?.getSelectionRows())
+
+  // tableData.value = [
+  //   { name: 'de', id: 1, },
+  //   {  name: '123123', id: 2, },
+  //   {  name: '123123', id: 3, },
+  //   {  name: '123123', id: 4, },
+  //   {  name: '123123', id: 5, },
+  //   {  name: '123123', id: 6, },
+  //   {  name: '123123', id: 7, }
+  // ]
+
+}
 
 const onQuery = () => {
   console.log("onQuery", pageModel);
