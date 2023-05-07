@@ -1,5 +1,17 @@
 # @gaddi/components
 
+## 0.0.1-alpha.10
+
+### Patch Changes
+
+- 重新打包
+
+## 0.0.1-alpha.9
+
+### Patch Changes
+
+- crud 添加树形查询
+
 ## 0.0.1-alpha.8
 
 ### Patch Changes

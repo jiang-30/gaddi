@@ -1,5 +1,5 @@
 <template>
-  <WCrud ref="crudRef" :option="option" :table-data="tableData" :api="api" :page-model="pageModel" :onSelectionChange="onSelectionChange">
+  <WCrud ref="crudRef" :option="option" :table-data="tableData"  :api="api" :page-model="pageModel" :search-model="searchModel" :onSelectionChange="onSelectionChange">
     <template #row-action="{ row }">
       <el-button type="primary" text size="small" @click="onOpenItems(row)">
         字典项
@@ -10,6 +10,8 @@
   <el-button type="primary" @click="onSelect">
     选中
   </el-button>
+
+  <div>{{  searchModel  }}</div>
 
   <DictItem ref="itemRef" />
 </template>
@@ -27,6 +29,7 @@ import DictItem from "./dict-item.vue";
 
 const itemRef = ref<InstanceType<typeof DictItem>>();
 const crudRef = ref<ICrud>()
+const searchModel = ref({})
 
 const api = ref<ICrudApi>({
   page: "admin/dict/page",
@@ -81,6 +84,17 @@ const option = ref<ICrudOption>({
         { label: "列表", value: "list" },
         { label: "树形", value: "tree" },
       ],
+    },
+    {
+      label: "树形",
+      prop: "tree",
+      type: "tree",
+      dictData: [
+        { label: "列表", value: "list", children: [{ label: "列表1", value: "tree1" }, { label: "列表2", value: "tree2" }] },
+        { label: "树形", value: "tree" },
+      ],
+      valueKey: 'id',
+      isSearch: true
     },
     {
       label: "备注",

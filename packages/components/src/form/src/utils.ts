@@ -33,13 +33,15 @@ export const useFormOption = (option: IFormOption, type: IFormType) => {
     })
   })
 
+
+  // ====================================================== 表单项 ======================================================
   const __formFields = computed<
     {
       [key: string]: any
       __formItemAttrs: Partial<FormItemProps>
     }[]
   >(() => {
-    console.log('generate form fields')
+    // console.log('generate form fields')
 
     const fields: any[] = []
 
@@ -136,7 +138,7 @@ export const useSearchFormOption = (option: ISearchFormOption) => {
 
   // 搜索表单项 radio, radioButton 对应到 select
   const __searchFormFields = computed(() => {
-    console.log('generate search form fields')
+    // console.log('generate search form fields')
 
     const fields: {
       [key: string]: any
@@ -146,9 +148,30 @@ export const useSearchFormOption = (option: ISearchFormOption) => {
     option.fields.forEach(field => {
       if (field.isSearch === true) {
         let _dictData = field.dictData
+
         if (field.dictUrl) {
           fetchDict(field.dictUrl, defaultFieldAttrs.props ?? field.props)
           _dictData = field.dictData ?? dictData(field.dictUrl).value
+        }
+
+        let __formControlAttrs: any = {
+          clearable: field.clearable ?? true,
+        }
+
+        if (field.type === 'tree') {
+          __formControlAttrs = {
+            ...__formControlAttrs,
+            checkStrictly: field.checkStrictly,   // 选叶子节点
+            nodeKey: field.nodeKey,
+            valueKey: field.valueKey ?? 'value',
+            props: field.props,
+          }
+        } else if (field.type === 'select') {
+          __formControlAttrs = {
+            ...__formControlAttrs,
+            // multiple: field.multiple,
+            valueKey: field.valueKey,
+          }
         }
 
         fields.push({
@@ -168,9 +191,7 @@ export const useSearchFormOption = (option: ISearchFormOption) => {
             error: field.error,
             size: field.size,
           },
-          __formControlAttrs: {
-            clearable: true,
-          },
+          __formControlAttrs: __formControlAttrs,
         })
       }
     })
