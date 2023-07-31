@@ -3,13 +3,13 @@ import type {
   IFormModel,
   ISearchFormAttrs,
   ISearchFormItemAttrs,
-  IFormItemControlAttrs,
+  IFormFieldAttrs,
 } from './type'
 
 export const searchFormProps = {
   option: {
     type: Object as PropType<
-      ISearchFormAttrs & { fields: (ISearchFormItemAttrs & IFormItemControlAttrs)[] }
+      ISearchFormAttrs & { fields: (ISearchFormItemAttrs & IFormFieldAttrs)[] }
     >,
     required: true as true,
   },

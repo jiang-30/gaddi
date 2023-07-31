@@ -1,17 +1,15 @@
-import type { RouteMeta } from 'vue-router'
-
-type IMenu = RouteMeta
+import type { IBaseMenu } from '@/typings'
 
 // 定义的是静态菜单, 如果包含 page 则通过component或者name来匹配路由
 // TODO 页面通过 component 、name、path 配置匹配路由
-const menusList: Partial<IMenu>[] = [
+const menusList: IBaseMenu[] = [
   {
     id: 'Permission',
     type: 'menu',
     title: '权限管理',
     icon: 'mdi:security-close',
     isEnabled: true,
-    isShow: true,
+    isShowMenu: true,
     sort: 1,
   },
   {
@@ -20,7 +18,7 @@ const menusList: Partial<IMenu>[] = [
     title: '系统管理',
     icon: 'mdi:console-network-outline',
     isEnabled: true,
-    isShow: true,
+    isShowMenu: true,
     sort: 2,
   },
   {
@@ -29,7 +27,7 @@ const menusList: Partial<IMenu>[] = [
     title: '案例',
     icon: 'mdi:case-sensitive-alt',
     isEnabled: true,
-    isShow: true,
+    isShowMenu: true,
     sort: 5,
   },
   {
@@ -38,7 +36,7 @@ const menusList: Partial<IMenu>[] = [
     title: '可视化',
     icon: 'ic:sharp-bar-chart',
     isEnabled: true,
-    isShow: false,
+    isShowMenu: false,
     sort: 10,
   },
 ]

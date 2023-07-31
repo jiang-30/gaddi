@@ -8,64 +8,27 @@ import type { ILoginParam, ILoginResponse } from './types'
 export const fetchLogin = (param: ILoginParam) => {
   param.password = encrypt(param.password)
 
-  if (appConfig.localUser) {
-    return Promise.resolve({
-      code: 1,
-      data: {
-        refreshToken: 'refreshToken',
-        accessToken: 'accessToken',
-        expires: 86400000,
-      },
-    })
-  } else {
-    return request<ILoginResponse>({
-      method: 'post',
-      url: '/admin/auth/login/username',
-      data: param,
-    })
-  }
+  return request<ILoginResponse>({
+    method: 'post',
+    url: '/admin/auth/login/username',
+    data: param,
+  })
 }
 
 // 查询用户信息
 export const fetchProfile = () => {
-  if (appConfig.localUser) {
-    return Promise.resolve({
-      code: 1,
-      data: {
-        userInfo: {
-          id: 1,
-          username: 'local_admin',
-          avatar: 'A',
-        },
-        dept: {},
-        roleList: ['ROLE:ADMIN'],
-      },
-    })
-  } else {
-    return request({
-      method: 'get',
-      url: '/admin/auth/profile',
-    })
-  }
+  return request({
+    method: 'get',
+    url: '/admin/auth/profile',
+  })
 }
 
 // 动态菜单
 export function fetchPermission() {
-  if (appConfig.localUser) {
-    return Promise.resolve({
-      code: 1,
-      data: {
-        menus: [],
-        roles: ['ADMIN'],
-        permissions: [],
-      },
-    })
-  } else {
-    return request({
-      method: 'get',
-      url: '/admin/auth/permission',
-    })
-  }
+  return request({
+    method: 'get',
+    url: '/admin/auth/permission',
+  })
 }
 
 // 查询字典列表

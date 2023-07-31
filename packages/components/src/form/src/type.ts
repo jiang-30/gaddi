@@ -1,88 +1,13 @@
 import type { ExtractPropTypes } from 'vue'
-import type { FormProps, FormItemProps } from 'element-plus'
-import type { IFieldBaseAttrs } from '../../typings'
 import type { formProps, formEmits } from './form'
 import type { searchFormProps, searchFormEmits } from './search-form'
 import type Form from './form.vue'
 import type SearchForm from './search-form.vue'
+export * from './type/option'
+export * from './type/field'
 
 // 表单数据
 export type IFormModel = Record<string, any>
-
-// 表单类型
-export type IFormType = undefined | 'create' | 'update'
-
-// 传递给 ElForm 组件的属性
-export interface IElFormAttrs {
-  rules?: FormProps['rules']
-  inline?: FormProps['inline']
-  labelPosition?: FormProps['labelPosition']
-  labelWidth?: FormProps['labelWidth']
-  labelSuffix?: FormProps['labelSuffix']
-  hideRequiredAsterisk?: FormProps['hideRequiredAsterisk']
-  requireAsteriskPosition?: FormProps['requireAsteriskPosition']
-  showMessage?: FormProps['showMessage']
-  inlineMessage?: FormProps['inlineMessage']
-  statusIcon?: FormProps['statusIcon']
-  validateOnRuleChange?: FormProps['validateOnRuleChange']
-  formSize?: FormProps['size']
-  scrollToError?: FormProps['scrollToError']
-}
-
-// 传递给 ElFormItem 组件的属性
-export interface IElFormItemAttrs {
-  labelWidth?: FormItemProps['labelWidth']
-  required?: FormItemProps['required']
-  rules?: FormItemProps['rules']
-  error?: FormItemProps['error']
-  showMessage?: FormItemProps['showMessage']
-  inlineMessage?: FormItemProps['inlineMessage']
-  size?: FormItemProps['size']
-}
-
-// Form 属性 ElFormAttrs
-export interface IFormAttrs extends IElFormAttrs {
-  // 配置默认formItem span
-  span?: number
-}
-
-// isCreateForm isUpdateForm disabled createDisabled updateDisabled
-// Form Field 属性
-export interface IFormItemAttrs extends IFieldBaseAttrs, IElFormItemAttrs {
-  isForm?: boolean
-  isCreateForm?: boolean
-  isUpdateForm?: boolean
-  // 默认值
-  default?: any
-  // 插槽
-  // formSlot?: boolean
-  // 动态响应
-  listen?: any
-  // 布局
-  span?: number
-  // 提示信息
-  hint?: string
-  // form-control
-  // clearable
-  disabled?: boolean
-  createDisabled?: boolean
-  updateDisabled?: boolean
-}
-
-// Search Form
-export interface ISearchFormAttrs extends IFormAttrs {
-  searchLabelWidth?: FormProps['labelWidth']
-  searchLabelPosition?: FormProps['labelPosition']
-  searchLabelSuffix?: FormProps['labelSuffix']
-  searchFormSize?: FormProps['size']
-}
-
-export interface ISearchFormItemAttrs extends IFieldBaseAttrs, IFormItemAttrs {
-  isSearch?: boolean
-  searchDefault?: any
-  searchRules?: string
-  searchSlot?: boolean
-}
 
 // Form
 export type IForm = InstanceType<typeof Form>
@@ -93,6 +18,7 @@ export type IFormProps = ExtractPropTypes<typeof formProps>
 
 export type IFormOption = IFormProps['option']
 
+
 // Search Form
 export type ISearchForm = InstanceType<typeof SearchForm>
 
@@ -102,89 +28,9 @@ export type ISearchFormProps = ExtractPropTypes<typeof searchFormProps>
 
 export type ISearchFormOption = ISearchFormProps['option']
 
+
+
 // ==========================================  form control  ==========================================
-
-export interface IFormItemBaseAttrs {
-  clearable?: boolean
-}
-
-export interface IControlSelectAttrs {
-  multiple?: boolean
-  valueKey?: string
-  // 'multiple',
-  // 'disabled',
-  // 'value-key',
-  // 'size',
-  // 'clearable',
-  // 'collapse-tags',
-  // 'collapse-tags-tooltip',
-  // 'multiple-limit',
-  // 'name',
-  // 'effect',
-  // 'autocomplete',
-  // 'placeholder',
-  // 'filterable',
-  // 'allow-create',
-  // 'filter-method',
-  // 'remote',
-  // 'remote-method',
-  // 'loading',
-  // 'loading-text',
-  // 'no-match-text',
-  // 'no-data-text',
-  // 'popper-class',
-  // 'reserve-keyword',
-  // 'default-first-option',
-  // 'teleported',
-  // 'persistent',
-  // 'automatic-dropdown',
-  // 'clear-icon',
-  // 'fit-input-width',
-  // 'suffix-icon',
-  // 'tag-type',
-  // 'validate-event',
-}
-
-export interface IFormItemTreeAttrs {
-  // "empty-text",
-  nodeKey?: string
-  valueKey?: string
-  checkStrictly?: boolean
-  props?: {
-    label?: string
-    children?: string
-    disabled?: string
-    isLeaf?: string
-    class?: string
-  }
-  // "render-after-expand",
-  // "load",
-  // "render-content",
-  // "highlight-current",
-  // "default-expand-all",
-  // "expand-on-click-node",
-  // "check-on-click-node",
-  // "auto-expand-parent",
-  // "default-expanded-keys",
-  // "show-checkbox",
-  // "check-strictly",
-  // "default-checked-keys",
-  // "current-node-key",
-  // "filter-node-method",
-  // "accordion",
-  // "indent",
-  // "icon",
-  // "lazy",
-  // "draggable",
-  // "allow-drag",
-  // "allow-drop",
-}
-
-export interface IFormItemControlAttrs
-  extends IFormItemBaseAttrs,
-    IControlSelectAttrs,
-    IFormItemTreeAttrs {}
-
 const inputNumberAttrsKey = [
   'min',
   'max',

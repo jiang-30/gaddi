@@ -1,20 +1,20 @@
 import { reactive } from "vue";
 import type { PropType } from "vue";
-import type {
-  ITableData,
-  ICrudApi,
-  IPageModel,
-  ICrudAttrs,
-  ICrudColumnAttrs,
-} from "./type";
+import type { ICrudApi } from './type/api'
+import type { IPageModel } from './type/page'
+import type { ICrudAttrs } from './type/option'
+import type { ICrudColumnAttrs } from './type/field'
+import type { ITableData } from "./type";
 import type {
   IFormAttrs,
   IFormItemAttrs,
   ISearchFormAttrs,
   ISearchFormItemAttrs,
+  IFormFieldAttrs,
   IInfoAttrs,
   IInfoItemAttrs,
 } from "../../index";
+import type { IDialogType } from '../../typings'
 
 // CRUD PROPS 属性
 export const crudProps = {
@@ -23,10 +23,12 @@ export const crudProps = {
       ICrudAttrs &
       IFormAttrs &
       ISearchFormAttrs &
-      IInfoAttrs & {
+      IInfoAttrs &
+      {
         fields: (ICrudColumnAttrs &
           IFormItemAttrs &
           ISearchFormItemAttrs &
+          IFormFieldAttrs &
           IInfoItemAttrs)[];
       }
     >,
@@ -36,12 +38,10 @@ export const crudProps = {
     type: Object as PropType<ICrudApi>,
   },
   tableLoading: {
-    type: Boolean,
-    default: undefined,
+    type: Boolean as PropType<boolean>,
   },
   tableData: {
     type: Array as PropType<ITableData[]>,
-    default: undefined,
   },
   modelValue: {
     type: Object,
@@ -56,42 +56,44 @@ export const crudProps = {
       }),
   },
   searchModel: {
-    type: Object,
-    default: () => reactive({}),
+    type: Object as PropType<Record<string, any>>,
+    default: () => (reactive({})),
   },
-  // 新增、详情、修改 弹窗打开前
+  // 新增、详情、修改 弹窗打开前 (type, model, done) IDialogType
   beforeOpen: {
-    type: Function,
+    type: Function as PropType<(type: string, model: any, done: () => void) => void>,
   },
   // beforeClose: {
-  //   type: Function as PropType<(done: () => void, type: string) => void>,
+  //   type: Function as PropType<(type: string, done: () => void) => void>,
   // },
   beforeFetch: {
-    type: Function,
+    type: Function as PropType<(type: string, requestConfig: any) => void>,
   },
   afterFetch: {
-    type: Function as PropType<(record: any, type: string) => any>,
+    type: Function as PropType<(type: string, response: any) => void>,
   },
-  onQuery: {
-    type: Function,
+  // 列表查询回调
+  queryHandler: {
+    type: Function as PropType<(type: string) => void>,
   },
-  // 新增 保存
-  onCreate: {
-    type: Function,
+  // 表单新增回调
+  createHandler: {
+    type: Function as PropType<(model: any, done: () => void) => void>,
   },
-  // 修改 保存
-  onUpdate: {
-    type: Function,
+  // 表单修改回调
+  updateHandler: {
+    type: Function as PropType<(model: any, done: () => void) => void>,
   },
-  // 删除 保存
-  onDelete: {
-    type: Function,
+  // 列表删除回调
+  deleteHandler: {
+    type: Function as PropType<(model: any) => void>,
   },
 };
 
 export const crudEmits = {
   "update:modelValue": null,
   "update:tableData": null,
+  "update:tableLoading": null,
   init: null,
   search: null,
   searchReset: null,

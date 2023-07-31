@@ -6,7 +6,7 @@ meta:
   icon: ic:baseline-font-download
   layout: admin
   isTab: true
-  isShow: true
+  isShowMenu: true
   parentId: Case
   sort: 1
 </route>
@@ -16,10 +16,7 @@ meta:
     <div class="grid grid-cols-8">
       <div
         class="h-32 flex flex-col justify-center items-center border hover:bg-slate-200 hover:cursor-pointer text-light"
-        v-for="item in icons"
-        :key="item"
-        @click="onClick(item)"
-      >
+        v-for="item in icons" :key="item" @click="onClick(item)">
         <AppIcon :icon="item"></AppIcon>
         <div class="mt-2">{{ item }}</div>
       </div>

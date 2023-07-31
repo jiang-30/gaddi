@@ -1,0 +1,65 @@
+<route lang="yaml">
+  meta:
+    isEnabled: true
+    isStatic: false
+    title: <%= title %>
+    layout: admin
+    isTab: true
+    isShowMenu: true
+</route>
+
+<template>
+  <PageContainer>
+    <WCrud ref="crudRef" :option="option" :api="api" v-model="dataModel" :before-fetch="beforeFetchHandler" :after-fetch="afterFetchHandler">
+    </WCrud>
+  </PageContainer>
+</template>
+  
+<script lang="ts" setup>
+import { ref } from 'vue'
+import type { ICrud, ICrudOption, ICrudApi } from '@gaddi/components'
+import { useDictStore } from '@/store'
+
+const crudRef = ref<ICrud>()
+const dataModel = ref<Record<string, any>>({})
+const api: ICrudApi = {
+  restful: '<%= restful %>',
+}
+const option: ICrudOption = {
+  align: 'center',
+  labelWidth: '100px',
+  isInfoBtn: false,
+  isCreateBtn: true,
+  isUpdateBtn: true,
+  isDeleteBtn: true,
+  fields: [<% for (let i = 0; i < fields.length; i++) { %>
+    {
+      label: '<%= fields[i].label %>',
+      prop: '<%= fields[i].prop %>',
+      type: 'input',
+      rules: [
+        { required: false, message: '请输入', trigger: 'change' },
+        { type: 'string', max: 100, message: '请输入', trigger: 'change' },
+      ],
+    },<% } %>
+  ]
+}
+
+// CRUD 接口请求前参数配置
+function beforeFetchHandler(config: any, type: string) {
+  if (type == 'query') {
+
+  } else if (type == 'create') {
+    
+  }
+}
+
+// CRUD 接口响应后数据格式化
+const afterFetchHandler = (data: any, type: string) => {
+  if (type == 'query') {
+
+  }
+}
+
+</script>
+  

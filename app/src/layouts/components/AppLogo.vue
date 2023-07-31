@@ -1,12 +1,12 @@
 <template>
   <div class="app-title" @click="$router.push({ name: useRouteStore().indexPageName })">
     <img class="app-title-logo" src="/logo.png" alt="logo" />
-    <h1 class="app-title-text">{{ useSettingStore().appTitle }}</h1>
+    <h1 class="app-title-text">{{ useConfigStore().appTitle }}</h1>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { useRouteStore, useSettingStore } from '@/store'
+import { useRouteStore, useConfigStore } from '@/store'
 
 defineProps<{
   textColor: string

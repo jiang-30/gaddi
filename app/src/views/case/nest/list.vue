@@ -6,7 +6,7 @@ meta:
   icon: mdi:view-list-outline
   layout: admin
   parentId: Case
-  isShow: true
+  isShowMenu: true
   isTab: true
   sort: 10
 </route>

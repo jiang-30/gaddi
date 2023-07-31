@@ -30,7 +30,7 @@ meta:
 </template>
 <script setup lang="ts" name="Login">
 import UsernamePassword from './components/UsernamePassword.vue'
-import { useRouteStore, useUserStore } from '@/store'
+import { useRouteStore, useUserStore, useMenuStore, useDictStore } from '@/store'
 import type { ILoginInfo } from './index'
 
 const userStore = useUserStore()
@@ -39,27 +39,34 @@ const router = useRouter()
 const current = ref('usernamePassword')
 
 // 登录成功
-function successHandler(data: ILoginInfo) {
-  // 访问token
-  userStore.accessToken = data.accessToken
-  // 刷新token
-  userStore.refreshToken = data.refreshToken ?? ''
-  // 过期时间
-  userStore.expires = data.expires
+async function successHandler(data: ILoginInfo) {
+  // token
+  userStore.setTokenInfo({
+    accessToken: data.accessToken,
+    refreshToken: data.refreshToken ?? '',
+    expires: data.expires ?? 0,
+  })
+
+  // userInfo
+  if (data.userInfo) {
+    userStore.setUserInfo(data.userInfo)
+  }
+
+  // menus
+  useMenuStore().setMenus([])
+
+  // dicts
+  useDictStore().setDictList([])
 
   // 登录后请求必要的信息
-  userStore
-    .initHandler()
-    .then(() => {
-      if (route.query.redirect) {
-        router.replace({ path: route.query.redirect as string })
-      } else {
-        router.replace({ name: useRouteStore().indexPageName })
-      }
-    })
-    .catch(error => {
-      console.log(error)
-    })
+  // await userStore.initHandler()
+
+  // 跳转路由
+  if (route.query.redirect) {
+    router.replace({ path: route.query.redirect as string })
+  } else {
+    router.replace({ name: useRouteStore().indexPageName })
+  }
 }
 </script>
 

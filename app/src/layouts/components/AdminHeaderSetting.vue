@@ -7,14 +7,7 @@
     </el-button>
   </el-tooltip>
 
-  <el-drawer
-    v-model="visible"
-    class="app-setting-drawer"
-    title="风格设置"
-    direction="rtl"
-    append-to-body
-    size="420px"
-  >
+  <el-drawer v-model="visible" class="app-setting-drawer" title="风格设置" direction="rtl" append-to-body size="420px">
     <section class="h-full flex flex-col">
       <el-scrollbar class="grow" view-style="padding: 20px;">
         <ul>
@@ -32,16 +25,10 @@
             </el-divider>
           </li>
           <li class="app-setting-mode">
-            <div
-              v-for="item in layoutList"
-              :key="item"
-              class="app-setting-mode-item"
-              :class="{
-                ['app-setting-mode-item-' + item]: true,
-                active: settingStore.adminLayout == item,
-              }"
-              @click="settingStore.adminLayout = item"
-            ></div>
+            <div v-for="item in layoutList" :key="item" class="app-setting-mode-item" :class="{
+              ['app-setting-mode-item-' + item]: true,
+              active: settingStore.adminLayout == item,
+            }" @click="settingStore.adminLayout = item"></div>
           </li>
           <li>
             <el-divider>
@@ -67,7 +54,7 @@
 
 <script lang="ts" setup>
 import type { IAdminLayout } from '@/typings'
-import { useSettingStore, useUserStore } from '@/store'
+import { useConfigStore, useUserStore } from '@/store'
 import { Tools } from '@element-plus/icons-vue'
 import { ElMessageBox } from 'element-plus'
 
@@ -83,7 +70,7 @@ defineProps<{
   textColor: string
 }>()
 
-const settingStore = useSettingStore()
+const settingStore = useConfigStore()
 const visible = ref(false)
 const layoutList: IAdminLayout[] = ['aside', 'top', 'topAside']
 
@@ -98,7 +85,7 @@ const onClear = () => {
     .then(() => {
       useUserStore().logoutHandler(true)
     })
-    .catch(() => {})
+    .catch(() => { })
 }
 </script>
 

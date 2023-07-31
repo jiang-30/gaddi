@@ -1,7 +1,7 @@
 import Pages from 'vite-plugin-pages'
 import Layouts from 'vite-plugin-vue-layouts'
 import type { IMeta } from '../src/typings'
-import { setDefaultMenuMate } from '../src/router/handler'
+import { generateDefaultMenu } from '../src/router/default'
 
 export default function createPages() {
   return [
@@ -13,26 +13,28 @@ export default function createPages() {
       routeStyle: 'nuxt',
 
       // 初始化并扩展路由 meta 数据
-      // _localComponentUrl 组件地址
-      // _localParentComponentUrl 父组件地址
       extendRoute(route, parent) {
+        // console.log(route)
         const routeMeta = <IMeta>(route.meta ?? {})
-        routeMeta.name = routeMeta.name ?? route.name
-        routeMeta.id = routeMeta.name
+
         routeMeta.type = 'page'
+        routeMeta.id = routeMeta.name
         routeMeta.path = routeMeta.path ?? route.path
-        routeMeta._localComponentUrl = route.component
-        routeMeta._localParentComponentUrl = parent ? parent.component : null
+        routeMeta.name = routeMeta.name ?? route.name
+        // 组件地址
+        routeMeta.componentPath = route.component
+        // 父组件地址
+        routeMeta._localParentComponentPath = parent?.component
 
         return {
           ...route,
           name: routeMeta.name,
           path: routeMeta.path,
-          meta: setDefaultMenuMate(routeMeta),
+          meta: generateDefaultMenu(routeMeta),
         }
       },
 
-      // 过滤掉 禁用(meta.enabled 不为 true) 的路由
+      // 过滤掉 禁用(meta.isEnabled 不为 true) 的路由
       onRoutesGenerated(routes) {
         function forTree(list: any) {
           list.forEach((item: any) => {

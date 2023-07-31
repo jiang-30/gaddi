@@ -8,21 +8,21 @@
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-import { useSettingStore } from './store'
+import { useConfigStore } from './store'
 
 NProgress.configure({ showSpinner: false })
-const settingStore = useSettingStore()
+const configStore = useConfigStore()
 const zIndex = 2000
 
 // 设置应用title
 watchEffect(() => {
-  document.title = settingStore.title
+  document.title = configStore.title
 })
 
 // 初始化主题
 watchEffect(() => {
   const el = document.documentElement
-  if (settingStore.themeMode == 'dark') {
+  if (configStore.themeMode == 'dark') {
     el.classList.add('dark')
   } else {
     el.classList.remove('dark')
@@ -31,12 +31,12 @@ watchEffect(() => {
 
 // 初始化主题色
 watchEffect(() => {
-  settingStore.generateThemeColor()
+  configStore.generateThemeColor()
 })
 
 // 灰色模式
 watchEffect(() => {
-  if (settingStore.grayModel) {
+  if (configStore.grayModel) {
     document.body.classList.add('gray-model')
   } else {
     document.body.classList.remove('gray-model')
@@ -45,7 +45,7 @@ watchEffect(() => {
 
 // NProgress 进度条
 watchEffect(() => {
-  if (settingStore.isLoading) {
+  if (configStore.isLoading) {
     NProgress.start()
   } else {
     NProgress.done()

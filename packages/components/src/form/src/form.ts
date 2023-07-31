@@ -1,11 +1,11 @@
 import type { PropType } from "vue";
 import type {
   IFormModel,
-  IFormType,
   IFormAttrs,
   IFormItemAttrs,
-  IFormItemControlAttrs,
+  IFormFieldAttrs,
 } from "./type";
+import type { IFormType } from '../../typings'
 
 // 属性
 export const formProps = {
@@ -17,13 +17,14 @@ export const formProps = {
   // 配置
   option: {
     type: Object as PropType<
-      IFormAttrs & { fields: (IFormItemAttrs & IFormItemControlAttrs)[] }
+      IFormAttrs & { fields: (IFormItemAttrs & IFormFieldAttrs)[] }
     >,
     required: true as true,
   },
   // 表单类型 create | update
   type: {
     type: String as PropType<IFormType>,
+    default: 'create'
   },
   // 确认事件
   onConfirm: {

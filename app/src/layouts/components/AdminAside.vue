@@ -1,19 +1,10 @@
 <template>
-  <section
-    v-if="showAside"
-    class="app-aside"
-    :class="asideCollapse ? 'app-aside__close' : 'app-aside_open'"
-    :style="{ backgroundColor: asideBgColor }"
-  >
+  <section v-if="showAside" class="app-aside" :class="asideCollapse ? 'app-aside__close' : 'app-aside_open'"
+    :style="{ backgroundColor: asideBgColor }">
     <main class="app-aside__main">
       <el-scrollbar>
-        <AppMenu
-          :menuList="menuList"
-          :collapse="asideCollapse"
-          :bgColor="asideBgColor"
-          :textColor="asideTextColor"
-          mode="vertical"
-        ></AppMenu>
+        <AppMenu :menuList="menuList" :collapse="asideCollapse" :bgColor="asideBgColor" :textColor="asideTextColor"
+          mode="vertical"></AppMenu>
       </el-scrollbar>
     </main>
     <footer class="app-aside__footer">
@@ -29,17 +20,17 @@
 
 <script lang="ts" setup>
 import { Expand, Fold } from '@element-plus/icons-vue'
-import { useMenuStore, useSettingStore } from '@/store'
+import { useMenuStore, useConfigStore } from '@/store'
 import { storeToRefs } from 'pinia'
 import AppMenu from './AppMenu.vue'
 
-const settingStore = useSettingStore()
+const settingStore = useConfigStore()
 const menuStore = useMenuStore()
 const { asideBgColor, asideTextColor, asideCollapse } = storeToRefs(settingStore)
 
 // 菜单数据
 const menuList = computed(() => {
-  const menuName = useSettingStore().showTopMenuNav ? menuStore.menuStack[0]?.name : undefined
+  const menuName = useConfigStore().showTopMenuNav ? menuStore.menuStack[0]?.name : undefined
   return menuStore.getMenuTree(menuName)
 })
 

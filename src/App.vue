@@ -2,7 +2,8 @@
   <section style="padding: 30px">
     <!-- <TableView /> -->
     <!-- <CrudView /> -->
-    <CrudDictView />
+    <!-- <CrudDictView /> -->
+    <DemoView />
     <!-- <RollView></RollView> -->
   </section>
 </template>
@@ -13,4 +14,5 @@ import TableView from "./examples/table.vue";
 import RollView from "./examples/roll.vue";
 import CrudView from "./examples/crud.vue";
 import CrudDictView from "./examples/crud-dict.vue";
+import DemoView from "./examples/demo.vue";
 </script>

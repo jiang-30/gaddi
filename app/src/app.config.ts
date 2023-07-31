@@ -3,10 +3,7 @@ const ENV = import.meta.env
 
 const config: IConfig & Record<string, any> = {
   // 登录， 用户信息，用户权限
-  localUser: {
-    username: 'admin',
-    password: '123456',
-  },
+  isLocalLogin: true,
   // 字典项
   remoteDict: false,
 

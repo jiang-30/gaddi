@@ -1,10 +1,11 @@
+import { toRaw } from 'vue'
 import { defineStore } from 'pinia'
 import router from '@/router/index'
 import { useRouteStore, useUserStore } from '@/store'
 import { listToTree, treeFindPath, treeFind } from '@/utils/tree-utils'
 import { fetchPermission } from '@/api/common'
-import { getStaticMenuList, flatMenus } from '@/utils/menu'
-import type { IMenu } from '@/typings'
+import { generateStaticMenus, flatMenus } from '@/router/handler'
+import type { IBaseMenu, IMenu } from '@/typings'
 import type { RouteRecordName } from 'vue-router'
 
 const storeKey = 'MENU_STORE'
@@ -21,8 +22,7 @@ export const useMenuStore = defineStore({
     ],
   },
   state: () => ({
-    menus: <IMenu[]>[],
-    permissions: <string[]>['ROLE:ADMIN'], // setAuthorities ["ROLE:ADMIN"]
+    menus: <IMenu[]>[...generateStaticMenus()],
     isInit: false,
   }),
   getters: {
@@ -58,10 +58,9 @@ export const useMenuStore = defineStore({
      * 可以展示设置 showMenu: true 的菜单
      */
     getMenuTree() {
-      return (menuName?: string) => {
-        const tree: IMenu[] = listToTree(this.enabledMenus.filter(item => item.isShow))
+      return (menuName?: string): IMenu[] => {
+        const tree: IMenu[] = listToTree(this.enabledMenus.filter(item => item.isShowMenu))
         let foTree: IMenu[]
-
         if (menuName) {
           const subItem = treeFind(tree, node => {
             return node.name === menuName
@@ -106,29 +105,6 @@ export const useMenuStore = defineStore({
     },
   },
   actions: {
-    isAuth(permissions: string[]) {
-      if (permissions && permissions.length) {
-        return !!permissions.find(permission => {
-          return !!this.permissions.find(item => item == permission)
-        })
-      } else {
-        return true
-      }
-    },
-    /**
-     * 菜单导航: path - target
-     * @todo _self _blank http
-     */
-    handlerNav(menu: IMenu) {
-      if (menu.type === 'page') {
-        if (menu.path?.startsWith('http')) {
-          window.open(menu.path, menu.target)
-        } else {
-          router.push({ name: menu.name })
-        }
-      }
-    },
-
     /**
      * 是页面直接跳转，是菜单找最近的页面再跳转
      * @todo treeFind
@@ -136,10 +112,9 @@ export const useMenuStore = defineStore({
      */
     navTo(routeName: string) {
       const menu = this.currentMenu(routeName)
-
       if (menu) {
         if (menu.type === 'page') {
-          this.handlerNav(menu)
+          useRouteStore().handlerNav(menu)
         } else if (menu.type === 'menu') {
           // if(useRouteStore().enabledIndexPage) {
           //   router.push({path: useRouteStore().indexPagePath})
@@ -150,37 +125,58 @@ export const useMenuStore = defineStore({
             return node.type == 'page'
           })
           if (pageMenu) {
-            this.handlerNav(pageMenu)
+            useRouteStore().handlerNav(pageMenu)
           }
         }
       }
     },
 
+    // 设置用户菜单、权限信息
+    setMenus(menus: IBaseMenu[], roles: string[] = [], permissions: string[] = []) {
+      this.menus = [
+        ...generateStaticMenus(),
+        ...flatMenus(menus),
+      ]
+      // this.permissions = [
+      //   ...roles.map((item: string) => `ROLE:${item}`),
+      //   ...permissions,
+      // ]
+      IS_INIT = true
+      useRouteStore().setRoutes(this.menus)
+    },
+
     /**
-     * 设置菜单、路由,
+     * 设置菜单、路由
      * @todo 需要一个去重
      */
     async fetchMenus() {
       return fetchPermission().then(({ data }) => {
-        this.menus = [...getStaticMenuList(), ...flatMenus(data.menus)]
-        this.permissions = [...data.roles.map((item: string) => `ROLE:${item}`), data.permissions]
+        this.setMenus(data.menus, data.roles, data.permissions)
       })
     },
 
     /**
      *动态路由并且未加载
      */
-    async initHandler(isLogin: boolean) {
+    async init(isLogin: boolean) {
       if (isLogin) {
-        if (!this.isInit) {
-          this.isInit = true
-          await this.fetchMenus()
-        }
+        // if (!this.isInit) {
+        //   this.isInit = true
+        //   await this.fetchMenus()
+        // }
+
         if (!IS_INIT) {
           IS_INIT = true
           useRouteStore().setRoutes(this.menus)
         }
       }
     },
+
+    // 清除数据
+    async clear() {
+      IS_INIT = false
+      this.$reset()
+      useRouteStore().setRoutes([])
+    }
   },
 })

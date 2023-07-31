@@ -8,15 +8,22 @@
     "@gaddi/utils": "0.0.1-alpha.1"
   },
   "changesets": [
+    "breezy-nails-melt",
     "good-islands-wink",
     "green-eggs-sniff",
     "green-eyes-applaud",
     "loud-elephants-cough",
+    "mighty-shoes-run",
+    "nervous-kids-push",
+    "odd-cows-fetch",
     "odd-toys-mate",
     "plenty-pianos-tickle",
     "poor-mice-pull",
     "quick-ants-tap",
+    "serious-icons-sparkle",
     "small-suits-matter",
+    "three-sloths-accept",
+    "two-ligers-marry",
     "two-melons-fix"
   ]
 }

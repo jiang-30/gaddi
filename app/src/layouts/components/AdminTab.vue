@@ -31,7 +31,7 @@
 
 <script lang="ts" setup>
 import { ArrowDown } from '@element-plus/icons-vue'
-import { useTabStore, useSettingStore } from '@/store'
+import { useTabStore, useConfigStore } from '@/store'
 import type { TabsPaneContext } from 'element-plus'
 
 const router = useRouter()
@@ -46,7 +46,7 @@ watch(
 )
 
 const showTab = computed(() => {
-  return useSettingStore().showTab && tabStore.tabs && tabStore.tabs.length
+  return useConfigStore().showTab && tabStore.tabs && tabStore.tabs.length
 })
 
 function onTabClick(tab: TabsPaneContext) {

@@ -1,36 +1,15 @@
 <template>
-  <el-form
-    ref="formRef"
-    :model="formData"
-    :rules="formRules"
-    :disabled="loading"
-    @keyup.enter="onSubmit(formRef)"
-  >
+  <el-form ref="formRef" :model="formData" :rules="formRules" :disabled="loading" @keyup.enter="onSubmit(formRef)">
     <el-form-item prop="username">
-      <el-input
-        v-model="formData.username"
-        type="primary"
-        link
-        :prefix-icon="User"
-        placeholder="请输入登录用户名"
-        clearable
-      ></el-input>
+      <el-input v-model="formData.username" type="primary" link :prefix-icon="User" placeholder="请输入登录用户名"
+        clearable></el-input>
     </el-form-item>
     <el-form-item prop="password">
-      <el-input
-        v-model="formData.password"
-        type="password"
-        :prefix-icon="Lock"
-        placeholder="请输入登录密码"
-        show-password
-        clearable
-        @keyup.enter="onSubmit(formRef)"
-      >
+      <el-input v-model="formData.password" type="password" :prefix-icon="Lock" placeholder="请输入登录密码" show-password
+        clearable @keyup.enter="onSubmit(formRef)">
       </el-input>
     </el-form-item>
-    <el-button class="w-full" type="primary" @click="onSubmit(formRef)" :loading="loading"
-      >登录</el-button
-    >
+    <el-button class="w-full" type="primary" @click="onSubmit(formRef)" :loading="loading">登录</el-button>
   </el-form>
 </template>
 
@@ -39,6 +18,7 @@ import { User, Lock } from '@element-plus/icons-vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { fetchLogin } from '@/api/common'
 import type { ILoginInfo } from '../index'
+import appConfig from '@/app.config'
 
 const emit = defineEmits<{
   (event: 'success', data: ILoginInfo): void
@@ -76,17 +56,28 @@ const onSubmit = (form: FormInstance | undefined) => {
       const params = {
         ...formData.value,
       }
-      fetchLogin(params)
-        .then(({ data }) => {
-          emit('success', {
-            accessToken: data.accessToken,
-            expires: data.expires,
-            refreshToken: data.refreshToken,
+
+      if (appConfig.isLocalLogin) {
+        emit('success', {
+          accessToken: 'accessToken',
+          userInfo: {
+            avatar: '222',
+            username: params.username,
+          },
+        })
+      } else {
+        fetchLogin(params)
+          .then(({ data }) => {
+            emit('success', {
+              accessToken: data.accessToken,
+              expires: data.expires,
+              refreshToken: data.refreshToken,
+            })
           })
-        })
-        .finally(() => {
-          loading.value = false
-        })
+          .finally(() => {
+            loading.value = false
+          })
+      }
     } else {
       return false
     }

@@ -120,5 +120,10 @@ export const useTabStore = defineStore({
           break
       }
     },
+
+    // 清楚数据
+    async clear() {
+      this.$reset()
+    }
   },
 })

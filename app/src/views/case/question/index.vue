@@ -7,7 +7,7 @@ meta:
   layout: admin
   isTab: true
   parentId: Case
-  isShow: true
+  isShowMenu: true
   sort: 20
 </route>
 

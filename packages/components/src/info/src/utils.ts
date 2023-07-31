@@ -19,26 +19,27 @@ export const useInfoOption = (option: IInfoOption) => {
 
   // 数据项
   const __infoFields = computed(() => {
-    console.log('generate info fields')
+    // console.log('generate info fields')
     const fields: any[] = []
     option.fields.forEach(field => {
       if (field.isInfo !== false) {
-        let _dictData = field.dictData
-        if (field.dictUrl) {
-          fetchDict(field.dictUrl, defaultFieldAttrs.props ?? field.props)
-          _dictData = field.dictData ?? dictData(field.dictUrl).value
+        const _props = {
+          ...(defaultFieldAttrs.props ?? {}),
+          ...(field.props ?? {}),
         }
+
+        if (field.dictUrl) {
+          fetchDict(field.dictUrl, _props)
+        }
+        const _dictData = field.dictData ?? dictData(field).value
 
         fields.push({
           label: field.label,
           prop: field.prop,
           type: field.type,
           span: field.span ?? option.span ?? 24,
-          multiple: field.multiple,
-          __props: {
-            ...(defaultFieldAttrs.props ?? {}),
-            ...(field.props ?? {}),
-          },
+          // multiple: field.multiple,
+          __props: _props,
           __dictData: _dictData,
           __itemAttrs: {
             // span?: number;

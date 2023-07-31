@@ -1,11 +1,5 @@
 <template>
-  <el-dropdown
-    class="admin-header-user"
-    placement="bottom-end"
-    :tabindex="9999"
-    trigger="hover"
-    @command="onCommand"
-  >
+  <el-dropdown class="admin-header-user" placement="bottom-end" :tabindex="9999" trigger="hover" @command="onCommand">
     <div class="admin-header-user-wrapper">
       <el-avatar :icon="UserFilled" :src="userinfo.avatar" :size="30" />
       <span class="admin-header-user__name">{{ userinfo.username }}</span>
@@ -15,13 +9,8 @@
     </div>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item
-          v-for="item in actionList.filter(row => row.visible)"
-          :key="item.key"
-          :command="item.key"
-          :icon="item.icon"
-          :divided="item.divided"
-        >
+        <el-dropdown-item v-for="item in actionList.filter(row => row.visible)" :key="item.key" :command="item.key"
+          :icon="item.icon" :divided="item.divided">
           {{ item.title }}
         </el-dropdown-item>
       </el-dropdown-menu>
@@ -30,7 +19,7 @@
 </template>
 <script lang="ts" setup>
 import { UserFilled, Setting, SwitchButton, ArrowDown } from '@element-plus/icons-vue'
-import { useUserStore, useSettingStore } from '@/store'
+import { useUserStore, useConfigStore } from '@/store'
 import { ElMessageBox } from 'element-plus'
 
 defineProps<{
@@ -38,7 +27,7 @@ defineProps<{
 }>()
 const router = useRouter()
 const appSettingRef = ref()
-const useSetting = useSettingStore()
+const configStore = useConfigStore()
 const userinfo = useUserStore().userInfo
 
 const actionList = [
@@ -48,7 +37,7 @@ const actionList = [
     routeName: 'UserCenter',
     icon: UserFilled,
     divided: false,
-    visible: useSetting.userCenterBtn,
+    visible: configStore.userCenterBtn,
   },
   {
     title: '账户设置',
@@ -56,7 +45,7 @@ const actionList = [
     routeName: 'UserSetting',
     icon: Setting,
     divided: false,
-    visible: useSetting.userSettingBtn,
+    visible: configStore.userSettingBtn,
   },
   {
     title: '退出登录',
@@ -80,7 +69,7 @@ function onCommand(command: string) {
         .then(async () => {
           useUserStore().logoutHandler()
         })
-        .catch(() => {})
+        .catch(() => { })
       break
     default:
       if (item && item.routeName) {

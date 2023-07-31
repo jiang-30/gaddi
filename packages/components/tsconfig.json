@@ -12,13 +12,11 @@
     "resolveJsonModule": true,
     "useDefineForClassFields": true,
     "noImplicitThis": true,
-    "isolatedModules": true,
-    "preserveValueImports": true,
-    "importsNotUsedAsValues": "error",
+    "verbatimModuleSyntax": true,
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "lib": ["esnext", "dom"],
-    "types": ["element-plus/global", "unplugin-vue-define-options/macros-global"]
+    "types": ["element-plus/global"]
   },
   "include": ["src/**/*.ts", "src/**/*.vue", "./global.d.ts"]
 }

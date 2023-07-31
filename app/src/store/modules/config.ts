@@ -4,9 +4,9 @@ import { setThemePrimaryColor } from '@/utils/color'
 
 type IThemeMode = 'light' | 'dark'
 
-const storeKey = 'SETTING_STORE'
+const storeKey = 'CONFIG_STORE'
 
-export const useSettingStore = defineStore({
+export const useConfigStore = defineStore({
   id: storeKey,
   persist: {
     enabled: true,
@@ -135,5 +135,10 @@ export const useSettingStore = defineStore({
     generateThemeColor() {
       setThemePrimaryColor(this.themeColor, this.themeMode)
     },
+
+    // 清除数据
+    async clear() {
+      this.$reset()
+    }
   },
 })

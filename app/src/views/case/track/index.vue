@@ -6,7 +6,7 @@ meta:
   icon: mdi:map-marker-check
   layout: admin
   isTab: true
-  isShow: true
+  isShowMenu: true
   parentId: Case
   sort: 5
 </route>
@@ -139,6 +139,7 @@ function handler(pointList: any, color: string = 'red') {
   position: relative;
   height: 70vh;
 }
+
 .map-container {
   padding: 0;
   margin: 0;

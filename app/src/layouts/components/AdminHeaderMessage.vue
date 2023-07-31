@@ -24,14 +24,14 @@
 </template>
 
 <script lang="ts" setup>
-import { useSettingStore } from '@/store'
+import { useConfigStore } from '@/store'
 
 defineProps<{
   textColor: string
 }>()
 
 const router = useRouter()
-const useSetting = useSettingStore()
+const useSetting = useConfigStore()
 
 function onNav(pageName: string) {
   router.push({ name: pageName })

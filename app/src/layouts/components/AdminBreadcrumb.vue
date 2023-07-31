@@ -1,11 +1,7 @@
 <template>
   <el-breadcrumb v-if="showBreadcrumb && isShow" style="padding: 10px 10px 0" separator="/">
-    <el-breadcrumb-item
-      class="app-breadcrumb-item"
-      v-for="item in menuStore.menuStack"
-      :key="item.name"
-      :to="getTo(item)"
-    >
+    <el-breadcrumb-item class="app-breadcrumb-item" v-for="item in menuStore.menuStack" :key="item.name"
+      :to="getTo(item)">
       <AppIcon v-if="item.icon" :icon="item.icon"></AppIcon>
       <span>{{ item.title }}</span>
     </el-breadcrumb-item>
@@ -13,11 +9,11 @@
 </template>
 
 <script lang="ts" setup>
-import { useMenuStore, useSettingStore } from '@/store'
+import { useMenuStore, useConfigStore } from '@/store'
 const menuStore = useMenuStore()
 
 const showBreadcrumb = computed(() => {
-  return useSettingStore().showBreadcrumb
+  return useConfigStore().showBreadcrumb
 })
 
 const isShow = computed(() => {

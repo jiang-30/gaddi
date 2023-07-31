@@ -6,10 +6,8 @@
         <el-col v-for="field in _formFields" :key="field.prop" :span="field.span">
           <!-- 传递插槽 -->
           <FormItem :field="field" :form-model="formModel" :row="formModel">
-            <template
-              v-for="item in Object.keys($slots).filter(item => item.endsWith('Form'))"
-              v-slot:[item]="scopeProps"
-            >
+            <template v-for="item in Object.keys($slots).filter(item => item.endsWith('Form'))"
+              v-slot:[item]="scopeProps">
               <slot :name="item" v-bind="scopeProps"></slot>
             </template>
           </FormItem>
@@ -24,13 +22,7 @@
       <el-button type="warning" :icon="RefreshLeft" :disabled="loading" @click="_onReset">
         重置
       </el-button>
-      <el-button
-        v-if="onCancel"
-        type="default"
-        :icon="CircleClose"
-        :disabled="loading"
-        @click="_onCancel"
-      >
+      <el-button v-if="onCancel" type="default" :icon="CircleClose" :disabled="loading" @click="_onCancel">
         取消
       </el-button>
     </footer>
@@ -49,10 +41,11 @@ defineOptions({ name: 'WForm' })
 const props = defineProps(formProps)
 const emits = defineEmits(formEmits)
 
+const { __formFields, __formAttrs } = useFormOption(props.option, props.type)
 // 组件数据
 const loading = ref(false)
 const formRef = ref<FormInstance>()
-const { __formFields, __formAttrs } = useFormOption(props.option, props.type)
+
 
 // 设置默认值 --- 初始化还是监听
 watch(
@@ -63,7 +56,7 @@ watch(
         props.formModel[field.prop] = props.formModel[field.prop] ?? field.default
       }
     })
-    console.log('watch form option change')
+    // console.log('watch form option change')
   },
   {
     deep: true,

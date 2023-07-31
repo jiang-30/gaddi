@@ -1,7 +1,9 @@
 <template>
   <section class="layout-container bg-page">
     <!-- 状态栏 -->
-    <header class="layout-header"><AdminHeader /></header>
+    <header class="layout-header">
+      <AdminHeader />
+    </header>
     <!-- 侧边栏 -->
     <AdminiAside style="height: 100%" class="layout-aside" />
     <!-- tab栏和面包屑 -->
@@ -12,15 +14,17 @@
     <!-- 内容区 -->
     <main class="layout-main" ref="mainRef">
       <RouterView v-slot="{ Component, route }">
-        <transition name="main" mode="out-in" appear>
-          <keep-alive :max="10" :include="routeStore.keepAliveList">
-            <component :is="Component" :key="route.fullPath" />
-          </keep-alive>
-        </transition>
+        <!-- <transition name="main" mode="out-in" appear> -->
+        <keep-alive :max="10" :include="routeStore.keepAliveList">
+          <component :is="Component" :key="route.fullPath" />
+        </keep-alive>
+        <!-- </transition> -->
       </RouterView>
     </main>
     <!-- 脚注 -->
-    <footer class="layout-footer"><AdminFooter /></footer>
+    <footer class="layout-footer">
+      <AdminFooter />
+    </footer>
   </section>
 </template>
 
@@ -30,20 +34,20 @@ import AdminHeader from './components/AdminHeader.vue'
 import AdminBreadcrumb from './components/AdminBreadcrumb.vue'
 import AdminTab from './components/AdminTab.vue'
 import AdminFooter from './components/AdminFooter.vue'
-import { useMenuStore, useRouteStore, useSettingStore } from '@/store'
+import { useMenuStore, useRouteStore, useConfigStore } from '@/store'
 import { useEventBus, useResizeObserver } from '@vueuse/core'
 
 const menuStore = useMenuStore()
 const routeStore = useRouteStore()
-const settingStore = useSettingStore()
+const configStore = useConfigStore()
 const mainRef = ref()
 const eventBus = useEventBus('container-resize')
 // const viewStyle = computed(() => {
 //   return {
-//     // 'width': settingStore.containerWidth + 'px',
-//     // 'height': settingStore.containerHeight + 'px',
-//     'min-width': settingStore.minWidth + 'px',
-//     'min-height': settingStore.minHeight + 'px'
+//     // 'width': configStore.containerWidth + 'px',
+//     // 'height': configStore.containerHeight + 'px',
+//     'min-width': configStore.minWidth + 'px',
+//     'min-height': configStore.minHeight + 'px'
 //   }
 // })
 
@@ -54,15 +58,15 @@ watch(menuStore.menus, () => {
 // 监听 main 区域的 resize
 useResizeObserver(mainRef, event => {
   const { width, height } = event[0].contentRect
-  settingStore.containerWidth = width
-  settingStore.containerHeight = height
+  configStore.containerWidth = width
+  configStore.containerHeight = height
   eventBus.emit('container-resize')
 })
 // 监听 body 区域的 resize
 useResizeObserver(document.body, event => {
   const { width } = event[0].contentRect
-  if (width <= settingStore.minWidth && !settingStore.asideCollapse) {
-    settingStore.asideCollapse = true
+  if (width <= configStore.minWidth && !configStore.asideCollapse) {
+    configStore.asideCollapse = true
   }
 })
 

@@ -1,42 +1,19 @@
-import { computed, ref, type Ref } from 'vue'
-import type { AxiosInstance } from 'axios'
-import type { ICrudOption } from './index'
-import type { IDictItem } from './typings'
+import { computed, ref } from 'vue'
+import type { IDictItem, IFieldBaseAttrs, IOption, IProps } from './typings'
 
-export const defaultAttrs = {}
-export const defaultFieldAttrs = {}
-
-export const tools: {
-  // axios 请求实例
-  axios: AxiosInstance | null
-  dict: Ref<
-    {
-      url: string
-      status: 'padding' | 'done'
-      code?: string
-      items: IDictItem[]
-    }[]
-  >
-  // crud 默认值
-  defaultAttrs: Partial<ICrudOption>
-  // crud 数据项 默认值
-  defaultFieldAttrs: Partial<ICrudOption['fields']['0']>
-} = {
+export const tools: Required<IOption> = {
   axios: null,
+  uploadFile: null,
   defaultAttrs: {
     background: true,
     layout: ' ->, total, sizes, prev, pager, next, jumper',
     pageSizes: [10, 20, 50, 100],
     hideOnSinglePage: true,
-
     dialogWidth: '700px',
     dialogAppendToBody: true,
-
     border: true,
     rowKey: 'id',
-
     infoBorder: true,
-
     rowActionWidth: 160,
     // 表格居中
     headerAlign: 'center',
@@ -48,37 +25,49 @@ export const tools: {
       label: 'label',
     },
   },
-  dict: ref([]),
+  dictList: ref([]),
 }
 
-export const fetchDict = (url: string, props?: any) => {
-  if (tools.axios && !tools.dict.value.find(item => item.url == url)) {
+// dictUrl 请求字典数据
+export const fetchDict = (url: string, props?: IProps) => {
+  if (tools.axios && !tools.dictList.value.find(item => item.url == url)) {
     // 添加数据，防止重复请求
-    tools.dict.value.push({
+    tools.dictList.value.push({
       url: url,
-      // code: pro
       status: 'padding',
       items: [],
     })
+
     // 请求数据
     tools
       .axios({
         method: 'get',
         url: url,
       })
-      .then(({ data }) => {
-        const dict = tools.dict.value.find(item => item.url == url)
+      .then((res) => {
+        const dict = tools.dictList.value.find(item => item.url == url)
         if (dict) {
+          // console.log(props?.formatter, res)
+          dict.items = props?.formatter ? props.formatter(res) : res.data
           dict.status = 'done'
-          dict.items = data
         }
       })
   }
 }
 
-export const dictData = (url: string) => {
+// 通过 dictCode 或者 dictUrl 获取数据
+export const dictData = (field: IFieldBaseAttrs) => {
   return computed(() => {
-    return tools.dict.value.find(item => item.url == url && item.status == 'done')?.items ?? []
+    let dictItems: IDictItem[] = []
+    if (field.dictData) {
+      dictItems = field.dictData
+    } else if (field.dictCode !== null && field.dictCode !== undefined) {
+      dictItems = tools.dictList.value.find(item => item.code == field.dictCode)?.items ?? []
+    } else if (field.dictUrl !== null && field.dictUrl !== undefined) {
+      dictItems = tools.dictList.value.find(item => item.url == field.dictUrl)?.items ?? []
+    }
+
+    return dictItems
   })
 }
 

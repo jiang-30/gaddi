@@ -1,8 +1,9 @@
 import { defineStore } from 'pinia'
-import router, { generateRoutes } from '@/router/index'
-import config from '@/app.config'
 import type { RouteLocationNormalized } from 'vue-router'
 import { isMatch } from 'matcher'
+import router from '@/router/index'
+import { generateDynamicRoutes } from '@/router/handler'
+import config from '@/app.config'
 import type { IMenu, ITab } from '@/typings'
 
 const storeKey = 'ROUTE_STORE'
@@ -77,6 +78,20 @@ export const useRouteStore = defineStore({
     },
   },
   actions: {
+    /**
+     * 菜单导航: path - target
+     * @todo _self _blank http
+     */
+    handlerNav(menu: IMenu) {
+      if (menu.type === 'page') {
+        if (menu.path?.startsWith('http')) {
+          window.open(menu.path, menu.target)
+        } else {
+          router.push({ name: menu.name })
+        }
+      }
+    },
+
     // 跳转默认页面
     navigateOrDefault(tab?: ITab) {
       if (tab) {
@@ -88,9 +103,9 @@ export const useRouteStore = defineStore({
 
     // 通过 menuStore 中 menus 数据渲染动态路由
     setRoutes(menus: IMenu[]) {
-      const routes = menus.filter(item => item.type === 'page' && item.isStatic === false)
+      const routes = menus.filter(item => item.type === 'page' && item.isStatic !== true)
       this.routes = routes
-      generateRoutes(this.routes)
+      generateDynamicRoutes(this.routes)
     },
 
     // 设置 keepAlive 页面name

@@ -6,7 +6,7 @@ meta:
   icon: mdi:map-marker-check
   layout: admin
   isTab: true
-  isShow: true
+  isShowMenu: true
   parentId: Case
   sort: 5
 </route>
@@ -18,21 +18,10 @@ meta:
       <div class="fixed-box" v-if="initialized">
         <el-space>
           <el-select v-model="currentCityCode" style="width: 100px" placeholder="城市">
-            <el-option
-              v-for="item in cityList"
-              :key="item.name"
-              :label="item.name"
-              :value="item.code"
-            />
+            <el-option v-for="item in cityList" :key="item.name" :label="item.name" :value="item.code" />
           </el-select>
-          <ElAutocomplete
-            v-model="keyword"
-            :fetch-suggestions="querySearch"
-            value-key="name"
-            clearable
-            placeholder="请输入搜索关键字"
-            @select="handleSelect"
-          >
+          <ElAutocomplete v-model="keyword" :fetch-suggestions="querySearch" value-key="name" clearable
+            placeholder="请输入搜索关键字" @select="handleSelect">
             <template #default="{ item }">
               <span class="value">{{ item.name }}</span>
               <span class="link">{{ item.district }}</span>
@@ -44,9 +33,8 @@ meta:
 
     <template #footer>
       <div style="display: flex; align-items: center">
-        <span style="color: #aaa; font-size: 12" v-if="address.address"
-          >{{ address.address }}({{ address.lng }}, {{ address.lat }})</span
-        >
+        <span style="color: #aaa; font-size: 12" v-if="address.address">{{ address.address }}({{ address.lng }}, {{
+          address.lat }})</span>
         <el-button style="margin-left: auto" type="primary" @click="onConfirm">确定</el-button>
       </div>
     </template>

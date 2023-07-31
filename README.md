@@ -3,7 +3,7 @@ gaddi 是一个 monorepo, 多个工程放到一个 git 仓库中;共享一套构
 通过 pnpm 管理依赖，通过 changesets 管理库的更新日志
 
 ## TODO
-
+- crud 触发俩次query
 - app localStorage 缓存
 - crud v-premission
 - crud row action 按钮排序
@@ -16,46 +16,17 @@ gaddi 是一个 monorepo, 多个工程放到一个 git 仓库中;共享一套构
 - info slot 服用 table的
 
 ## 模块
+docs
 
-docs 在任意一个模块发生更改的时候都需要重新构建
+### app
+后台管理
 
-- cli
-- components
-- utils
-- app
+### cli
+脚手架
 
-## 常用库
+### components
+crud组件
 
-- dayjs
-- qs
-- js-cookie
-- animate.css
-- animejs
-- mescroll.js
-- commander
-- prompts
-- file-saver
-- jszip
-- vue-tour 用户引导
-- swiper 轮播
+### utils
+常用函数
 
-## 模块
-
-### version
-
-### changelog
-
-- changesets
-- conventional-changelog
-
-### prettier
-
-```sh
-prettier
-```
-
-### lint
-
-```sh
-eslint
-```

@@ -1,34 +1,28 @@
 <template>
-  <AppMenu
-    v-if="showMenu"
-    :menuList="menuList"
-    :collapse="false"
-    :bg-color="bgColor"
-    :text-color="textColor"
-    mode="horizontal"
-  ></AppMenu>
+  <AppMenu v-if="showMenu" :menuList="menuList" :collapse="false" :bg-color="bgColor" :text-color="textColor"
+    mode="horizontal"></AppMenu>
 </template>
 
 <script lang="ts" setup>
 import AppMenu from './AppMenu.vue'
-import { useSettingStore, useMenuStore } from '@/store'
+import { useConfigStore, useMenuStore } from '@/store'
 
 defineProps<{
   bgColor: string
   textColor: string
 }>()
 
-const settingStore = useSettingStore()
+const configStore = useConfigStore()
 const menuStore = useMenuStore()
 
 // 是否展示
 const showMenu = computed(() => {
-  return settingStore.showTopMenu || settingStore.showTopMenuNav
+  return configStore.showTopMenu || configStore.showTopMenuNav
 })
 
 // 菜单数据
 const menuList = computed(() => {
-  if (settingStore.showTopMenu) {
+  if (configStore.showTopMenu) {
     return menuStore.getMenuTree()
   } else {
     return menuStore.getMenuTree().map(item => ({ ...item, children: [] }))

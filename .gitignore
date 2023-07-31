@@ -5,7 +5,7 @@ dist/
 dist.*
 es/
 lib/
-packages/cli/template
+
 
 ### System
 .DS_Store

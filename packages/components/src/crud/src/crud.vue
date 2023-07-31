@@ -1,24 +1,20 @@
 <template>
   <section class="w-crud">
+
     <!-- 搜索区域 -->
     <el-collapse-transition>
-      <WSearchForm
-        v-show="searchVisible"
-        :option="option!"
-        :search-model="searchModel"
-        :loading="tableLoading ?? _tableLoading"
-        @show="searchShow = $event"
-        @init="_onSearchInit"
-        @search="_onSearch"
-        @reset="_onSearchReset"
-      ></WSearchForm>
+      <WSearchForm v-show="searchVisible" :option="option!" :search-model="searchModel" :loading="_currentTableLoading"
+        @show="searchShow = $event" @init="_onSearchInit" @search="_onSearch" @reset="_onSearchReset"></WSearchForm>
     </el-collapse-transition>
 
-    <section v-loading="tableLoading ?? _tableLoading">
-      <!-- 操作区域 -->
+    <!-- 表格区域 操作栏、表格、分页 -->
+    <section v-loading="_currentTableLoading">
+
+      <!-- 操作栏 -->
       <section class="w-crud-action">
 
-        <el-button v-if="handlerBtnShow(__actionOption.isCreateBtn)" type="primary" :icon="CirclePlus" @click="_onOpenCreate"> 新增 </el-button>
+        <el-button v-if="handlerBtnShow(__actionColumn.isCreateBtn)" type="primary" :icon="CirclePlus"
+          @click="_onOpenCreate"> 新增 </el-button>
 
         <slot name="action"></slot>
 
@@ -29,81 +25,55 @@
         <!-- 过滤数据项 -->
         <ColumnFilter v-model="checkedFields" :fields="__tableFields" />
         <!-- 根据搜索区域确定显示隐藏 -->
-        <el-button
-          v-if="searchShow"
-          circle
-          :icon="Search"
-          @click="searchVisible = !searchVisible"
-        />
+        <el-button v-if="searchShow" circle :icon="Search" @click="searchVisible = !searchVisible" />
       </section>
 
-      <!-- 表格区域 -->
-      <el-table ref="tableRef" :data="_currentTableData"  v-bind="{... $attrs, ...__tableAttrs}">
-        <!-- expandColumn 展开 -->
-        <el-table-column v-if="option.expandColumn === true" type="expand">
+      <!-- 表格 -->
+      <el-table ref="tableRef" :data="_currentTableData" v-bind="{ ...$attrs, ...__tableAttrs }">
+
+        <!-- 展开 expandColumn -->
+        <el-table-column v-if="__expandColumn.isShow === true" type="expand">
           <template #default="scopeProps">
             <slot name="expand" v-bind="scopeProps"></slot>
           </template>
         </el-table-column>
 
-        <!-- selectionColumn 选择 -->
-        <el-table-column v-if="__selectionColumn.isShow" v-bind="__selectionColumn.attrs" type="selection" />
+        <!-- 选择 selectionColumn -->
+        <el-table-column v-if="__selectionColumn.isShow === true" v-bind="__selectionColumn.attrs" type="selection" />
 
-        <!-- indexColumn 序号 -->
-        <el-table-column
-          v-if="option.indexColumn !== false"
-          type="index"
-          label="序号"
-          width="60"
-          align="center"
-        />
+        <!-- 序号 indexColumn -->
+        <el-table-column v-if="__indexColumn.isShow === true" type="index" v-bind="__indexColumn.columnAttrs" />
 
         <!-- 动态列 -->
-        <el-table-column
-          v-for="column in tableFilterFields"
-          :key="column.prop"
-          :prop="column.prop"
-          :label="column.label"
-          v-bind="column.__elTableColumnAttrs"
-        >
+        <el-table-column v-for="column in tableFilterFields" :key="column.prop" :prop="column.prop" :label="column.label"
+          v-bind="column.__elTableColumnAttrs">
           <template #default="scopeProps">
             <slot :name="column.prop" v-bind="scopeProps" :field="column">
-              {{ formatValue(column, scopeProps.row, scopeProps.column, scopeProps.$index) }}
+              <template v-if="column.type == 'image' || column.type == 'images'">
+                <el-image
+                  v-for="image in (formatValue(column, scopeProps.row, scopeProps.column, scopeProps.$index) ?? '').split(',').filter((it: any) => it)"
+                  style="width: 40px; height: 40px; margin: 0 3px;" :src="image" fit="cover" />
+              </template>
+              <template v-else>
+                {{ formatValue(column, scopeProps.row, scopeProps.column, scopeProps.$index) }}
+              </template>
             </slot>
           </template>
         </el-table-column>
 
-        <el-table-column v-if="__actionOption.isRowAction" v-bind="__tableColumnActionAttrs">
+        <el-table-column v-if="__actionColumn.isRowAction" v-bind="__actionColumn.columnAttrs">
           <template #default="scopeProps">
             <div class="w-crud-column-action">
-              <el-button
-                v-if="handlerBtnShow(__actionOption.isInfoBtn)"
-                text
-                type="info"
-                size="small"
-                :icon="View"
-                @click="_onOpenInfo(scopeProps.row)"
-              >
+              <el-button v-if="handlerBtnShow(__actionColumn.isInfoBtn)" text type="info" size="small" :icon="View"
+                @click="_onOpenInfo(scopeProps.row)">
                 详情
               </el-button>
-              <el-button
-                v-if="handlerBtnShow(__actionOption.isUpdateBtn)"
-                text
-                type="primary"
-                size="small"
-                :icon="Edit"
-                @click="_onOpenUpdate(scopeProps.row)"
-              >
+              <el-button v-if="handlerBtnShow(__actionColumn.isUpdateBtn)" text type="primary" size="small" :icon="Edit"
+                @click="_onOpenUpdate(scopeProps.row)">
                 修改
               </el-button>
-              <el-button
-                v-if="handlerBtnShow(__actionOption.isDeleteBtn)"
-                text
-                type="danger"
-                size="small"
-                :icon="Delete"
-                @click="_onDelete(scopeProps.row)"
-              >
+              <el-button v-if="handlerBtnShow(__actionColumn.isDeleteBtn)" text type="danger" size="small" :icon="Delete"
+                @click="_onDelete(scopeProps.row)">
                 删除
               </el-button>
               <slot name="row-action" v-bind="scopeProps" />
@@ -112,49 +82,27 @@
         </el-table-column>
       </el-table>
 
-      <!-- 分页区域 -->
+      <!-- 分页 -->
       <section v-if="pageModel" class="w-crud-pagination">
-        <el-pagination
-          v-model:current-page="pageModel.current"
-          v-model:page-size="pageModel.size"
-          :total="pageModel.total"
-          v-bind="__pageAttrs"
-          @current-change="_onPageCurrentChange"
-          @size-change="_onPageSizeChange"
-        />
+        <el-pagination v-model:current-page="pageModel.current" v-model:page-size="pageModel.size"
+          :total="pageModel.total" v-bind="__pageAttrs" @current-change="_onPageCurrentChange"
+          @size-change="_onPageSizeChange" />
       </section>
     </section>
 
     <!-- 弹窗区域 -->
-    <el-dialog
-      v-if="['create', 'update', 'info'].includes(currentType)"
-      v-model="dialogVisible"
-      v-bind="__dialogAttrs"
-      :title="dialogTypeMap[currentType]?.title"
-      :close-on-click-modal="dialogTypeMap[currentType]?.closeOnClickModal"
-      destroy-on-close
-    >
-      <WForm
-        v-if="currentType === 'create' || currentType === 'update'"
-        :type="currentType"
-        :option="option"
-        :form-model="_currentModelValue"
-        @confirm="_onFormConfirm"
-        @success="onCloseHandler"
-      >
-        <template
-          v-for="item in Object.keys($slots).filter(item => item.endsWith('Form'))"
-          v-slot:[item]="scopeProps"
-        >
+    <el-dialog v-if="['create', 'update', 'info'].includes(currentType)" v-model="dialogVisible" v-bind="__dialogAttrs"
+      :title="dialogTypeMap[currentType]?.title" :close-on-click-modal="dialogTypeMap[currentType]?.closeOnClickModal"
+      destroy-on-close>
+      <WForm v-if="currentType === 'create' || currentType === 'update'" :type="currentType" :option="option"
+        :form-model="_currentModelValue" @confirm="_onFormConfirm" @success="onCloseHandler">
+        <template v-for="item in Object.keys($slots).filter(item => item.endsWith('Form'))" v-slot:[item]="scopeProps">
           <slot :name="item" v-bind="scopeProps"></slot>
         </template>
       </WForm>
 
       <WInfo v-else-if="currentType === 'info'" :option="option" :info-model="_currentModelValue">
-        <template
-          v-for="item in Object.keys($slots).filter(item => item.endsWith('Info'))"
-          v-slot:[item]="scopeProps"
-        >
+        <template v-for="item in Object.keys($slots)" v-slot:[item]="scopeProps">
           <slot :name="item" v-bind="scopeProps"></slot>
         </template>
       </WInfo>
@@ -163,91 +111,83 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, useSlots } from 'vue'
+import { ref, computed } from 'vue'
 import { View, CirclePlus, Search, Refresh, Edit, Delete } from '@element-plus/icons-vue'
-import ColumnFilter from './column-filter.vue'
+import ColumnFilter from './components/column-filter.vue'
 import { WSearchForm, WForm, WInfo } from '../../index'
 import { crudProps, crudEmits } from './crud'
 import { useCrudOption } from './utils'
 import { ElMessageBox, ElNotification, type Action, type TableInstance } from 'element-plus'
 import { tools, formatValue } from '../../utils'
-
-// console.log("slots: ", useSlots());
+import { dialogTypeMap } from './constant'
 
 defineOptions({ name: 'WCrud' })
 const props = defineProps(crudProps)
 const emits = defineEmits(crudEmits)
 
-const tableRef = ref<TableInstance>()
-
-// 根据搜索栏控制搜索显示按钮的显示
-const searchShow = ref(true)
-// 搜索栏显示隐藏
-const searchVisible = ref(true)
-// 弹窗的显示隐藏
-const dialogVisible = ref(false)
-// 当前状态
-const dialogTypeMap: Record<string, { title: string; closeOnClickModal: boolean }> = {
-  info: {
-    title: '详情',
-    closeOnClickModal: true,
-  },
-  create: {
-    title: '新增',
-    closeOnClickModal: false,
-  },
-  update: {
-    title: '修改',
-    closeOnClickModal: false,
-  },
-}
-const currentType = ref('normal')
-// 选中要显示的列
-const checkedFields = ref<string[]>([])
-// 当前数据
-const _tableLoading = ref(false)
-
 // 格式化配置数据
-const { __tableFields, __selectionColumn, __tableColumnActionAttrs, __tableAttrs, __pageAttrs, __dialogAttrs , __actionOption } =
-  useCrudOption(props.option)
+const {
+  __tableAttrs,
+  __pageAttrs,
+  __dialogAttrs,
+  __expandColumn,
+  __selectionColumn,
+  __actionColumn,
+  __indexColumn,
+  __tableFields,
+} = useCrudOption(props.option)
+// table Ref
+const tableRef = ref<TableInstance>()
+// 根据配置确定搜索栏是否显示
+const searchShow = ref(true)
+// 搜索栏动态显示隐藏
+const searchVisible = ref(true)
+// 弹窗动态显示隐藏
+const dialogVisible = ref(false)
+// 类型 normal、create、update、delete、info
+const currentType = ref('normal')
 
 
-
-// 初始值
+// 表格要显示的列
+const checkedFields = ref<string[]>([])
+// 要展示的列赋初始值
 __tableFields.value.forEach(item => {
-  if (item.isShow) {
+  if (item.isTableShow) {
     checkedFields.value.push(item.prop)
   }
 })
-
-// 当前显示的表格项
+// 当前显示的表格项 - 根据选中状态动态修改
 const tableFilterFields = computed(() => {
   return __tableFields.value.filter(item => {
     return checkedFields.value.includes(item.prop)
   })
 })
 
-// v-model 数据
-const _formModel = ref({})
-const _currentModelValue = computed({
+// QueryLoading 状态
+const _tableLoading = ref(false)
+const _currentTableLoading = computed({
   get: () => {
-    return props.modelValue ?? _formModel.value
+    return props.tableLoading ?? _tableLoading.value
   },
   set: val => {
-    emits('update:modelValue', val)
-    _formModel.value = val
-    console.log(`set ${currentType.value} modelValue`)
+    emits('update:tableLoading', val)
+    _tableLoading.value = val
   },
 })
 
-const handlerBtnShow = (isButton: boolean | Function) => {
-  if(typeof isButton == 'function') {
-    return isButton(_formModel)
-  } else {
-    return isButton
-  }
-}
+// v-model 数据 create、update、info、delete
+const _modelValue = ref({})
+const _currentModelValue = computed({
+  get: () => {
+    return props.modelValue ?? _modelValue.value
+  },
+  set: val => {
+    emits('update:modelValue', val)
+    _modelValue.value = val
+  },
+})
 
+// 表格数据
 const _tableData = ref<any>([])
 const _currentTableData = computed({
   get: () => {
@@ -258,6 +198,14 @@ const _currentTableData = computed({
     _tableData.value = val
   },
 })
+
+const handlerBtnShow = (isButton: boolean | Function) => {
+  if (typeof isButton == 'function') {
+    return isButton(_modelValue)
+  } else {
+    return isButton
+  }
+}
 
 // 关闭弹窗
 const onCloseHandler = () => {
@@ -276,7 +224,7 @@ const openHandler = () => {
   }
 
   if (props.beforeOpen) {
-    props.beforeOpen(_currentModelValue.value, openDone, currentType.value)
+    props.beforeOpen(currentType.value, _currentModelValue.value, openDone)
   } else {
     openDone()
   }
@@ -285,11 +233,12 @@ const openHandler = () => {
 // ========== 搜索 ==========
 const searchHandler = (_type: string) => {
   currentType.value = 'query'
-  if (props.onQuery) {
-    props.onQuery(_type)
+
+  if (props.queryHandler) {
+    props.queryHandler(_type)
   } else if (props.api?.list && tools.axios) {
     // 查询全部列表
-    _tableLoading.value = true
+    _currentTableLoading.value = true
     const requestConfig = {
       method: 'get',
       url: props.api.list,
@@ -298,25 +247,25 @@ const searchHandler = (_type: string) => {
       },
     }
     if (props.beforeFetch) {
-      props.beforeFetch(requestConfig, currentType.value)
+      props.beforeFetch(currentType.value, requestConfig)
     }
     tools
       .axios(requestConfig)
       .then(({ data }) => {
         if (props.afterFetch) {
-          props.afterFetch(data, currentType.value)
+          props.afterFetch(currentType.value, data)
         }
         _currentTableData.value = data
       })
       .finally(() => {
-        _tableLoading.value = false
+        _currentTableLoading.value = false
       })
   } else if ((props.api?.page || props.api?.restful) && tools.axios) {
     // 分页查询
-    _tableLoading.value = true
+    _currentTableLoading.value = true
     const requestConfig = {
       method: 'get',
-      url: props.api.page ?? props.api.restful + '/page',
+      url: props.api.page ?? props.api.restful,
       params: {
         current: props.pageModel.current,
         size: props.pageModel.size,
@@ -324,64 +273,66 @@ const searchHandler = (_type: string) => {
       },
     }
     if (props.beforeFetch) {
-      props.beforeFetch(requestConfig, currentType.value)
+      props.beforeFetch(currentType.value, requestConfig)
     }
     tools
       .axios(requestConfig)
       .then(({ data }) => {
         if (props.afterFetch) {
-          props.afterFetch(data, currentType.value)
+          props.afterFetch(currentType.value, data)
         }
         _currentTableData.value = data.records
         props.pageModel.total = data.total
       })
       .finally(() => {
-        _tableLoading.value = false
+        _currentTableLoading.value = false
       })
   }
 }
 
-const changeSearchHandler = () => {
-  props.pageModel.current = 1
-  searchHandler('createOrDelete')
-}
-
-const _onRefresh = () => {
-  // console.log('table refresh')
-  emits('refresh')
-  searchHandler('refresh')
-}
 
 const _onSearchInit = () => {
-  // console.log('search init')
+  console.log('search init')
   emits('init')
   searchHandler('init')
 }
 
 const _onSearch = () => {
-  // console.log('search')
+  console.log('search')
   props.pageModel.current = 1
   emits('search')
   searchHandler('search')
 }
 
 const _onSearchReset = () => {
-  // console.log('search reset')
+  console.log('search reset')
   props.pageModel.current = 1
   emits('searchReset')
   searchHandler('searchReset')
 }
 
+const _onRefresh = () => {
+  console.log('table refresh')
+  emits('refresh')
+  searchHandler('refresh')
+}
+
 const _onPageCurrentChange = (current: number) => {
-  // console.log('page current change')
+  console.log('page current change')
   emits('pageCurrentChange')
-  searchHandler('page')
+  searchHandler('pageCurrent')
 }
 
 const _onPageSizeChange = (size: number) => {
-  // console.log('page size change')
+  console.log('page size change')
   emits('pageSizeChange')
-  searchHandler('page')
+  searchHandler('pageSize')
+}
+
+const changeSearchHandler = () => {
+  console.log('createOrDelete')
+  props.pageModel.current = 1
+  searchHandler('createOrDelete')
 }
 
 const _onOpenCreate = (row: any = {}) => {
@@ -402,7 +353,6 @@ const _onOpenUpdate = (row: any) => {
   openHandler()
 }
 
-// console.log('fffff', tools.axios)
 
 const _onOpenInfo = (row: any) => {
   // 1. 设置状态
@@ -414,15 +364,15 @@ const _onOpenInfo = (row: any) => {
     // 详情请求
     const requestConfig = {
       method: 'get',
-      url: props.api.info + row.id,
+      url: props.api.info + '/' + row.id,
     }
     if (props.beforeFetch) {
-      props.beforeFetch(requestConfig, currentType.value)
+      props.beforeFetch(currentType.value, requestConfig)
     }
 
     tools.axios(requestConfig).then(({ data }) => {
       if (props.afterFetch) {
-        props.afterFetch(data, currentType.value)
+        props.afterFetch(currentType.value, data)
       }
       _currentModelValue.value = data
       openHandler()
@@ -438,8 +388,8 @@ const _onDelete = (row: any) => {
   // 2. 设置值 双向绑定 数据拷贝
   _currentModelValue.value = { ...row }
   // 3. 删除操作
-  if (props.onDelete) {
-    props.onDelete(_currentModelValue.value)
+  if (props.deleteHandler) {
+    props.deleteHandler(_currentModelValue.value)
   } else if ((props.api?.delete || props.api?.restful) && tools.axios) {
     ElMessageBox.confirm('确定执行删除操作吗', {
       title: '提示',
@@ -449,14 +399,18 @@ const _onDelete = (row: any) => {
           // 删除请求
           const requestConfig = {
             method: 'delete',
-            url: (props.api.delete ?? props.api.restful + '/') + row.id,
-          }
-          if (props.beforeFetch) {
-            props.beforeFetch(requestConfig, currentType.value)
+            url: (props.api.delete ?? props.api.restful) + '/' + row.id,
           }
 
-          tools.axios(requestConfig).then(() => {
+          if (props.beforeFetch) {
+            props.beforeFetch(currentType.value, requestConfig)
+          }
+
+          tools.axios(requestConfig).then(({ data }) => {
             ElNotification({ title: '提示', message: '删除成功！', type: 'success' })
+            if (props.afterFetch) {
+              props.afterFetch(currentType.value, data)
+            }
             changeSearchHandler()
           })
         }
@@ -466,8 +420,8 @@ const _onDelete = (row: any) => {
 }
 
 const _onCreateConfirm = (record: any, done: any) => {
-  if (props.onCreate) {
-    props.onCreate(record, done)
+  if (props.createHandler) {
+    props.createHandler(record, done)
   } else if ((props.api?.create || props.api?.restful) && tools.axios) {
     // 新增请求
     const requestConfig = {
@@ -476,7 +430,7 @@ const _onCreateConfirm = (record: any, done: any) => {
       data: record,
     }
     if (props.beforeFetch) {
-      props.beforeFetch(requestConfig, currentType.value)
+      props.beforeFetch(currentType.value, requestConfig)
     }
 
     tools
@@ -491,8 +445,8 @@ const _onCreateConfirm = (record: any, done: any) => {
 }
 
 const _onUpdateConfirm = (record: any, done: any) => {
-  if (props.onUpdate) {
-    props.onUpdate(record, done)
+  if (props.updateHandler) {
+    props.updateHandler(record, done)
   } else if ((props.api?.update || props.api?.restful) && tools.axios) {
     // 更新请求
     const requestConfig = {
@@ -501,7 +455,7 @@ const _onUpdateConfirm = (record: any, done: any) => {
       data: record,
     }
     if (props.beforeFetch) {
-      props.beforeFetch(requestConfig, currentType.value)
+      props.beforeFetch(currentType.value, requestConfig)
     }
 
     tools
@@ -525,13 +479,13 @@ const _onFormConfirm = (record: any, done: any, type: string) => {
 
 // 类型问题
 const getTable: () => any = () => {
-    return tableRef.value
-  }
+  return tableRef.value
+}
 
 
 defineExpose({
   getTable,
-  refresh(){
+  refresh() {
     props.pageModel.current = 1
     searchHandler('reset')
   },

@@ -7,6 +7,9 @@ export default defineConfig({
   lastUpdated: true,
   markdown: {
     lineNumbers: true,
+    toc: {
+      level: [2, 3, 4]
+    },
   },
   themeConfig: {
     logo: "/logo.png",
@@ -52,10 +55,9 @@ export default defineConfig({
           text: "",
           items: [
             { text: "CRUD组件", link: "/component/crud" },
-            { text: "Table组件", link: "/component/table" },
-            { text: "Form组件", link: "/component/form" },
-            { text: "Info组件", link: "/component/info" },
-            { text: "Button 按钮", link: "/component/button" },
+            // { text: "Form组件", link: "/component/form" },
+            // { text: "Info组件", link: "/component/info" },
+            // { text: "Button 按钮", link: "/component/button" },
             { text: "Roll 滚动", link: "/component/roll" },
           ],
         },

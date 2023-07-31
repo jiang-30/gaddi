@@ -1,6 +1,8 @@
 {
   "extends": "@vue/tsconfig/tsconfig.node.json",
   "compilerOptions": {
+    "ignoreDeprecations": "5.0",
+    "verbatimModuleSyntax": true,
     "composite": true,
     "module": "esnext",
     "types": ["node"],
@@ -12,7 +14,7 @@
   "include": [
     "src/app.config.ts",
     "src/constant/default/menu.ts",
-    "src/router/handler.ts",
+    "src/router/default.ts",
     "build/*.ts",
     "vite.config.*",
     "vitest.config.*"

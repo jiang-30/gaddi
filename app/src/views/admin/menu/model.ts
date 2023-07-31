@@ -125,7 +125,7 @@ export const useModel = (tableData: Ref<any[]>) => {
           ],
         },
         {
-          prop: 'isShow',
+          prop: 'isShowMenu',
           label: '是否展示',
           type: 'radio',
           dictData: useDictStore().items('SYS_FLAG'),

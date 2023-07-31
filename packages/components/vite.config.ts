@@ -1,15 +1,13 @@
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
-import defineOptions from "unplugin-vue-define-options/vite";
 import dts from "vite-plugin-dts";
 
 export default defineConfig({
   plugins: [
     vue(),
-    defineOptions(),
     dts({
       // 指定使用的tsconfig.json为我们整个项目根目录下掉,如果不配置,你也可以在components下新建tsconfig.json
-      tsConfigFilePath: "./tsconfig.json",
+      tsConfigFilePath: "tsconfig.json",
       outputDir: "es",
       entryRoot: "./src",
       staticImport: true,
@@ -39,6 +37,10 @@ export default defineConfig({
       external: ["vue", "element-plus"],
       output: [
         {
+          globals: {
+            'vue': 'vue',
+            'element-plus': 'elementPlus',
+          },
           format: "umd",
           name: "WhirlComponents",
           exports: "named",

@@ -14,13 +14,31 @@ import { WForm, WSearchForm } from "./form/index";
 import { WCrud } from "./crud/index";
 import { WSection } from "./section/index";
 import { WRoll } from "./roll/index";
+import type { IOption } from './typings'
 
-export default <Plugin<{ axios?: AxiosInstance }>>{
+
+export default <Plugin<IOption>>{
   install: (app, option) => {
     option = option ?? {}
+
     if (option.axios) {
       tools.axios = option.axios;
     }
+    if (option.uploadFile) {
+      tools.uploadFile = option.uploadFile;
+    }
+    // todo 合并
+    if (option.defaultAttrs) {
+      tools.defaultAttrs = option.defaultAttrs;
+    }
+    // todo 合并
+    if (option.defaultFieldAttrs) {
+      tools.defaultFieldAttrs = option.defaultFieldAttrs;
+    }
+    if (option.dictList) {
+      tools.dictList.value.push(...option.dictList.value)
+    }
+
 
     app.use(WButton);
     app.use(WInfo);

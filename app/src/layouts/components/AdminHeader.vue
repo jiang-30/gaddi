@@ -21,9 +21,9 @@ import AdminHeaderButton from './AdminHeaderButton.vue'
 import AdminHeaderSetting from './AdminHeaderSetting.vue'
 import AdminHeaderMessage from './AdminHeaderMessage.vue'
 import AdminHeaderUser from './AdminHeaderUser.vue'
-import { useSettingStore } from '@/store'
+import { useConfigStore } from '@/store'
 
-const { headerBgColor, headerTextColor } = storeToRefs(useSettingStore())
+const { headerBgColor, headerTextColor } = storeToRefs(useConfigStore())
 </script>
 
 <style scoped>

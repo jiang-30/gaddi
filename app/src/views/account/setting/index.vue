@@ -1,7 +1,7 @@
 <route lang="yaml">
 meta:
   isEnabled: true
-  isStatic: true,
+  isStatic: true
   title: 账户设置
   icon: ic:round-settings-suggest
   name: UserSetting
@@ -19,12 +19,7 @@ meta:
       <section class="body">
         <header class="header">
           <el-tabs v-model="activeSubKey">
-            <el-tab-pane
-              v-for="item in subList"
-              :key="item.key"
-              :name="item.key"
-              :label="item.label"
-            ></el-tab-pane>
+            <el-tab-pane v-for="item in subList" :key="item.key" :name="item.key" :label="item.label"></el-tab-pane>
           </el-tabs>
         </header>
         <main class="main">
@@ -77,6 +72,7 @@ const onSelect = (index: string) => {
   height: 100%;
   padding: 15px;
 }
+
 .wrapper {
   height: 100%;
   height: 100%;
@@ -85,10 +81,12 @@ const onSelect = (index: string) => {
   border-radius: 8px;
   overflow: hidden;
 }
+
 .aside {
   width: 240px;
   border-right: 2px solid var(--el-border-color);
 }
+
 .body {
   flex: 1 0 0;
   min-width: 0;
@@ -96,10 +94,12 @@ const onSelect = (index: string) => {
   display: flex;
   flex-direction: column;
 }
+
 .main {
   flex: 1;
   min-height: 0;
 }
+
 .el-menu-item.is-active {
   margin-right: -1px;
   color: var(--el-color-primary);

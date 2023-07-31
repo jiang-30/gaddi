@@ -8,7 +8,7 @@ meta:
   path: /
   layout: admin
   isTab: true
-  isShow: true
+  isShowMenu: true
   sort: -1
 </route>
 

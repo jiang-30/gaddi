@@ -1,19 +1,9 @@
 <template>
-  <el-popover
-    placement="bottom-end"
-    title="数据项"
-    :width="600"
-    trigger="click"
-    :hide-after="0"
-  >
+  <el-popover placement="bottom-end" title="数据项" :width="600" trigger="click" :hide-after="0">
     <template #default>
       <section>
         <el-checkbox-group :model-value="modelValue" @change="onChange">
-          <el-checkbox
-            v-for="item in fields"
-            :key="item.prop"
-            :label="item.prop"
-          >
+          <el-checkbox v-for="item in fields" :key="item.prop" :label="item.prop">
             {{ item.label }}
           </el-checkbox>
         </el-checkbox-group>
@@ -29,7 +19,7 @@
 import { Operation } from "@element-plus/icons-vue";
 import type { PropType } from "vue";
 import type { CheckboxGroupEmits } from "element-plus";
-import type { ICrudColumnAttrs } from "./type";
+import type { ICrudColumnAttrs } from "../type";
 
 type ITableFilterField = Pick<ICrudColumnAttrs, "prop" | "label">;
 

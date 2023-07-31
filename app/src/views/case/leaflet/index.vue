@@ -6,7 +6,7 @@ meta:
   icon: mdi:map-marker-check
   layout: admin
   isTab: true
-  isShow: true
+  isShowMenu: true
   parentId: Case
   sort: 1
 </route>

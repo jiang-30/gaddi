@@ -9,12 +9,6 @@ declare module 'vue-router' {
 
 // 路由元信息
 export interface IMeta {
-  // component: string
-  id: string
-  /**
-   * 页面挂载到哪一个菜单, route yaml parentName, menus parentName
-   */
-  parentId: string
   /**
    * 是否开启
    * @default false
@@ -25,6 +19,14 @@ export interface IMeta {
    * @default false
    */
   isStatic: boolean
+  /**
+   * 唯一标识
+   */
+  id: string
+  /**
+   * 页面挂载到哪一个菜单, route yaml parentName, menus parentName
+   */
+  parentId: string
   /**
    * 菜单类型
    * @default page
@@ -39,16 +41,25 @@ export interface IMeta {
    */
   icon: string
   /**
-   * 是否展示在菜单栏中 isShow showMenu
+   * 是否展示在菜单栏中
    * @default false
    */
-  isShow: boolean
+  isShowMenu: boolean
   /**
    * 访问路径
    * @default route.path
    */
   path: string
-
+  /**
+   * 页面打开位置
+   * @default _self
+   */
+  target: '_self' | '_blank'
+  /**
+   * 组件路径
+   * @default ''
+   */
+  componentPath: string
   /**
    * 路由name
    * @default route.name
@@ -58,16 +69,13 @@ export interface IMeta {
    * 路由重定向
    */
   redirect?: string
+
   /**
    * 页面布局
    * @default default
    */
   layout: 'default' | 'admin' | 'data' | string
-  /**
-   * 页面打开位置
-   * @default _self
-   */
-  target: '_self' | '_blank'
+
   /**
    * 页面缓存 isKeepAlive
    * @default false
@@ -93,17 +101,22 @@ export interface IMeta {
    */
   sort: number
 
+  _localComponentPath?: string
+  _localParentComponentPath?: string
+
   [key: string]: any
 
-  // _localComponentUrl: route.component, // 组件文件所在地址
-  // _localParentComponentUrl: parent ? parent.component : null,
+
 }
 
 // 菜单
 export interface IMenu extends IMeta {
   children?: IMenu[]
-  // component: string
 }
+
+// 菜单必备属性
+export interface IBaseMenu extends Pick<IMenu, 'id' | 'type' | 'title' | 'icon' | 'sort'>, Partial<IMenu> { }
+
 
 // 页面tab
 export interface ITab extends Pick<IMeta, 'name' | 'title' | 'icon' | 'isTab'> {
@@ -117,20 +130,27 @@ export type IDictDataType = 'list' | 'tree'
 // 字典项
 export interface IDictItem {
   label: string
-  value: string
+  value: string | number
   disabled?: boolean
 }
 
 // 字典
 export interface IDict {
   code: string
+  name?: string
   dataType?: IDictDataType
   items: IDictItem[]
 }
 
+// 授权信息
+export interface ITokenInfo {
+  accessToken: string
+  refreshToken?: string
+  expires?: number
+}
+
 // 用户信息
 export interface IUserInfo {
-  id: number
   username: string
   avatar: string
   [str: string]: any
@@ -155,6 +175,7 @@ export interface IPage<T = any> {
 export type IAdminLayout = 'aside' | 'top' | 'topAside'
 
 export interface IConfig {
+  isLocalLogin: boolean
   /**
    * 语言
    */

@@ -1,9 +1,14 @@
 <template>
-  <WCrud ref="crudRef" :option="option" :table-data="tableData"  :api="api" :page-model="pageModel" :search-model="searchModel" :onSelectionChange="onSelectionChange">
+  <WCrud ref="crudRef" :option="option" :table-data="tableData" :api="api" :page-model="pageModel"
+    :search-model="searchModel" :onSelectionChange="onSelectionChange">
     <template #row-action="{ row }">
       <el-button type="primary" text size="small" @click="onOpenItems(row)">
         字典项
       </el-button>
+    </template>
+
+    <template #code>
+      <div>slot插槽</div>
     </template>
   </WCrud>
 
@@ -11,7 +16,7 @@
     选中
   </el-button>
 
-  <div>{{  searchModel  }}</div>
+  <div>{{ searchModel }}</div>
 
   <DictItem ref="itemRef" />
 </template>
@@ -23,7 +28,7 @@ import {
   WCrud,
   type ICrud,
   type ICrudOption,
-  type IPageModel,
+  type ICrudPageModel,
 } from "@/packages/components/src/index";
 import DictItem from "./dict-item.vue";
 
@@ -43,9 +48,10 @@ const option = ref<ICrudOption>({
   rowKey: 'id',
   labelWidth: "100px",
   rowActionWidth: 230,
-  isCreateBtn: false,
-  isUpdateBtn: false,
-  isDeleteBtn: false,
+  isCreateBtn: true,
+  isUpdateBtn: true,
+  isDeleteBtn: true,
+  isInfoBtn: true,
   fields: [
     {
       label: "字典名称",
@@ -93,7 +99,8 @@ const option = ref<ICrudOption>({
         { label: "列表", value: "list", children: [{ label: "列表1", value: "tree1" }, { label: "列表2", value: "tree2" }] },
         { label: "树形", value: "tree" },
       ],
-      valueKey: 'id',
+      checkStrictly: true,
+      valueKey: 'value',
       isSearch: true
     },
     {
@@ -105,22 +112,22 @@ const option = ref<ICrudOption>({
   ],
 });
 const tableLoading = ref(false);
-const pageModel = ref<IPageModel>({
+const pageModel = ref<ICrudPageModel>({
   current: 1,
   size: 5,
   total: 7,
 });
 const tableData = ref<Record<string, any>[]>([
   { name: 'de', id: 1, },
-    {  name: '123123', id: 2, },
-    {  name: '123123', id: 3, },
-    {  name: '123123', id: 4, },
-    {  name: '123123', id: 5, },
-    {  name: '123123', id: 6, },
-    {  name: '123123', id: 7, }
+  { name: '123123', id: 2, },
+  { name: '123123', id: 3, },
+  { name: '123123', id: 4, },
+  { name: '123123', id: 5, },
+  { name: '123123', id: 6, },
+  { name: '123123', id: 7, }
 ]);
 
-function onSelectionChange(args: any){
+function onSelectionChange(args: any) {
   console.log(333, args)
 }
 

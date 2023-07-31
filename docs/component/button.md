@@ -6,18 +6,18 @@ description: Button
 
 # Button
 ## 基础
-<BaseComponent />
+<!-- <BaseComponent />
 
 <details>
   <summary>查看代码</summary>
 
   <<< docs/.vitepress/examples/button/base.vue
-</details>
+</details> -->
 
 
 ## 属性
 
-<TypeComponent />
+<!-- <TypeComponent /> -->
 
 ## 事件
 
@@ -30,8 +30,8 @@ description: Button
 <!-- <Repl :store="store" /> -->
 <!-- theme/index 全局注册后不需要引入 -->
 <script setup>
-import BaseComponent from '../.vitepress/examples/button/base.vue'
-import TypeComponent from '../.vitepress/examples/button/type.vue'
+// import BaseComponent from '../.vitepress/examples/button/base.vue'
+// import TypeComponent from '../.vitepress/examples/button/type.vue'
 
 </script>
 
