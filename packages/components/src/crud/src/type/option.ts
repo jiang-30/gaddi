@@ -41,14 +41,14 @@ export interface ICrudAttrs extends ICrudTableAttrs, ICrudPaginationAttrs, ICrud
 
   // 显示详情按钮 default false
   isInfoBtn?: boolean
-  infoBtnDisabled?: boolean
+  infoBtnDisabled?: boolean | boolFun
   // 显示修改按钮
   isUpdateBtn?: boolean
-  updateBtnDisabled?: boolean
+  updateBtnDisabled?: boolean | boolFun
   updateBtnPermission?: boolean
   // 显示删除按钮
   isDeleteBtn?: boolean
-  deleteBtnDisabled?: boolean
+  deleteBtnDisabled?: boolean | boolFun
   deleteBtnPermission?: boolean
 
   // 共用属性
@@ -56,6 +56,8 @@ export interface ICrudAttrs extends ICrudTableAttrs, ICrudPaginationAttrs, ICrud
 
   headerAlign?: TableColumnCtx<any>['headerAlign']
 }
+
+export type boolFun = (row: any) => boolean
 
 
 // CRUD Table 属性

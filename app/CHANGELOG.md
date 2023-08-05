@@ -1,5 +1,12 @@
 # @gaddi/app
 
+## 0.0.1-alpha.5
+
+### Patch Changes
+
+- Updated dependencies
+  - @gaddi/components@0.0.1-alpha.18
+
 ## 0.0.1-alpha.4
 
 ### Patch Changes

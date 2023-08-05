@@ -1,5 +1,11 @@
 # @gaddi/components
 
+## 0.0.1-alpha.18
+
+### Patch Changes
+
+- crud 操作按钮禁用
+
 ## 0.0.1-alpha.17
 
 ### Patch Changes

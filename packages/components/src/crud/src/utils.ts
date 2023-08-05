@@ -1,6 +1,6 @@
 import { computed } from 'vue'
 import type { TableProps, PaginationProps, DialogProps } from 'element-plus'
-import type { ICrudOption, ICrud } from './type'
+import type { ICrudOption, ICrud, boolFun } from './type'
 import { omitProperty, tools, fetchDict, dictData } from '../../utils'
 import { tableAttrsFormat } from './handler/table-handler'
 import { paginationAttrsFormat } from './handler/pagination-handler'
@@ -134,5 +134,16 @@ export const useCrudOption = (option: ICrudOption) => {
     __indexColumn,
     __actionColumn,
     __tableFields,
+  }
+}
+
+
+export function actionDisabledHandle(disabled: boolean | boolFun, row: any): boolean {
+  if (typeof disabled == 'boolean') {
+    return disabled
+  } else if (typeof disabled == 'function') {
+    return disabled(row)
+  } else {
+    return false
   }
 }

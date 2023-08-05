@@ -1,9 +1,5 @@
 ## TODO
-- 表格和详情中的图片查看
-- undefined 属性处理
-- search 不能赋值
-- beforeOpenHandle row 数据异常
-- async-validator 类型为引入问题
+- dictUrl 数据不是响应式的
 - 角色 ADMIN, 超级管理员 isAdmin
 - api
 

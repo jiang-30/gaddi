@@ -64,16 +64,19 @@
         <el-table-column v-if="__actionColumn.isRowAction" v-bind="__actionColumn.columnAttrs">
           <template #default="scopeProps">
             <div class="w-crud-column-action">
-              <el-button v-if="handlerBtnShow(__actionColumn.isInfoBtn)" text type="info" size="small" :icon="View"
-                @click="_onOpenInfo(scopeProps.row)">
+              <el-button v-if="handlerBtnShow(__actionColumn.isInfoBtn)"
+                :disabled="actionDisabledHandle(__actionColumn.infoBtnDisabled, scopeProps.row)" text type="info"
+                size="small" :icon="View" @click="_onOpenInfo(scopeProps.row)">
                 详情
               </el-button>
-              <el-button v-if="handlerBtnShow(__actionColumn.isUpdateBtn)" text type="primary" size="small" :icon="Edit"
-                @click="_onOpenUpdate(scopeProps.row)">
+              <el-button v-if="handlerBtnShow(__actionColumn.isUpdateBtn)"
+                :disabled="actionDisabledHandle(__actionColumn.updateBtnDisabled, scopeProps.row)" text type="primary"
+                size="small" :icon="Edit" @click="_onOpenUpdate(scopeProps.row)">
                 修改
               </el-button>
-              <el-button v-if="handlerBtnShow(__actionColumn.isDeleteBtn)" text type="danger" size="small" :icon="Delete"
-                @click="_onDelete(scopeProps.row)">
+              <el-button v-if="handlerBtnShow(__actionColumn.isDeleteBtn)"
+                :disabled="actionDisabledHandle(__actionColumn.deleteBtnDisabled, scopeProps.row)" text type="danger"
+                size="small" :icon="Delete" @click="_onDelete(scopeProps.row)">
                 删除
               </el-button>
               <slot name="row-action" v-bind="scopeProps" />
@@ -116,7 +119,7 @@ import { View, CirclePlus, Search, Refresh, Edit, Delete } from '@element-plus/i
 import ColumnFilter from './components/column-filter.vue'
 import { WSearchForm, WForm, WInfo } from '../../index'
 import { crudProps, crudEmits } from './crud'
-import { useCrudOption } from './utils'
+import { useCrudOption, actionDisabledHandle } from './utils'
 import { ElMessageBox, ElNotification, type Action, type TableInstance } from 'element-plus'
 import { tools, formatValue } from '../../utils'
 import { dialogTypeMap } from './constant'
@@ -482,12 +485,13 @@ const getTable: () => any = () => {
   return tableRef.value
 }
 
-
 defineExpose({
   getTable,
-  refresh() {
-    props.pageModel.current = 1
-    searchHandler('reset')
+  refresh(flag: boolean) {
+    if (flag) {
+      props.pageModel.current = 1
+    }
+    searchHandler('expose')
   },
   form: null,
   openCreate: _onOpenCreate,
