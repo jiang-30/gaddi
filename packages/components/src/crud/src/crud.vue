@@ -236,6 +236,7 @@ const openHandler = () => {
 // ========== 搜索 ==========
 const searchHandler = (_type: string) => {
   currentType.value = 'query'
+  const _currentType = currentType.value
 
   if (props.queryHandler) {
     props.queryHandler(_type)
@@ -250,13 +251,13 @@ const searchHandler = (_type: string) => {
       },
     }
     if (props.beforeFetch) {
-      props.beforeFetch(currentType.value, requestConfig)
+      props.beforeFetch(_currentType, requestConfig)
     }
     tools
       .axios(requestConfig)
       .then(({ data }) => {
         if (props.afterFetch) {
-          props.afterFetch(currentType.value, data)
+          props.afterFetch(_currentType, data)
         }
         _currentTableData.value = data
       })
@@ -276,13 +277,13 @@ const searchHandler = (_type: string) => {
       },
     }
     if (props.beforeFetch) {
-      props.beforeFetch(currentType.value, requestConfig)
+      props.beforeFetch(_currentType, requestConfig)
     }
     tools
       .axios(requestConfig)
       .then(({ data }) => {
         if (props.afterFetch) {
-          props.afterFetch(currentType.value, data)
+          props.afterFetch(_currentType, data)
         }
         _currentTableData.value = data.records
         props.pageModel.total = data.total
@@ -388,6 +389,7 @@ const _onOpenInfo = (row: any) => {
 const _onDelete = (row: any) => {
   // 1. 设置状态
   currentType.value = 'delete'
+  const _currentType = currentType.value
   // 2. 设置值 双向绑定 数据拷贝
   _currentModelValue.value = { ...row }
   // 3. 删除操作
@@ -406,13 +408,13 @@ const _onDelete = (row: any) => {
           }
 
           if (props.beforeFetch) {
-            props.beforeFetch(currentType.value, requestConfig)
+            props.beforeFetch(_currentType, requestConfig)
           }
 
           tools.axios(requestConfig).then(({ data }) => {
             ElNotification({ title: '提示', message: '删除成功！', type: 'success' })
             if (props.afterFetch) {
-              props.afterFetch(currentType.value, data)
+              props.afterFetch(_currentType, data)
             }
             changeSearchHandler()
           })
@@ -423,6 +425,8 @@ const _onDelete = (row: any) => {
 }
 
 const _onCreateConfirm = (record: any, done: any) => {
+  const _currentType = currentType.value
+
   if (props.createHandler) {
     props.createHandler(record, done)
   } else if ((props.api?.create || props.api?.restful) && tools.axios) {
@@ -433,7 +437,7 @@ const _onCreateConfirm = (record: any, done: any) => {
       data: record,
     }
     if (props.beforeFetch) {
-      props.beforeFetch(currentType.value, requestConfig)
+      props.beforeFetch(_currentType, requestConfig)
     }
 
     tools
@@ -448,6 +452,8 @@ const _onCreateConfirm = (record: any, done: any) => {
 }
 
 const _onUpdateConfirm = (record: any, done: any) => {
+  const _currentType = currentType.value
+
   if (props.updateHandler) {
     props.updateHandler(record, done)
   } else if ((props.api?.update || props.api?.restful) && tools.axios) {
@@ -458,7 +464,7 @@ const _onUpdateConfirm = (record: any, done: any) => {
       data: record,
     }
     if (props.beforeFetch) {
-      props.beforeFetch(currentType.value, requestConfig)
+      props.beforeFetch(_currentType, requestConfig)
     }
 
     tools

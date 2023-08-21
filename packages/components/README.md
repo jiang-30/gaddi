@@ -1,5 +1,9 @@
 ## TODO
 - dictUrl 数据不是响应式的
+- crud fetch type 不全是 query
+- crud deleteHandler 参数不正确
+- info formatter 不好使
+- 按钮权限
 - 角色 ADMIN, 超级管理员 isAdmin
 - api
 
