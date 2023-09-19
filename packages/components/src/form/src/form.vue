@@ -88,6 +88,9 @@ const _formFields = computed(() => {
 // 结束loading
 const done = (flag: boolean) => {
   loading.value = false
+  if (flag) {
+    _onReset()
+  }
   if (flag && props.onSuccess) {
     props.onSuccess()
   }
@@ -121,4 +124,10 @@ const _onConfirm = () => {
     }
   })
 }
+
+
+defineExpose({
+  formRef,
+  reset: _onReset
+})
 </script>

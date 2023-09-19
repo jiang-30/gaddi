@@ -1,4 +1,5 @@
 ## TODO
+- 主动关闭弹窗
 - dictUrl 数据不是响应式的
 - crud fetch type 不全是 query
 - crud deleteHandler 参数不正确
