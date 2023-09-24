@@ -1,7 +1,7 @@
 import type { FormProps } from 'element-plus'
 
 // Search Form
-export interface ISearchFormAttrs extends IFormAttrs {
+export interface IDSearchFormAttrs extends IDFormAttrs {
   searchLabelWidth?: FormProps['labelWidth']
   searchLabelPosition?: FormProps['labelPosition']
   searchLabelSuffix?: FormProps['labelSuffix']
@@ -9,7 +9,7 @@ export interface ISearchFormAttrs extends IFormAttrs {
 }
 
 // Form 属性 ElFormAttrs
-export interface IFormAttrs extends IElFormAttrs {
+export interface IDFormAttrs extends IElFormAttrs {
   // 配置默认formItem span
   span?: number
 }

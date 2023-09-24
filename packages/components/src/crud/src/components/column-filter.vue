@@ -19,9 +19,9 @@
 import { Operation } from "@element-plus/icons-vue";
 import type { PropType } from "vue";
 import type { CheckboxGroupEmits } from "element-plus";
-import type { ICrudColumnAttrs } from "../type";
+import type { IDCrudColumnAttrs } from "../type";
 
-type ITableFilterField = Pick<ICrudColumnAttrs, "prop" | "label">;
+type ITableFilterField = Pick<IDCrudColumnAttrs, "prop" | "label">;
 
 defineProps({
   modelValue: {

@@ -1,23 +1,51 @@
-import type { Ref } from 'vue'
 import type { AxiosInstance } from 'axios'
-import type { ICrudOption } from './index'
+import type { IDCrudOption } from './index'
 import type { UploadProgressEvent } from 'element-plus'
 
-export type IOption = {
+export type IDOption = {
   // axios 请求实例
   axios: AxiosInstance | null
   // uploadFile
   uploadFile?: ((file: File, progress: (progressEvent: UploadProgressEvent) => void) => Promise<{ url: string, [key: string]: any }>) | null
-
-  dictList?: Ref<IDict[]>
   // crud 默认值
-  defaultAttrs?: Partial<ICrudOption>
+  defaultAttrs?: Partial<IDCrudOption>
   // crud 数据项 默认值
-  defaultFieldAttrs?: Partial<ICrudOption['fields']['0']>
+  defaultFieldAttrs?: Partial<IDCrudOption['fields']['0']>
+  // 数据字典
+  dictList?: IDDict[]
+  // 权限列表
+  permissions?: string[]
+};
+
+// 数据模型
+export type IDModel = Record<string, any>;
+
+// 字典数据类型
+export type IDDictItem = {
+  label: string;
+  value: string | number
+  disabled?: boolean
+  children?: IDDictItem[]
+};
+export type IDDict = {
+  label?: string
+  code?: string
+  url?: string
+  status?: 'padding' | 'done'
+  items: IDDictItem[]
 }
 
+// 数据格式化 dict、tree.props、cascader.props
+// export type IDProps = {
+//   label?: string
+//   value?: string
+//   children?: string
+//   disabled?: boolean
+//   formatter?: (res: any) => IDDictItem[]
+// }
+
 // 表单控制域类型 image images file richtext
-export type IFieldType =
+export type IDFieldType =
   | 'input'
   | 'textarea'
   | 'password'
@@ -37,56 +65,35 @@ export type IFieldType =
   | 'daterange'
   | 'monthrange'
   | 'image'
-  | 'images'
+  | 'images';
 
-// 字典数据类型
-export type IDictItem = {
-  label: string;
-  value: string | number
+// 表单域通用配置
+export interface IDFormFieldBaseAttrs {
+  clearable?: boolean
   disabled?: boolean
-  children?: IDictItem[]
-}
-export type IDict = {
-  name?: string
-  code?: string
-  url?: string
-  status?: 'padding' | 'done'
-  items: IDictItem[]
 }
 
-// crud
-export type IDataType = 'info' | 'create' | 'update' | 'row' | 'table'
-
-// 弹窗类型
-export type IDialogType = 'info' | 'create' | 'update'
-
-// 表格类型
-export type IFormType = 'create' | 'update'
-
-// 数据格式化 dict、tree.props、cascader.props
-export type IProps = {
-  label?: string
-  value?: string
-  children?: string
-  formatter?: (res: any) => IDictItem[]
-}
 
 // 字段基础属性
-export interface IFieldBaseAttrs {
+export interface IDFieldBase {
   prop: string
   label: string
-  type: IFieldType
+  type: IDFieldType
+  // 默认值
+  default?: any
+  // 提示内容
+  hint?: string
+  // 布局
+  span?: number
   // 字典数据
-  dictData?: IDictItem[]
+  dictData?: IDDictItem[]
   // 字典编码
   dictCode?: string
   // 字典地址
   dictUrl?: string
-  props?: IProps
+  // 字典返回数据格式化
+  dictResponseFormatter?: (data: any) => IDDictItem[]
+  // 显示数据格式化
+  formatter?: (model: IDModel, field: IDFieldBase) => string
 }
 
-// 表单域通用配置
-export interface IFormFieldBaseAttrs {
-  clearable?: boolean
-  disabled?: boolean
-}

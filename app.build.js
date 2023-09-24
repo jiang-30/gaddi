@@ -26,7 +26,7 @@ fileList.forEach(item => {
   })
 })
 
-// 2. 拷贝app文件
+// 2. 拷贝admin文件
 const ingorePath = [
   'dist',
   'node_modules',
@@ -38,12 +38,12 @@ const ingorePath = [
   'src/views/case',
   'src/views/demo',
 ]
-copy(resolve(__dirname, 'app'), dist, {
+copy(resolve(__dirname, 'admin'), dist, {
   overwrite: false,
   preserveTimestamps: false,
   filter: src => {
     // console.log(src);
-    const item = ingorePath.find(item => src.startsWith(resolve(__dirname, 'app', item)))
+    const item = ingorePath.find(item => src.startsWith(resolve(__dirname, 'admin', item)))
     return !item
   },
 })

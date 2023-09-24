@@ -1,6 +1,9 @@
 
-import type { IFieldType, IFormFieldBaseAttrs } from '../../../typings'
+import type { IDFormFieldBaseAttrs } from '../../../typings'
 
-export interface IFormFieldInputAttrs extends IFormFieldBaseAttrs {
+/**
+ * el-input 配置
+ */
+export interface IDFormFieldInputAttrs extends IDFormFieldBaseAttrs {
 
 }

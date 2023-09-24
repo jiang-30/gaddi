@@ -1,9 +1,9 @@
 import type { FormProps } from 'element-plus'
-import type { IFormOption, ISearchFormOption } from '../type'
-import { omitProperty, tools } from '../../../utils'
+import type { IDFormOption, IDSearchFormOption } from '../type'
+import { omitProperty, handle } from '../../../handle'
 
-export const formAttrsFormat = (option: IFormOption): Partial<FormProps> => {
-  const defaultAttrs = tools.defaultAttrs
+export const formAttrsFormat = (option: IDFormOption): Partial<FormProps> => {
+  const defaultAttrs = handle.defaultAttrs
 
   return omitProperty({
     rules: option.rules ?? defaultAttrs.rules,
@@ -23,8 +23,8 @@ export const formAttrsFormat = (option: IFormOption): Partial<FormProps> => {
 }
 
 // ElForm 属性
-export const searchFormAttrsFormat = (option: ISearchFormOption): Partial<FormProps> => {
-  const defaultAttrs = tools.defaultAttrs
+export const searchFormAttrsFormat = (option: IDSearchFormOption): Partial<FormProps> => {
+  const defaultAttrs = handle.defaultAttrs
 
   return omitProperty({
     labelWidth: option.searchLabelWidth ?? defaultAttrs.searchLabelWidth,

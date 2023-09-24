@@ -1,14 +1,14 @@
 
 import type { TableColumnCtx } from 'element-plus'
-import type { ICrudOption } from '../type'
-import type { ICrudColumnAttrs } from '../type/field'
-import { omitProperty, tools } from '../../../utils'
+import type { IDCrudOption } from '../type'
+import type { IDCrudColumnAttrs } from '../type/field'
+import { omitProperty, handle } from '../../../handle'
 
 // element-plus ElTabelColumn Attrs
-export const tableColumnAttrsFormat = (option: ICrudOption, field: ICrudColumnAttrs): Partial<TableColumnCtx<any>> => {
-  const defaultFieldAttrs = tools.defaultFieldAttrs
+export const tableColumnAttrsFormat = (option: IDCrudOption, field: IDCrudColumnAttrs): Partial<TableColumnCtx<any>> => {
+  const defaultFieldAttrs = handle.defaultFieldAttrs
 
-  return omitProperty({
+  return {
     index: field.index,
     columnKey: field.columnKey,
     width: field.width,
@@ -20,7 +20,6 @@ export const tableColumnAttrsFormat = (option: ICrudOption, field: ICrudColumnAt
     sortBy: field.sortBy,
     sortOrders: field.sortOrders,
     resizable: field.resizable,
-    formatter: field.formatter,
     showOverflowTooltip: field.showOverflowTooltip,
     align: field.align ?? option.align,
     headerAlign: field.headerAlign ?? option.headerAlign,
@@ -31,5 +30,5 @@ export const tableColumnAttrsFormat = (option: ICrudOption, field: ICrudColumnAt
     filterMultiple: field.filterMultiple,
     filterMethod: field.filterMethod,
     filteredValue: field.filteredValue,
-  })
+  }
 }

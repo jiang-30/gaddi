@@ -1,53 +1,53 @@
 import { reactive } from "vue";
 import type { PropType } from "vue";
-import type { ICrudApi } from './type/api'
-import type { IPageModel } from './type/page'
-import type { ICrudAttrs } from './type/option'
-import type { ICrudColumnAttrs } from './type/field'
-import type { ITableData } from "./type";
+import type { IDCrudApi } from './type/api'
+import type { IDCrudPageModel } from './type/page'
+import type { IDCrudAttrs } from './type/option'
+import type { IDCrudColumnAttrs } from './type/field'
+import type { IDModel } from '../../typings'
+import type { IDCrudQueryType, IDCrudStatus } from './type'
 import type {
-  IFormAttrs,
-  IFormItemAttrs,
-  ISearchFormAttrs,
-  ISearchFormItemAttrs,
-  IFormFieldAttrs,
-  IInfoAttrs,
-  IInfoItemAttrs,
+  IDFormAttrs,
+  IDFormItemAttrs,
+  IDSearchFormAttrs,
+  IDSearchFormItemAttrs,
+  IDFormFieldAttrs,
+  IDInfoAttrs,
+  IDInfoItemAttrs,
 } from "../../index";
-import type { IDialogType } from '../../typings'
 
 // CRUD PROPS 属性
 export const crudProps = {
   option: {
     type: Object as PropType<
-      ICrudAttrs &
-      IFormAttrs &
-      ISearchFormAttrs &
-      IInfoAttrs &
+      IDCrudAttrs &
+      IDFormAttrs &
+      IDSearchFormAttrs &
+      IDInfoAttrs &
       {
-        fields: (ICrudColumnAttrs &
-          IFormItemAttrs &
-          ISearchFormItemAttrs &
-          IFormFieldAttrs &
-          IInfoItemAttrs)[];
+        fields: (IDCrudColumnAttrs &
+          IDFormItemAttrs &
+          IDSearchFormItemAttrs &
+          IDFormFieldAttrs &
+          IDInfoItemAttrs)[];
       }
     >,
     required: true as true,
   },
   api: {
-    type: Object as PropType<ICrudApi>,
+    type: Object as PropType<IDCrudApi>,
   },
   tableLoading: {
     type: Boolean as PropType<boolean>,
   },
   tableData: {
-    type: Array as PropType<ITableData[]>,
+    type: Array as PropType<IDModel[]>,
   },
   modelValue: {
-    type: Object,
+    type: Object as PropType<IDModel>,
   },
   pageModel: {
-    type: Object as PropType<IPageModel>,
+    type: Object as PropType<IDCrudPageModel>,
     default: () =>
       reactive({
         current: 1,
@@ -59,41 +59,38 @@ export const crudProps = {
     type: Object as PropType<Record<string, any>>,
     default: () => (reactive({})),
   },
-  // 新增、详情、修改 弹窗打开前 (type, model, done) IDialogType
-  beforeOpen: {
-    type: Function as PropType<(type: string, model: any, done: () => void) => void>,
-  },
-  // beforeClose: {
-  //   type: Function as PropType<(type: string, done: () => void) => void>,
-  // },
   beforeFetch: {
-    type: Function as PropType<(type: string, requestConfig: any) => void>,
+    type: Function as PropType<(type: IDCrudStatus, requestConfig: any) => void>,
   },
   afterFetch: {
-    type: Function as PropType<(type: string, response: any) => void>,
+    type: Function as PropType<(type: IDCrudStatus, response: any) => void>,
   },
-  // 列表查询回调
+  // 新增、详情、修改 弹窗打开前 (type, model, done) IDialogType
+  beforeOpen: {
+    type: Function as PropType<(type: IDCrudStatus, model: IDModel, done: () => void) => void>,
+  },
+  // 列表查询钩子
   queryHandler: {
-    type: Function as PropType<(type: string) => void>,
+    type: Function as PropType<(type: IDCrudQueryType) => void>,
   },
-  // 表单新增回调
+  // 表单新增钩子
   createHandler: {
-    type: Function as PropType<(model: any, done: () => void) => void>,
+    type: Function as PropType<(model: IDModel, done: () => void) => void>,
   },
-  // 表单修改回调
+  // 表单修改钩子
   updateHandler: {
-    type: Function as PropType<(model: any, done: () => void) => void>,
+    type: Function as PropType<(model: IDModel, done: () => void) => void>,
   },
-  // 列表删除回调
+  // 列表删除钩子
   deleteHandler: {
-    type: Function as PropType<(model: any) => void>,
+    type: Function as PropType<(model: IDModel) => void>,
   },
 };
 
 export const crudEmits = {
-  "update:modelValue": null,
-  "update:tableData": null,
-  "update:tableLoading": null,
+  "update:modelValue": (value: IDModel) => { return true },
+  "update:tableData": (value: IDModel[]) => { return true },
+  "update:tableLoading": (value: boolean) => { return true },
   init: null,
   search: null,
   searchReset: null,

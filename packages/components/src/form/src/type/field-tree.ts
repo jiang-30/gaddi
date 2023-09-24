@@ -1,7 +1,9 @@
-import type { IFieldType, IFormFieldBaseAttrs } from '../../../typings'
+import type { IDFormFieldBaseAttrs } from '../../../typings'
 
-// el-tree
-export interface IFormFieldTreeAttrs extends IFormFieldBaseAttrs {
+/**
+ * el-tree 配置
+ */
+export interface IDFormFieldTreeAttrs extends IDFormFieldBaseAttrs {
   // type: Extract<IFieldType, 'tree'>
   nodeKey?: string
   // valueKey?: string

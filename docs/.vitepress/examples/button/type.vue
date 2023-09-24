@@ -3,5 +3,5 @@
   <w-button type="warning" size="small">primary</w-button>
 </template>
 
-<script setup lang="ts">
+<script setup>
 </script>

@@ -1,8 +1,8 @@
 import type { TableColumnCtx } from 'element-plus'
-import type { IFieldBaseAttrs } from '../../../typings'
+import type { IDFieldBase } from '../../../typings'
 
 // CRUD.FIELD 属性
-export interface ICrudColumnAttrs extends IFieldBaseAttrs, ICrudTableColumnAttrs {
+export interface IDCrudColumnAttrs extends IDFieldBase, ICrudTableColumnAttrs {
   // 是否是表格项
   isTable?: boolean
   // 是否在表格中显示
@@ -24,7 +24,7 @@ interface ICrudTableColumnAttrs {
   sortBy?: TableColumnCtx<any>['sortBy']
   sortOrders?: TableColumnCtx<any>['sortOrders']
   resizable?: boolean
-  formatter?: TableColumnCtx<any>['formatter']
+  // formatter?: TableColumnCtx<any>['formatter']
   showOverflowTooltip?: boolean
   align?: string
   headerAlign?: string

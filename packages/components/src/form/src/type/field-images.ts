@@ -1,7 +1,9 @@
+import type { IDFormFieldBaseAttrs } from '../../../typings'
 
-import type { IFieldType, IFormFieldBaseAttrs } from '../../../typings'
-
-export interface IFormFieldImagesAttrs extends IFormFieldBaseAttrs {
+/**
+ * d-upload-images 配置
+ */
+export interface IDFormFieldImagesAttrs extends IDFormFieldBaseAttrs {
   maxSize?: number
   limit?: number
 }

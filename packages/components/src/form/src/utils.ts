@@ -1,12 +1,11 @@
 import { computed } from 'vue'
 import type { FormProps, FormItemProps } from 'element-plus'
-import type { IFormAttrs, ISearchFormAttrs } from './type/option'
 import type {
-  IFormOption,
-  ISearchFormOption,
+  IDFormOption,
+  IDSearchFormOption,
 } from './type'
-import type { IFormType } from '../../typings'
-import { omitProperty, tools, fetchDict, dictData } from '../../utils'
+import type { IDFormType } from './type'
+import { omitProperty, handle, getBaseFields } from '../../handle'
 import { formAttrsFormat, searchFormAttrsFormat } from './handler/form-handler'
 import { formItemAttrsFormat, searchFormItemAttrsFormat } from './handler/form-item-handler'
 import { formFieldTreeFormat, searchFormFieldTreeFormat } from './handler/field-tree'
@@ -15,11 +14,12 @@ import { formFieldInputFormat } from './handler/field-input'
 import { formFieldDateFormat } from './handler/field-date'
 import { formFieldCascaderFormat } from './handler/field-cascader'
 import { formFieldImagesFormat } from './handler/field-images'
+import { computedAsync } from '@vueuse/core'
 
 // 表单数据(属性和事件) - 用户数据 - 默认数据 - 用户默认数据
-export const useFormOption = (option: IFormOption, type: IFormType) => {
-  const defaultAttrs = tools.defaultAttrs
-  const defaultFieldAttrs = tools.defaultFieldAttrs
+export const useFormOption = (option: IDFormOption, type: IDFormType) => {
+  const defaultAttrs = handle.defaultAttrs
+  const defaultFieldAttrs = handle.defaultFieldAttrs
 
   // ElForm 属性
   const __formAttrs = computed<Partial<FormProps>>(() => {
@@ -27,12 +27,13 @@ export const useFormOption = (option: IFormOption, type: IFormType) => {
   })
 
   // 表单项
-  const __formFields = computed(() => {
+  const __formFields = computedAsync(async () => {
     // console.log('generate form fields')
 
     const fields: any[] = []
 
-    option.fields.forEach(field => {
+    for (let index = 0; index < option.fields.length; index++) {
+      const field = option.fields[index];
       // 是否显示表单域
       const isForm =
         type == 'create'
@@ -47,10 +48,6 @@ export const useFormOption = (option: IFormOption, type: IFormType) => {
           ...(field.props ?? {}),
         }
 
-        if (field.dictUrl) {
-          fetchDict(field.dictUrl, _props)
-        }
-        const _dictData = field.dictData ?? dictData(field).value
 
         // 表单域基础属性 clearable、disabled
         let fieldAttrs: any = {}
@@ -81,25 +78,17 @@ export const useFormOption = (option: IFormOption, type: IFormType) => {
 
         fields.push(
           omitProperty({
-            prop: field.prop,
-            label: field.label,
-            type: field.type,
-            span: field.span,
-            hint: field.hint,
-            listen: field.listen,
-            default: field.default,
-            disabled: __formFieldAttrs.disabled,
-            __props: _props,
-            __dictData: _dictData,
-            __formItemAttrs: formItemAttrsFormat(field),
+            ...await getBaseFields(field),
+            __listen: field.listen,
+            __formItemAttrs: omitProperty(formItemAttrsFormat(field)),
             __formFieldAttrs: omitProperty(__formFieldAttrs),
           }),
         )
       }
-    })
+    }
 
     return fields
-  })
+  }, []);
 
   return {
     __formAttrs,
@@ -107,9 +96,9 @@ export const useFormOption = (option: IFormOption, type: IFormType) => {
   }
 }
 
-export const useSearchFormOption = (option: ISearchFormOption) => {
-  const defaultAttrs = tools.defaultAttrs
-  const defaultFieldAttrs = tools.defaultFieldAttrs
+export const useSearchFormOption = (option: IDSearchFormOption) => {
+  const defaultAttrs = handle.defaultAttrs
+  const defaultFieldAttrs = handle.defaultFieldAttrs
 
   // 搜索表单属性
   const __searchFormAttrs = computed<Partial<FormProps>>(() => {
@@ -117,7 +106,7 @@ export const useSearchFormOption = (option: ISearchFormOption) => {
   })
 
   // 搜索表单项 radio, radioButton 对应到 select
-  const __searchFormFields = computed(() => {
+  const __searchFormFields = computedAsync(async () => {
     // console.log('generate search form fields')
 
     const fields: {
@@ -125,12 +114,9 @@ export const useSearchFormOption = (option: ISearchFormOption) => {
       __formItemAttrs: Partial<FormItemProps>
     }[] = []
 
-    option.fields.forEach(field => {
+    for (let index = 0; index < option.fields.length; index++) {
+      const field = option.fields[index];
       if (field.isSearch === true) {
-        if (field.dictUrl) {
-          fetchDict(field.dictUrl, defaultFieldAttrs.props ?? field.props)
-        }
-        const _dictData = field.dictData ?? dictData(field).value
 
         let __formFieldAttrs: any = {
           clearable: field.clearable ?? true,
@@ -149,24 +135,18 @@ export const useSearchFormOption = (option: ISearchFormOption) => {
         }
 
         fields.push({
-          prop: field.prop,
-          label: field.label,
+          ...await getBaseFields(field),
           type: ['radio', 'radioButton'].includes(field.type) ? 'select' : field.type,
-          hint: field.hint,
           default: field.searchDefault ?? field.default,
-          __props: {
-            ...(defaultFieldAttrs.props ?? {}),
-            ...(field.props ?? {}),
-          },
-          __dictData: _dictData,
-          __formItemAttrs: searchFormItemAttrsFormat(field),
+          __formItemAttrs: omitProperty(searchFormItemAttrsFormat(field)),
           __formFieldAttrs: omitProperty(__formFieldAttrs),
         })
       }
-    })
+
+    }
 
     return fields
-  })
+  }, []);
 
   return {
     __searchFormAttrs,

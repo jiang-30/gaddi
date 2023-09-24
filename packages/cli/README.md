@@ -1,4 +1,13 @@
-`@jiang-30/cli` 是 [whirls-admin](https://whirls.jiangbo.fun) 项目的脚手架和代码生成工具
+`@gaddi/cli` 是 [gaddi-admin](https://gaddi.jiangbo.fun) 项目的脚手架和代码生成工具
+
+- README
+    - 介绍-概括介绍解决的问题
+    - 使用者指南 - 帮助使用者快速了解如何使用
+    - 贡献者指南 - 方便社区做贡献（安装、构建、测试）
+- 待办清单 (TODO.md)
+- 变更日志 (CHANGELOG.md)
+
+- API文档
 
 ## 安装
 
@@ -11,13 +20,13 @@ pnpm install --global @jiang-30/cli
 ### 创建项目
 
 ```bash
-whilrs init <project_name>
+gaddi init <project_name>
 ```
 
 ### 代码生成
 
 ```bash
-whilrs generate
+gaddi generate
 ```
 
 ## TODO

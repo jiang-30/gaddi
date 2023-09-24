@@ -16,9 +16,10 @@ gaddi 是一个 monorepo, 多个工程放到一个 git 仓库中;共享一套构
 - info slot 服用 table的
 
 ## 模块
-docs
+### docs
+文档
 
-### app
+### admin
 后台管理
 
 ### cli

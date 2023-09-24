@@ -1,10 +1,11 @@
 import { computed } from 'vue'
-import type { IInfoOption } from './type'
-import { omitProperty, tools, fetchDict, dictData } from '../../utils'
+import type { IDInfoOption } from './type'
+import { omitProperty, handle, getBaseFields } from '../../handle'
+import { computedAsync } from '@vueuse/core'
 
-export const useInfoOption = (option: IInfoOption) => {
-  const defaultAttrs = tools.defaultAttrs
-  const defaultFieldAttrs = tools.defaultFieldAttrs
+export const useInfoOption = (option: IDInfoOption) => {
+  const defaultAttrs = handle.defaultAttrs
+  const defaultFieldAttrs = handle.defaultFieldAttrs
 
   // 属性
   const __infoAttrs = computed(() => {
@@ -18,29 +19,22 @@ export const useInfoOption = (option: IInfoOption) => {
   })
 
   // 数据项
-  const __infoFields = computed(() => {
+  const __infoFields = computedAsync(async () => {
     // console.log('generate info fields')
     const fields: any[] = []
-    option.fields.forEach(field => {
+    for (let index = 0; index < option.fields.length; index++) {
+      const field = option.fields[index];
+
       if (field.isInfo !== false) {
         const _props = {
           ...(defaultFieldAttrs.props ?? {}),
           ...(field.props ?? {}),
         }
 
-        if (field.dictUrl) {
-          fetchDict(field.dictUrl, _props)
-        }
-        const _dictData = field.dictData ?? dictData(field).value
-
         fields.push({
-          label: field.label,
-          prop: field.prop,
-          type: field.type,
+          ...await getBaseFields(field),
           span: field.span ?? option.span ?? 24,
-          // multiple: field.multiple,
           __props: _props,
-          __dictData: _dictData,
           __itemAttrs: {
             // span?: number;
             width: field.infoWidth ?? option.labelWidth,
@@ -52,10 +46,10 @@ export const useInfoOption = (option: IInfoOption) => {
           },
         })
       }
-    })
+    }
 
     return fields
-  })
+  }, []);
 
   return {
     __infoAttrs,

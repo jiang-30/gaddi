@@ -3,7 +3,7 @@
     <!-- 分区域、分步骤、分TAB -->
     <section>
       <el-row :gutter="10">
-        <el-col v-for="field in _formFields" :key="field.prop" :span="field.span">
+        <el-col v-for="field in formFields" :key="field.prop" :span="field.span">
           <!-- 传递插槽 -->
           <FormItem :field="field" :form-model="formModel" :row="formModel">
             <template v-for="item in Object.keys($slots).filter(item => item.endsWith('Form'))"
@@ -22,9 +22,6 @@
       <el-button type="warning" :icon="RefreshLeft" :disabled="loading" @click="_onReset">
         重置
       </el-button>
-      <el-button v-if="onCancel" type="default" :icon="CircleClose" :disabled="loading" @click="_onCancel">
-        取消
-      </el-button>
     </footer>
   </el-form>
 </template>
@@ -32,20 +29,21 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import type { FormInstance } from 'element-plus'
-import { RefreshLeft, CircleClose, CircleCheck } from '@element-plus/icons-vue'
+import { RefreshLeft, CircleCheck } from '@element-plus/icons-vue'
 import FormItem from './form-item.vue'
 import { formProps, formEmits } from './form'
 import { useFormOption } from './utils'
 
-defineOptions({ name: 'WForm' })
+defineOptions({ name: 'DForm' })
 const props = defineProps(formProps)
-const emits = defineEmits(formEmits)
+const emit = defineEmits(formEmits)
 
-const { __formFields, __formAttrs } = useFormOption(props.option, props.type)
-// 组件数据
-const loading = ref(false)
+const {
+  __formAttrs,
+  __formFields,
+} = useFormOption(props.option, props.type)
+
 const formRef = ref<FormInstance>()
-
 
 // 设置默认值 --- 初始化还是监听
 watch(
@@ -56,26 +54,26 @@ watch(
         props.formModel[field.prop] = props.formModel[field.prop] ?? field.default
       }
     })
-    // console.log('watch form option change')
   },
   {
     deep: true,
     immediate: true,
   },
 )
+
 // 动态条件过滤
-const _formFields = computed(() => {
+const formFields = computed(() => {
   return __formFields.value.filter(field => {
-    if (field.listen) {
-      if (field.listen.show) {
-        return Object.keys(field.listen.show).every(
-          key => field.listen.show[key] === props.formModel[key],
+    if (field.__listen) {
+      if (field.__listen.show) {
+        return Object.keys(field.__listen.show).every(
+          key => field.__listen.show[key] === props.formModel[key],
         )
       }
 
-      if (field.listen.hide) {
-        return !Object.keys(field.listen.hide).every(key => {
-          return field.listen.hide[key] == props.formModel[key]
+      if (field.__listen.hide) {
+        return !Object.keys(field.__listen.hide).every(key => {
+          return field.__listen.hide[key] == props.formModel[key]
         })
       }
     }
@@ -84,50 +82,22 @@ const _formFields = computed(() => {
   })
 })
 
-// watch(_formFields.value.length, () => {})
-// 结束loading
-const done = (flag: boolean) => {
-  loading.value = false
-  if (flag) {
-    _onReset()
-  }
-  if (flag && props.onSuccess) {
-    props.onSuccess()
-  }
-}
-
-// 取消
-const _onCancel = () => {
-  if (props.onCancel) {
-    props.onCancel()
-  }
-}
-
 // 重置
 const _onReset = () => {
   formRef.value?.resetFields()
-  if (props.onReset) {
-    props.onReset()
-  }
 }
 
 // 确认
 const _onConfirm = () => {
   formRef.value?.validate(valid => {
     if (valid) {
-      if (props.onConfirm) {
-        loading.value = true
-        props.onConfirm(props.formModel, done, props.type)
-      } else {
-        console.error('onConfirm')
-      }
+      emit('save', props.formModel)
     }
   })
 }
 
-
 defineExpose({
-  formRef,
+  // getForm: () => formRef.value,
   reset: _onReset
 })
 </script>

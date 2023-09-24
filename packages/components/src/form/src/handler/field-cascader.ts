@@ -1,8 +1,8 @@
-import type { IFormFieldAttrs } from '../type'
-import { tools } from '../../../utils'
+import type { IDFormFieldAttrs } from '../type'
+import { handle } from '../../../handle'
 
-export const formFieldCascaderFormat = (field: IFormFieldAttrs) => {
-  const defaultFieldAttrs = tools.defaultFieldAttrs
+export const formFieldCascaderFormat = (field: IDFormFieldAttrs) => {
+  const defaultFieldAttrs = handle.defaultFieldAttrs
 
   return {
 

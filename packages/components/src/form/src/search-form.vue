@@ -1,6 +1,7 @@
 <template>
   <el-form v-if="isShow" ref="formRef" :model="searchModel" :disabled="loading" v-bind="__searchFormAttrs" inline>
-    <FormItem v-for="field in __searchFormFields" :key="field.prop" :field="field" :form-model="searchModel" />
+    <FormItem v-for="field in __searchFormFields" :key="field.prop" :field="field" :form-model="searchModel"
+      form-type="searchForm" />
     <el-form-item>
       <el-button type="primary" :icon="Search" :loading="loading" @click="_onSearch">
         查询
@@ -18,9 +19,9 @@ import { searchFormProps, searchFormEmits } from './search-form'
 import FormItem from './form-item.vue'
 import { useSearchFormOption } from './utils'
 
-defineOptions({ name: 'WSearchForm' })
+defineOptions({ name: 'DSearchForm' })
 const props = defineProps(searchFormProps)
-const emits = defineEmits(searchFormEmits)
+const emit = defineEmits(searchFormEmits)
 
 const isShow = ref(false)
 const formRef = ref<FormInstance>()
@@ -36,7 +37,7 @@ watch(
     } else {
       isShow.value = false
     }
-    emits('show', isShow.value)
+    emit('show', isShow.value)
 
     fields.forEach(field => {
       if (props.searchModel) {
@@ -52,17 +53,17 @@ watch(
 
 // 初始化
 onBeforeMount(() => {
-  emits('init', props.searchModel)
+  emit('init', props.searchModel)
 })
 
 // 查询
 const _onSearch = () => {
-  emits('search', props.searchModel)
+  emit('search', props.searchModel)
 }
 
 // 重置
 const _onReset = () => {
   formRef.value?.resetFields()
-  emits('reset', props.searchModel)
+  emit('reset', props.searchModel)
 }
 </script>

@@ -1,13 +1,13 @@
 
 import type { TableProps } from 'element-plus'
-import type { ICrudOption } from '../type'
-import { omitProperty, tools } from '../../../utils'
+import type { IDCrudOption } from '../type'
+import { handle } from '../../../handle'
 
 // element-plus ElTabel Attrs
-export const tableAttrsFormat = (option: ICrudOption): Omit<TableProps<any>, 'data'> => {
-  const defaultAttrs = tools.defaultAttrs
+export const tableAttrsFormat = (option: IDCrudOption): Omit<TableProps<any>, 'data'> => {
+  const defaultAttrs = handle.defaultAttrs
 
-  return omitProperty({
+  return {
     height: option.height ?? defaultAttrs.height,
     maxHeight: option.maxHeight ?? defaultAttrs.maxHeight,
     stripe: option.stripe ?? defaultAttrs.stripe,
@@ -43,5 +43,5 @@ export const tableAttrsFormat = (option: ICrudOption): Omit<TableProps<any>, 'da
     tableLayout: option.tableLayout ?? defaultAttrs.tableLayout,
     scrollbarAlwaysOn: option.scrollbarAlwaysOn ?? defaultAttrs.scrollbarAlwaysOn,
     flexible: option.flexible ?? defaultAttrs.flexible,
-  })
+  }
 }

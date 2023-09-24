@@ -1,17 +1,15 @@
 import type { PropType } from "vue";
-import type { IInfoAttrs, IInfoItemAttrs } from "./type";
+import type { IDInfoAttrs, IDInfoItemAttrs } from "./type";
+import type { IDModel } from '../../typings'
 
 export const infoProps = {
   option: {
-    type: Object as PropType<IInfoAttrs & { fields: IInfoItemAttrs[] }>,
+    type: Object as PropType<IDInfoAttrs & { fields: IDInfoItemAttrs[] }>,
     required: true as true,
   },
   infoModel: {
-    type: Object,
+    type: Object as PropType<IDModel>,
     required: true as true,
-  },
-  onCancel: {
-    type: Function,
   },
 };
 

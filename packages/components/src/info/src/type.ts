@@ -1,25 +1,25 @@
 import type { ExtractPropTypes } from 'vue'
 import type Info from './info.vue'
 import type { infoProps, infoEmits } from './info'
-import type { IFieldBaseAttrs } from '../../typings'
-
+import type { IDFieldBase } from '../../typings'
 
 // Info
-export type IInfo = InstanceType<typeof Info>
+export type IDInfo = InstanceType<typeof Info>
 
-export type IInfoEmits = typeof infoEmits
+export type IDInfoEmits = typeof infoEmits
 
-export type IInfoProps = ExtractPropTypes<typeof infoProps>
+export type IDInfoProps = ExtractPropTypes<typeof infoProps>
 
-export type IInfoOption = IInfoProps['option']
+export type IDInfoOption = IDInfoProps['option']
+export type IDInfoModel = IDInfoProps['infoModel']
 
-export interface IInfoAttrs extends IElDescriptionsAttrs {
+export interface IDInfoAttrs extends IElDescriptionsAttrs {
   span?: number
   labelWidth?: string | number
   labelAlign?: 'left' | 'center' | 'right'
 }
 
-export interface IInfoItemAttrs extends IFieldBaseAttrs, IElDescriptionsItemAttrs {
+export interface IDInfoItemAttrs extends IDFieldBase, IElDescriptionsItemAttrs {
   span?: number
   isInfo?: boolean
   props?: any

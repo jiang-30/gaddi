@@ -1,10 +1,8 @@
 import type { TableProps, TableColumnCtx, DialogProps, PaginationProps } from 'element-plus'
-
-// 表格数据类型
-export type ITableData = Record<string, any>
+import type { IDModel } from '../../../typings'
 
 // Crud 属性
-export interface ICrudAttrs extends ICrudTableAttrs, ICrudPaginationAttrs, ICrudDialogAttrs {
+export interface IDCrudAttrs extends ICrudTableAttrs, ICrudPaginationAttrs, ICrudDialogAttrs {
   // 序号 列
   indexColumn?: boolean
   indexColumnWidth?: boolean
@@ -37,19 +35,19 @@ export interface ICrudAttrs extends ICrudTableAttrs, ICrudPaginationAttrs, ICrud
   rowActionAlign?: string
   // 显示新增按钮
   isCreateBtn?: boolean
-  createBtnPermission?: boolean
-
+  createBtnPermission?: string
   // 显示详情按钮 default false
   isInfoBtn?: boolean
   infoBtnDisabled?: boolean | boolFun
+  infoBtnPermission?: string
   // 显示修改按钮
   isUpdateBtn?: boolean
   updateBtnDisabled?: boolean | boolFun
-  updateBtnPermission?: boolean
+  updateBtnPermission?: string
   // 显示删除按钮
   isDeleteBtn?: boolean
   deleteBtnDisabled?: boolean | boolFun
-  deleteBtnPermission?: boolean
+  deleteBtnPermission?: string
 
   // 共用属性
   align?: TableColumnCtx<any>['align']
@@ -70,30 +68,30 @@ interface ICrudTableAttrs {
   fit?: boolean
   showHeader?: boolean
   highlightCurrentRow?: boolean
-  currentRowKey?: TableProps<ITableData>['currentRowKey']
-  rowClassName?: TableProps<ITableData>['rowClassName']
-  rowStyle?: TableProps<ITableData>['rowStyle']
-  cellClassName?: TableProps<ITableData>['cellClassName']
-  cellStyle?: TableProps<ITableData>['cellStyle']
-  headerRowClassName?: TableProps<ITableData>['headerRowClassName']
-  headerRowStyle?: TableProps<ITableData>['headerRowStyle']
-  headerCellClassName?: TableProps<ITableData>['headerCellClassName']
-  headerCellStyle?: TableProps<ITableData>['headerCellStyle']
-  rowKey?: TableProps<ITableData>['rowKey']
+  currentRowKey?: TableProps<IDModel>['currentRowKey']
+  rowClassName?: TableProps<IDModel>['rowClassName']
+  rowStyle?: TableProps<IDModel>['rowStyle']
+  cellClassName?: TableProps<IDModel>['cellClassName']
+  cellStyle?: TableProps<IDModel>['cellStyle']
+  headerRowClassName?: TableProps<IDModel>['headerRowClassName']
+  headerRowStyle?: TableProps<IDModel>['headerRowStyle']
+  headerCellClassName?: TableProps<IDModel>['headerCellClassName']
+  headerCellStyle?: TableProps<IDModel>['headerCellStyle']
+  rowKey?: TableProps<IDModel>['rowKey']
   emptyText?: string
   defaultExpandAll?: boolean
-  expandRowKeys?: TableProps<ITableData>['expandRowKeys']
-  defaultSort?: TableProps<ITableData>['defaultSort']
-  tooltipEffect?: TableProps<ITableData>['tooltipEffect']
+  expandRowKeys?: TableProps<IDModel>['expandRowKeys']
+  defaultSort?: TableProps<IDModel>['defaultSort']
+  tooltipEffect?: TableProps<IDModel>['tooltipEffect']
   showSummary?: boolean
   sumText?: string
-  summaryMethod?: TableProps<ITableData>['summaryMethod']
-  spanMethod?: TableProps<ITableData>['spanMethod']
+  summaryMethod?: TableProps<IDModel>['summaryMethod']
+  spanMethod?: TableProps<IDModel>['spanMethod']
   selectOnIndeterminate?: boolean
   indent?: number
   lazy?: boolean
-  load?: TableProps<ITableData>['load']
-  treeProps?: TableProps<ITableData>['treeProps']
+  load?: TableProps<IDModel>['load']
+  treeProps?: TableProps<IDModel>['treeProps']
   tableLayout?: 'fixed' | 'auto'
   scrollbarAlwaysOn?: boolean
   flexible?: boolean

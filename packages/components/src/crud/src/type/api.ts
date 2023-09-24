@@ -1,5 +1,5 @@
 // CRUD 接口配置 create、update、delete、info、page、list
-export interface ICrudApi {
+export interface IDCrudApi {
   /**
    * create   post    url
    * update   put     url

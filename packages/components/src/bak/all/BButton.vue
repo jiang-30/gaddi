@@ -5,15 +5,8 @@
 -->
 <template>
   <!-- 弹窗 -->
-  <el-dialog
-    v-if="config.type === 'dialog'"
-    v-model="dialogVisible"
-    custom-class="b-button-dialog"
-    draggable
-    :fullscreen="isFullscreen"
-    append-to-body
-    width="600px"
-  >
+  <el-dialog v-if="config.type === 'dialog'" v-model="dialogVisible" custom-class="b-button-dialog" draggable
+    :fullscreen="isFullscreen" append-to-body width="600px">
     <template v-for="item in option.children">
       <!-- 表单 -->
       <b-form v-if="item.type === 'form'" :option="item" :default-data="defaultData"></b-form>
@@ -34,6 +27,8 @@
 </template>
 
 <script lang="ts" setup>
+import { ref } from 'vue'
+import { ElMessageBox, ElMessage } from 'element-plus'
 const { option, config, defaultData } = withDefaults(
   defineProps<{
     option: any
@@ -72,7 +67,7 @@ function onClick() {
  * @param config
  */
 function handlerDialog(config: any) {
-  console.log(option)
+  // console.log(option)
   dialogVisible.value = true
 }
 
@@ -123,6 +118,7 @@ function handlerConfirm() {
 .b-button-dialog .el-dialog__footer {
   padding: 0;
 }
+
 .b-button-dialog .el-dialog__header {
   border-bottom: 1px solid #f1f1f1;
   margin-right: 0;

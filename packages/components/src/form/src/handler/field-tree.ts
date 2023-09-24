@@ -1,8 +1,8 @@
-import type { IFormFieldAttrs } from '../type'
-import { tools } from '../../../utils'
+import type { IDFormFieldAttrs } from '../type'
+import { handle } from '../../../handle'
 
-export const formFieldTreeFormat = (field: IFormFieldAttrs) => {
-  const defaultFieldAttrs = tools.defaultFieldAttrs
+export const formFieldTreeFormat = (field: IDFormFieldAttrs) => {
+  const defaultFieldAttrs = handle.defaultFieldAttrs
 
   return {
     checkStrictly: field.checkStrictly,
@@ -12,8 +12,8 @@ export const formFieldTreeFormat = (field: IFormFieldAttrs) => {
   }
 }
 
-export const searchFormFieldTreeFormat = (field: IFormFieldAttrs) => {
-  const defaultFieldAttrs = tools.defaultFieldAttrs
+export const searchFormFieldTreeFormat = (field: IDFormFieldAttrs) => {
+  const defaultFieldAttrs = handle.defaultFieldAttrs
 
   return {
     checkStrictly: field.checkStrictly,   // 选叶子节点

@@ -1,6 +1,9 @@
 
-import type { IFieldType, IFormFieldBaseAttrs } from '../../../typings'
+import type { IDFormFieldBaseAttrs } from '../../../typings'
 
-export interface IFormFieldCascaderAttrs extends IFormFieldBaseAttrs {
+/**
+ * el-cascader 配置
+ */
+export interface IDFormFieldCascaderAttrs extends IDFormFieldBaseAttrs {
 
 }

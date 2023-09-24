@@ -1,9 +1,15 @@
 
-import type { IFieldType, IFormFieldBaseAttrs } from '../../../typings'
+import type { IDFormFieldBaseAttrs } from '../../../typings'
 
-export interface IFormFieldSelectAttrs extends IFormFieldBaseAttrs {
+/**
+ * el-select 配置
+ */
+export interface IDFormFieldSelectAttrs extends IDFormFieldBaseAttrs {
   // type: Extract<IFieldType, 'select'>
   multiple?: boolean
+  /**
+   * 选择value为对象时获取值使用得Key
+   */
   valueKey?: string
   // 'multiple',
   // 'disabled',

@@ -1,28 +1,29 @@
 import { computed } from 'vue'
 import type { TableProps, PaginationProps, DialogProps } from 'element-plus'
-import type { ICrudOption, ICrud, boolFun } from './type'
-import { omitProperty, tools, fetchDict, dictData } from '../../utils'
+import type { IDCrudOption, boolFun } from './type'
+import { handle, getBaseFields, omitProperty } from '../../handle'
 import { tableAttrsFormat } from './handler/table-handler'
 import { paginationAttrsFormat } from './handler/pagination-handler'
 import { dialogAttrsFormat } from './handler/dialog-handler'
 import { tableColumnAttrsFormat } from './handler/table-column-handler'
+import { computedAsync } from '@vueuse/core'
 
-export const useCrudOption = (option: ICrudOption) => {
-  const defaultFieldAttrs = tools.defaultFieldAttrs
+export const useCrudOption = (option: IDCrudOption) => {
+  const defaultFieldAttrs = handle.defaultFieldAttrs
 
   // 表格 ElTable Attrs table props 和 event
   const __tableAttrs = computed<Omit<TableProps<any>, 'data'>>(() => {
-    return tableAttrsFormat(option)
+    return omitProperty(tableAttrsFormat(option))
   })
 
   // 分页 ElPagination 属性
   const __pageAttrs = computed<Partial<PaginationProps>>(() => {
-    return paginationAttrsFormat(option)
+    return omitProperty(paginationAttrsFormat(option))
   })
 
   // 弹窗 ElDialog 属性
   const __dialogAttrs = computed<Partial<DialogProps>>(() => {
-    return dialogAttrsFormat(option)
+    return omitProperty(dialogAttrsFormat(option))
   })
 
   // 展开列 expand
@@ -36,7 +37,7 @@ export const useCrudOption = (option: ICrudOption) => {
   // 多选列 selection
   const __selectionColumn = computed(() => {
     const attrs: {
-      selectable?: ICrudOption['selectable']
+      selectable?: IDCrudOption['selectable']
       reserveSelection: boolean
     } = {
       reserveSelection: option.reserveSelection ?? true
@@ -65,65 +66,53 @@ export const useCrudOption = (option: ICrudOption) => {
     }
   })
 
-  // 操作列配置 action
-  const __actionColumn = computed(() => {
+  // 操作按钮配置 action
+  const __actionAttrs = computed(() => {
     return {
       // 显示新增按钮
       isCreateBtn: option.isCreateBtn ?? true,
+      createBtnPermission: option.createBtnPermission,
       // 显示操作列
       isRowAction: option.isRowAction ?? true,
       // 显示详情按钮
       isInfoBtn: option.isInfoBtn ?? false,
       infoBtnDisabled: option.infoBtnDisabled ?? false,
+      infoBtnPermission: option.infoBtnPermission,
       // 显示修改按钮
       isUpdateBtn: option.isUpdateBtn ?? true,
       updateBtnDisabled: option.updateBtnDisabled ?? false,
+      updateBtnPermission: option.updateBtnPermission,
       // 显示删除按钮
       isDeleteBtn: option.isDeleteBtn ?? true,
       deleteBtnDisabled: option.deleteBtnDisabled ?? false,
+      deleteBtnPermission: option.deleteBtnPermission,
       // 操作栏属性
-      columnAttrs: {
+      rowActionAttrs: {
         label: '操作',
         align: 'center',
-        width: option.rowActionWidth ?? 180,
+        width: option.rowActionWidth ?? 160,
       }
     }
   })
 
-
-  // table column
-  const __tableFields = computed(() => {
-    // console.log('generate table fields')
+  const __tableFields = computedAsync(async () => {
     const tableFields: any[] = []
 
-    option.fields.forEach((field) => {
+    for (let index = 0; index < option.fields.length; index++) {
+      const field = option.fields[index];
+
       if (field.isTable !== false) {
-        const _props = {
-          ...(defaultFieldAttrs.props ?? {}),
-          ...(field.props ?? {}),
-        }
-
-        if (field.dictUrl) {
-          fetchDict(field.dictUrl, _props)
-        }
-        const _dictData = field.dictData ?? dictData(field).value
-
         tableFields.push({
-          prop: field.prop,
-          label: field.label,
-          type: field.type,
-          multiple: field.multiple,
-          isTableShow: field.isTableShow ?? true,
-          __props: _props,
-          __formatter: field.formatter,
-          __dictData: _dictData,
-          __elTableColumnAttrs: tableColumnAttrsFormat(option, field),
+          ...await getBaseFields(field),
+          __isTableShow: field.isTableShow ?? true,
+          __elTableColumnAttrs: omitProperty(tableColumnAttrsFormat(option, field)),
         })
       }
-    })
 
+    }
+    // console.log('generate table fields', tableFields)
     return tableFields
-  })
+  }, [])
 
   return {
     __tableAttrs,
@@ -132,12 +121,12 @@ export const useCrudOption = (option: ICrudOption) => {
     __expandColumn,
     __selectionColumn,
     __indexColumn,
-    __actionColumn,
+    __actionAttrs,
     __tableFields,
   }
 }
 
-
+// 操作按钮的禁用状态
 export function actionDisabledHandle(disabled: boolean | boolFun, row: any): boolean {
   if (typeof disabled == 'boolean') {
     return disabled

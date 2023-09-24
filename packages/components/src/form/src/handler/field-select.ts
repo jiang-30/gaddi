@@ -1,8 +1,8 @@
-import type { IFormFieldAttrs } from '../type'
-import { omitProperty, tools } from '../../../utils'
+import type { IDFormFieldAttrs } from '../type'
+import { omitProperty, handle } from '../../../handle'
 
-export const formFieldSelectFormat = (field: IFormFieldAttrs) => {
-  const defaultFieldAttrs = tools.defaultFieldAttrs
+export const formFieldSelectFormat = (field: IDFormFieldAttrs) => {
+  const defaultFieldAttrs = handle.defaultFieldAttrs
 
   return {
     multiple: field.multiple,
@@ -10,8 +10,8 @@ export const formFieldSelectFormat = (field: IFormFieldAttrs) => {
   }
 }
 
-export const searchFormFieldSelectFormat = (field: IFormFieldAttrs) => {
-  const defaultFieldAttrs = tools.defaultFieldAttrs
+export const searchFormFieldSelectFormat = (field: IDFormFieldAttrs) => {
+  const defaultFieldAttrs = handle.defaultFieldAttrs
 
   return {
     valueKey: field.valueKey,

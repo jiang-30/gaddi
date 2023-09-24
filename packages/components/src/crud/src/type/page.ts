@@ -1,6 +1,6 @@
 
 // Pagination model 数据
-export type IPageModel = {
+export type IDCrudPageModel = {
   // 当前页码
   current: number
   // 每页数量

@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "moduleResolution": "Node",
     "target": "ESNext",
     "module": "ESNext",
     "strict": true,
@@ -8,7 +9,6 @@
     "strictNullChecks": true,
     "strictFunctionTypes": true,
     "resolveJsonModule": true,
-    "moduleResolution": "Node",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",

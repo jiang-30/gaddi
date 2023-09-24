@@ -1,13 +1,13 @@
 
 import type { DialogProps } from 'element-plus'
-import type { ICrudOption } from '../type'
-import { omitProperty, tools } from '../../../utils'
+import type { IDCrudOption } from '../type'
+import { omitProperty, handle } from '../../../handle'
 
 // element-plus ElDialog Attrs
-export const dialogAttrsFormat = (option: ICrudOption): Partial<DialogProps> => {
-  const defaultAttrs = tools.defaultAttrs
+export const dialogAttrsFormat = (option: IDCrudOption): Partial<DialogProps> => {
+  const defaultAttrs = handle.defaultAttrs
 
-  return omitProperty({
+  return {
     // title
     width: option.dialogWidth ?? defaultAttrs.dialogWidth,
     fullscreen: option.dialogFullscreen ?? defaultAttrs.dialogFullscreen,
@@ -15,7 +15,7 @@ export const dialogAttrsFormat = (option: ICrudOption): Partial<DialogProps> => 
     modal: option.dialogModal ?? defaultAttrs.dialogModal,
     appendToBody: option.dialogAppendToBody ?? defaultAttrs.dialogAppendToBody,
     lockScroll: option.dialogLockScroll ?? defaultAttrs.dialogLockScroll,
-    CustomClass: option.dialogCustomClass ?? defaultAttrs.dialogCustomClass,
+    customClass: option.dialogCustomClass ?? defaultAttrs.dialogCustomClass,
     openDelay: option.dialogOpenDelay ?? defaultAttrs.dialogOpenDelay,
     closeDelay: option.dialogCloseDelay ?? defaultAttrs.dialogCloseDelay,
     // closeOnClickModal: option.dialogCloseOnClickModal ?? defaultAttrs.dialogCloseOnClickModal,
@@ -26,5 +26,5 @@ export const dialogAttrsFormat = (option: ICrudOption): Partial<DialogProps> => 
     center: option.dialogCenter ?? defaultAttrs.dialogCenter,
     alignCenter: option.dialogAlignCenter ?? defaultAttrs.dialogAlignCenter,
     // destroyOnClose: option.dialogDestroyOnClose ?? defaultAttrs.dialogDestroyOnClose,
-  })
+  }
 }

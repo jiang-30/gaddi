@@ -2,7 +2,7 @@
   <WCrud :option="option" :table-data="tableData"></WCrud>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref } from "vue";
 
 const option = ref({

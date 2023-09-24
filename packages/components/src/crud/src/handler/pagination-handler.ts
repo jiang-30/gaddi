@@ -1,13 +1,13 @@
 
 import type { PaginationProps } from 'element-plus'
-import type { ICrudOption } from '../type'
-import { omitProperty, tools } from '../../../utils'
+import type { IDCrudOption } from '../type'
+import { omitProperty, handle } from '../../../handle'
 
 // element-plus ElPagination Attrs
-export const paginationAttrsFormat = (option: ICrudOption): Partial<PaginationProps> => {
-  const defaultAttrs = tools.defaultAttrs
+export const paginationAttrsFormat = (option: IDCrudOption): Partial<PaginationProps> => {
+  const defaultAttrs = handle.defaultAttrs
 
-  return omitProperty({
+  return {
     small: option.small ?? defaultAttrs.small,
     background: option.background ?? defaultAttrs.background,
     pagerCount: option.pagerCount ?? defaultAttrs.pagerCount,
@@ -19,5 +19,5 @@ export const paginationAttrsFormat = (option: ICrudOption): Partial<PaginationPr
     nextText: option.nextText ?? defaultAttrs.nextText,
     nextIcon: option.nextIcon ?? defaultAttrs.nextIcon,
     hideOnSinglePage: option.hideOnSinglePage ?? defaultAttrs.hideOnSinglePage,
-  })
+  }
 }

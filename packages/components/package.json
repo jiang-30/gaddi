@@ -5,17 +5,16 @@
   "keywords": [
     "crud"
   ],
-  "author": "jiang-30 (http://blog)",
-  "contributors": [],
-  "homepage": "https://gaddi.jiangbo.fun/componnets/",
   "license": "MIT",
   "engines": {
     "node": ">=16.0.0"
   },
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org/"
+  "type": "module",
+  "scripts": {
+    "build": "vite build"
   },
+  "author": "jiang-30 <514770300@qq.com> (https://blob)",
+  "homepage": "https://gaddi.jiangbo.fun/componnets/",
   "repository": {
     "type": "git",
     "url": "git@github.com:jiang-30/gaddi.git"
@@ -24,17 +23,17 @@
     "url": "https://github.com/jiang-30/gaddi/issues",
     "email": "514770300@qq.com"
   },
-  "type": "module",
+  "contributors": [
+    "jiang-30 <514770300@qq.com> (https://blob)"
+  ],
   "main": "lib/index.js",
   "module": "es/index.mjs",
-  "browser": "dist/index.umd.js",
   "types": "es/index.d.ts",
   "style": "dist/style.css",
   "exports": {
     ".": {
       "require": "./lib/index.js",
       "import": "./es/index.mjs",
-      "browser": "./dist/index.umd.js",
       "types": "./es/index.d.ts"
     },
     "./style.css": "./dist/style.css",
@@ -46,6 +45,10 @@
     "./lib/*": "./lib/*.js",
     "./*": "./*"
   },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "files": [
     "dist",
     "es",
@@ -55,15 +58,6 @@
     "README.md",
     "package.json"
   ],
-  "scripts": {
-    "build": "vite build"
-  },
-  "peerDependencies": {
-    "@element-plus/icons-vue": "^2.1.0",
-    "axios": "^1.4.0",
-    "element-plus": "^2.3.8",
-    "vue": "^3.3.4"
-  },
   "dependencies": {
     "@gaddi/utils": "workspace:0.0.1-alpha.1"
   }

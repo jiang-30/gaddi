@@ -1,12 +1,21 @@
 ## TODO
+- dictResponseFormatter
+- dictRequestFormatter
 - 主动关闭弹窗
-- dictUrl 数据不是响应式的
-- crud fetch type 不全是 query
 - crud deleteHandler 参数不正确
 - info formatter 不好使
 - 按钮权限
 - 角色 ADMIN, 超级管理员 isAdmin
 - api
+
+## 依赖
+- vue@3.3.4
+- element-plus@2.3.8
+- @element-plus/icons-vue@2.1.0
+- @vueuse/core@9.13.0
+- axios@1.5.0
+- lodash-es@4.17.21
+- @types/lodash-es@4.17.9
 
 ## 思路
 
@@ -24,7 +33,10 @@
 ## CRUD
 快速实现 CRUD 功能
 
-## PREVIEW
+## 指令
+### authorize
+
+### preview
 - word(docx): mammoth、docx-preview
 - powerpoint(ppt): pptxjs
 - excel(zlsx): sheetjs、handsontable、exceljs

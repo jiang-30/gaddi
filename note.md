@@ -35,9 +35,9 @@ eslint
 ```
 
 
-## version
+## version 管理
 
-1. `changeset pre enter <alpha/beta>`
+1. `changeset pre enter <alpha/beta>` 进入预发布版本
 
 2. `changeset` 选择要发布的包
 
@@ -48,5 +48,19 @@ eslint
     `npm whoami`    `npm login`    `npm config get registry`
 
 5. `npx changeset pre exit`
+
+### npm files
+默认包含文件 (`npm pack --dry-run` 验证)
+- package.json
+- README.md
+- CHANGELOG.md
+
+### npm version
+
+### npm publish
+`npm publish --tag=beta` 发布测试包
+
+### git tag
+`git tag 1.0.0` 和 `git push --tags`
 
 ## git commit

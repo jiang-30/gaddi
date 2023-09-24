@@ -1,7 +1,7 @@
 ---
 '@gaddi/components': patch
 '@gaddi/utils': patch
-'@gaddi/app': patch
+'@gaddi/admin': patch
 ---
 
 init

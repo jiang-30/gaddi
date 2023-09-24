@@ -1,41 +1,35 @@
 <template>
-  <section>
-    <el-descriptions v-bind="__infoAttrs" :column="24">
-      <el-descriptions-item v-for="item in __infoFields" :key="item.prop" v-bind="item.__itemAttrs" :span="item.span">
-        <template #label>
-          <span>{{ item.label }}</span>
-        </template>
-        <template #default>
-          <slot :name="getSlotName(item.prop)" :model="infoModel" :row="infoModel" :field="item">
-            <template v-if="item.type == 'image' || item.type == 'images'">
-              <el-image v-for="image in formatValue(item, infoModel, null, null).split(',').filter((it: any) => it)"
-                style="width: 148px; height: 148px; margin-right: 8px;" :src="image" fit="cover" />
-            </template>
-            <template v-else>
-              {{ formatValue(item, infoModel, null, null) }}
-            </template>
-          </slot>
-        </template>
-      </el-descriptions-item>
-    </el-descriptions>
-
-    <footer class="w-info-footer">
-      <el-button v-if="onCancel" type="default" :icon="CircleClose" @click="_onCancel">
-        关闭
-      </el-button>
-    </footer>
-  </section>
+  <el-descriptions v-bind="__infoAttrs" :column="24">
+    <el-descriptions-item v-for="field in __infoFields" :key="field.prop" v-bind="field.__itemAttrs" :span="field.span">
+      <template #label>
+        <LabelTooltip :label="field.label" :hint="field.hint"></LabelTooltip>
+      </template>
+      <template #default>
+        <slot :name="getSlotName(field.prop)" :model="infoModel" :row="infoModel" :field="field">
+          <!-- 图片显示 -->
+          <template v-if="field.type == 'image' || field.type == 'images'">
+            <el-image v-for="image in formatValue(infoModel, field).split(',').filter((it: any) => it)"
+              style="width: 148px; height: 148px; margin-right: 8px;" :src="image" fit="cover" />
+          </template>
+          <template v-else>
+            {{ formatValue(infoModel, field) }}
+          </template>
+        </slot>
+      </template>
+    </el-descriptions-item>
+  </el-descriptions>
 </template>
 <script lang="ts" setup>
 import { useSlots } from 'vue'
-import { CircleClose } from '@element-plus/icons-vue'
+import LabelTooltip from '../../common/components/label-tooltip.vue'
 import { infoProps, infoEmits } from './info'
 import { useInfoOption } from './utils'
-import { formatValue } from '../../utils'
+import { formatValue } from '../../handle'
 
-defineOptions({ name: 'WInfo' })
+defineOptions({ name: 'DInfo' })
+
 const props = defineProps(infoProps)
-const emits = defineEmits(infoEmits)
+const emit = defineEmits(infoEmits)
 
 const { __infoAttrs, __infoFields } = useInfoOption(props.option)
 
@@ -49,17 +43,4 @@ const getSlotName = (prop: string) => {
   }
 }
 
-const _onCancel = () => {
-  if (props.onCancel) {
-    props.onCancel()
-  }
-}
 </script>
-
-<style scoped>
-.w-info-footer {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 20px;
-}
-</style>

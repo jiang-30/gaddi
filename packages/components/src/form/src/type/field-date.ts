@@ -1,7 +1,10 @@
 
-import type { IFieldType, IFormFieldBaseAttrs } from '../../../typings'
+import type { IDFormFieldBaseAttrs } from '../../../typings'
 
-export interface IFormFieldDateAttrs extends IFormFieldBaseAttrs {
+/**
+ * el-date 配置
+ */
+export interface IDFormFieldDateAttrs extends IDFormFieldBaseAttrs {
   format?: string
   valueFormat?: string
   // 'readonly',

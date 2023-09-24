@@ -19,10 +19,10 @@
 import { ref, watch } from 'vue'
 import { Plus } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox, type UploadFile, type UploadFiles, type UploadRawFile, type UploadRequestOptions, type UploadUserFile } from 'element-plus';
-import { tools } from '../../utils'
+import { handle } from '../../handle'
 
 defineOptions({
-  name: 'WImagesUpload'
+  name: 'DImagesUpload'
 })
 const props = defineProps({
   modelValue: {
@@ -111,7 +111,7 @@ const handleExceed = (files: File[], uploadFiles: UploadUserFile[]) => {
 // 上传函数
 const handleRequest = (options: UploadRequestOptions) => {
   // console.log(options)
-  return tools.uploadFile!(options.file, options.onProgress).then(res => {
+  return handle.uploadFile!(options.file, options.onProgress).then(res => {
     return res
   }).catch(error => {
     return Promise.reject(error)
