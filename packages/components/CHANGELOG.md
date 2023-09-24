@@ -1,5 +1,11 @@
 # @gaddi/components
 
+## 0.0.1-alpha.19
+
+### Patch Changes
+
+- 修改名称，添加类型
+
 ## 0.0.1-alpha.18
 
 ### Patch Changes

@@ -83,6 +83,9 @@ hook 中 执行 npx lint-staged
 - menu.menus
 - dict.dictList
 
+## Icon
+通过 `AppIcon` 组件可以使用自定义的icon图标， icon图标资源在 assets/icon/index.ts 中维护， 通过 plugin/icon.ts 挂载到 iconify 中;
+
 
 ## 相关框架
 - [Vben Admin](https://doc.vvbin.cn/)

@@ -3,7 +3,7 @@ import type { IconifyIcon } from "@iconify/vue";
 /**
  * 默认 left: 0, top: 0, width: 16, height: 16 如果参数不同需要配置
  */
-const icons: { [index: string]: IconifyIcon } = {
+const icons: { [key: string]: IconifyIcon } = {
   "activity": {
     width: 16,
     height: 16,

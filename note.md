@@ -35,7 +35,9 @@ eslint
 ```
 
 
-## version 管理
+## version
+版本管理
+### changeset
 
 1. `changeset pre enter <alpha/beta>` 进入预发布版本
 

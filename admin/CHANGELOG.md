@@ -1,5 +1,12 @@
 # @gaddi/admin
 
+## 0.0.1-alpha.1
+
+### Patch Changes
+
+- Updated dependencies
+  - @gaddi/components@0.0.1-alpha.19
+
 ## 0.0.1-alpha.5
 
 ### Patch Changes

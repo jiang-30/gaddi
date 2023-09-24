@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="visible" title="图表" width="800px">
+  <el-dialog v-model="visible" title="图标" width="800px">
     <section class="grid grid-cols-10">
       <div class="h-20 flex justify-center items-center border hover:bg-slate-200 hover:cursor-pointer text-light text-lg"
         v-for="item in icons" :key="item" @click="onClick(item)">
