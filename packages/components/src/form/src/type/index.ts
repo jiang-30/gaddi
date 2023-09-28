@@ -12,21 +12,27 @@ export type IDFormType = 'create' | 'update'
 // Form
 export type IDForm = InstanceType<typeof Form>
 
-export type IDFormEmit = typeof formEmits
-
 export type IDFormProps = ExtractPropTypes<typeof formProps>
 
 export type IDFormOption = IDFormProps['option']
+
+export type IDFormEmit = typeof formEmits
+export type IDFormSaveFn = IDFormEmit['save']
 
 
 // Search Form
 export type IDSearchForm = InstanceType<typeof SearchForm>
 
-export type IDSearchFormEmit = typeof searchFormEmits
-
 export type IDSearchFormProps = ExtractPropTypes<typeof searchFormProps>
 
 export type IDSearchFormOption = IDSearchFormProps['option']
+
+export type IDSearchFormEmit = typeof searchFormEmits
+export type IDSearchFormInitFn = IDSearchFormEmit['init']
+export type IDSearchFormSearchFn = IDSearchFormEmit['search']
+export type IDSearchFormResetFn = IDSearchFormEmit['reset']
+export type IDSearchFormShowFn = IDSearchFormEmit['show']
+
 
 
 

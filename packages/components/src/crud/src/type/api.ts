@@ -1,6 +1,24 @@
+import type { IDCrudStatus, IDCrudBeforeFetchFn, IDCrudAfterFetchFn } from "./index"
+
+export interface IDCrudApiHook {
+  currentType: IDCrudStatus // data.total
+  beforeFetch?: IDCrudBeforeFetchFn,
+  afterFetch?: IDCrudAfterFetchFn    // data
+}
+
+/**
+ *  format('url?id={id}'， {id: 1})
+ */
+export interface IDCrudApiProps {
+  method?: string,
+  res?: string    // data
+  total?: string // data.total
+}
+
 // CRUD 接口配置 create、update、delete、info、page、list
 export interface IDCrudApi {
   /**
+   * restful
    * create   post    url
    * update   put     url
    * delete   delete  url/{id}
@@ -11,14 +29,27 @@ export interface IDCrudApi {
   restful?: string
   // 列表路径
   list?: string
+  listProps?: IDCrudApiProps
+
   // 分页路径
   page?: string
+  pageProps?: IDCrudApiProps
+
   // 详情路径
   info?: string
+  infoProps?: IDCrudApiProps
+
   // 新建路径
   create?: string
+  createProps?: IDCrudApiProps
+
   // 修改路径
   update?: string
+  updateProps?: IDCrudApiProps
+
   // 删除
   delete?: string
+  deleteProps?: IDCrudApiProps
 }
+
+

@@ -8,8 +8,7 @@
         <slot :name="getSlotName(field.prop)" :model="infoModel" :row="infoModel" :field="field">
           <!-- 图片显示 -->
           <template v-if="field.type == 'image' || field.type == 'images'">
-            <el-image v-for="image in formatValue(infoModel, field).split(',').filter((it: any) => it)"
-              style="width: 148px; height: 148px; margin-right: 8px;" :src="image" fit="cover" />
+            <ImageList :images="formatValue(infoModel, field)" width="148px" height="148px" gap="8px"></ImageList>
           </template>
           <template v-else>
             {{ formatValue(infoModel, field) }}
@@ -22,6 +21,7 @@
 <script lang="ts" setup>
 import { useSlots } from 'vue'
 import LabelTooltip from '../../common/components/label-tooltip.vue'
+import ImageList from '../../common/components/image-list.vue'
 import { infoProps, infoEmits } from './info'
 import { useInfoOption } from './utils'
 import { formatValue } from '../../handle'

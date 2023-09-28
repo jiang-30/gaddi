@@ -24,8 +24,8 @@ export type IDModel = Record<string, any>;
 export type IDDictItem = {
   label: string;
   value: string | number
-  disabled?: boolean
   children?: IDDictItem[]
+  disabled?: boolean
 };
 export type IDDict = {
   label?: string
@@ -36,13 +36,13 @@ export type IDDict = {
 }
 
 // 数据格式化 dict、tree.props、cascader.props
-// export type IDProps = {
-//   label?: string
-//   value?: string
-//   children?: string
-//   disabled?: boolean
-//   formatter?: (res: any) => IDDictItem[]
-// }
+export type IDDictProps = {
+  res?: string,
+  label?: string
+  value?: string
+  children?: string
+  disabled?: string
+}
 
 // 表单控制域类型 image images file richtext
 export type IDFieldType =
@@ -73,7 +73,6 @@ export interface IDFormFieldBaseAttrs {
   disabled?: boolean
 }
 
-
 // 字段基础属性
 export interface IDFieldBase {
   prop: string
@@ -91,8 +90,10 @@ export interface IDFieldBase {
   dictCode?: string
   // 字典地址
   dictUrl?: string
+  // 响应数据格式化
+  dictProps?: IDDictProps
   // 字典返回数据格式化
-  dictResponseFormatter?: (data: any) => IDDictItem[]
+  dictFormatter?: (data: any) => IDDictItem[]
   // 显示数据格式化
   formatter?: (model: IDModel, field: IDFieldBase) => string
 }

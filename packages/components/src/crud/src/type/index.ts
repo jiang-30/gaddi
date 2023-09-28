@@ -9,7 +9,7 @@ export * from './field'
 // crud
 export type IDCrudStatus = 'table' | 'query' | 'info' | 'create' | 'update' | 'delete'
 
-export type IDCrudQueryType = 'init' | 'search' | 'reset' | 'refresh' | 'pageChange' | 'sizeChange' | 'update' | 'createOrDelete' | 'expose'
+export type IDCrudQueryType = 'init' | 'search' | 'reset' | 'refresh' | 'pageChange' | 'sizeChange' | 'update' | 'create' | "delete" | 'expose'
 
 // CRUD 组件实例
 export type IDCrud = InstanceType<typeof Crud>
@@ -20,21 +20,21 @@ export type IDCrudProps = ExtractPropTypes<typeof crudProps>
 // CRUD option 
 export type IDCrudOption = IDCrudProps['option']
 
+// beforeFetch
+export type IDCrudBeforeFetchFn = IDCrudProps['beforeFetch']
+// afterFetch
+export type IDCrudAfterFetchFn = IDCrudProps['afterFetch']
+// beforeOpen
+export type IDCrudBeforeOpenFn = IDCrudProps['beforeOpen']
+// queryHandler
+export type IDCrudQueryHandlerFn = IDCrudProps['queryHandler']
+// createHandler
+export type IDCrudCreateHandlerFn = IDCrudProps['createHandler']
+// updateHandler
+export type IDCrudUpdateHandlerFn = IDCrudProps['updateHandler']
+// deleteHandler
+export type IDCrudDeleteHandlerFn = IDCrudProps['deleteHandler']
+
 // CRUD 事件
 export type IDCrudEmit = typeof crudEmits
-
-// beforeFetch
-export type IDBeforeFetchFn = IDCrudProps['beforeFetch']
-// afterFetch
-export type IDAfterFetchFn = IDCrudProps['afterFetch']
-// beforeOpen
-export type IDBeforeOpenFn = IDCrudProps['beforeOpen']
-// queryHandler
-export type IDQueryHandlerFn = IDCrudProps['queryHandler']
-// createHandler
-export type IDCreateHandlerFn = IDCrudProps['createHandler']
-// updateHandler
-export type IDUpdateHandlerFn = IDCrudProps['updateHandler']
-// deleteHandler
-export type IDDeleteHandlerFn = IDCrudProps['deleteHandler']
 

@@ -34,5 +34,5 @@ export const formProps = {
 
 // 事件
 export const formEmits = {
-  save: (model: IDModel) => { return true },
+  save: ((model: IDModel) => { return true }) as (model: IDModel) => void,
 };

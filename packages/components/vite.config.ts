@@ -28,11 +28,11 @@ export default defineConfig({
     minify: false,
     lib: {
       entry: "./src/index.ts",
-      name: "WhirlComponents",
+      name: "GaddiComponents",
     },
     rollupOptions: {
       //忽略打包vue文件
-      external: ["vue", "element-plus", '@vueuse/core', 'axios', '@element-plus/icons-vue'],
+      external: ["vue", "element-plus", '@element-plus/icons-vue', 'axios', '@vueuse/core', 'lodash-es'],
       output: [
         {
           globals: {

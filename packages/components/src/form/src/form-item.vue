@@ -1,7 +1,7 @@
 <template>
   <el-form-item :prop="field.prop" v-bind="field.__formItemAttrs">
     <template #label>
-      <span v-if="formType == 'searchForm'"></span>
+      <span v-if="formType == 'searchForm'">{{ field.label }}</span>
       <LabelTooltip v-else :label="field.label" :hint="field.hint"></LabelTooltip>
     </template>
 

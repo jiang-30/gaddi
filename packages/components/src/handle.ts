@@ -1,3 +1,4 @@
+import { at } from 'lodash-es'
 import type { IDDict, IDDictItem, IDFieldBase, IDModel, IDOption } from './typings'
 
 export const handle: Required<IDOption> = {
@@ -45,28 +46,35 @@ export async function getBaseFields(field: IDFieldBase): Promise<IDFieldBase> {
 // 获取字典数据 通过 dictCode 或者 dictUrl 获取数据
 export const getDictData = async (field: IDFieldBase) => {
   let dictItems: IDDictItem[] = []
-
   if (field.dictData) {
     dictItems = field.dictData
   } else if (field.dictCode) {
     dictItems = handle.dictList.find(item => item.code == field.dictCode)?.items ?? []
   } else if (field.dictUrl) {
-    dictItems = await fetchDict(field.dictUrl, field)
+    dictItems = await fetchDict(field)
   }
 
   return dictItems
 }
 
 // dictUrl 请求字典数据
-export const fetchDict = async (url: string, field?: IDFieldBase) => {
+export const fetchDict = async (field: IDFieldBase) => {
   try {
-    const dict = handle.dictList.find(item => item.url == url);
+    const dict = handle.dictList.find(item => item.url == field.dictUrl);
     if (dict) return dict.items;
+
+    const dictProps = {
+      res: field.dictProps?.res ?? 'data',
+      label: field.dictProps?.label ?? 'label',
+      value: field.dictProps?.value ?? 'value',
+      children: field.dictProps?.children ?? 'children',
+      disabled: field.dictProps?.disabled ?? 'disabled',
+    };
 
     if (handle.axios) {
       // 添加数据，防止重复请求
       const _dict: IDDict = {
-        url: url,
+        url: field.dictUrl,
         status: 'padding',
         items: [],
       }
@@ -76,11 +84,20 @@ export const fetchDict = async (url: string, field?: IDFieldBase) => {
       const res = await handle
         .axios({
           method: 'get',
-          url: url,
+          url: field.dictUrl,
         })
 
+      let resData = at(res as any, dictProps.res)[0]
+      resData = resData.map((item: any) => {
+        return {
+          label: at(item, dictProps.label)[0],
+          value: at(item, dictProps.value)[0],
+          children: at(item, dictProps.children)[0],
+          disabled: at(item, dictProps.disabled)[0],
+        }
+      })
       // console.log(props?.formatter, res)
-      _dict.items = field?.dictResponseFormatter ? field.dictResponseFormatter(res) : res.data
+      _dict.items = field.dictFormatter ? field.dictFormatter(resData) : resData
       _dict.status = 'done'
       return _dict.items
     }

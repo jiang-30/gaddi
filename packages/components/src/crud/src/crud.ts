@@ -75,11 +75,11 @@ export const crudProps = {
   },
   // 表单新增钩子
   createHandler: {
-    type: Function as PropType<(model: IDModel, done: () => void) => void>,
+    type: Function as PropType<(model: IDModel, done: (flag?: boolean) => void) => void>,
   },
   // 表单修改钩子
   updateHandler: {
-    type: Function as PropType<(model: IDModel, done: () => void) => void>,
+    type: Function as PropType<(model: IDModel, done: (flag?: boolean) => void) => void>,
   },
   // 列表删除钩子
   deleteHandler: {
@@ -88,9 +88,9 @@ export const crudProps = {
 };
 
 export const crudEmits = {
-  "update:modelValue": (value: IDModel) => { return true },
-  "update:tableData": (value: IDModel[]) => { return true },
-  "update:tableLoading": (value: boolean) => { return true },
+  "update:modelValue": ((value: IDModel) => { return true }) as (value: IDModel) => void,
+  "update:tableData": ((value: IDModel[]) => { return true }) as (value: IDModel[]) => void,
+  "update:tableLoading": ((value: boolean) => { return true }) as (value: boolean) => void,
   init: null,
   search: null,
   searchReset: null,

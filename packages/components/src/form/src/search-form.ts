@@ -24,8 +24,8 @@ export const searchFormProps = {
 }
 
 export const searchFormEmits = {
-  init: (searchModel: IDModel) => { return true },
-  search: (searchModel: IDModel) => { return true },
-  reset: (searchModel: IDModel) => { return true },
-  show: (isShow: boolean) => { return true },
+  init: ((searchModel: IDModel) => { return true }) as (searchModel: IDModel) => void,
+  search: ((searchModel: IDModel) => { return true }) as (searchModel: IDModel) => void,
+  reset: ((searchModel: IDModel) => { return true }) as (searchModel: IDModel) => void,
+  show: ((isShow: boolean) => { return true }) as (isShow: boolean) => void,
 }

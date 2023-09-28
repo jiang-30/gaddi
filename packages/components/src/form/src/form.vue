@@ -97,7 +97,8 @@ const _onConfirm = () => {
 }
 
 defineExpose({
-  // getForm: () => formRef.value,
+  getForm: formRef.value as any,
+  save: _onConfirm,
   reset: _onReset
 })
 </script>

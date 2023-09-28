@@ -7,6 +7,7 @@ import { paginationAttrsFormat } from './handler/pagination-handler'
 import { dialogAttrsFormat } from './handler/dialog-handler'
 import { tableColumnAttrsFormat } from './handler/table-column-handler'
 import { computedAsync } from '@vueuse/core'
+import type { IDModel } from '../../typings'
 
 export const useCrudOption = (option: IDCrudOption) => {
   const defaultFieldAttrs = handle.defaultFieldAttrs
@@ -127,12 +128,22 @@ export const useCrudOption = (option: IDCrudOption) => {
 }
 
 // 操作按钮的禁用状态
-export function actionDisabledHandle(disabled: boolean | boolFun, row: any): boolean {
+export function actionDisabledHandle(disabled: boolean | boolFun, row: IDModel): boolean {
   if (typeof disabled == 'boolean') {
     return disabled
   } else if (typeof disabled == 'function') {
     return disabled(row)
   } else {
     return false
+  }
+}
+
+
+// 操作按钮是否显示
+export function actionBtnShowHandle(isButton: boolean | Function, model: IDModel): boolean {
+  if (typeof isButton == 'function') {
+    return isButton(model)
+  } else {
+    return isButton
   }
 }

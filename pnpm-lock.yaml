@@ -7,7 +7,7 @@ importers:
       '@changesets/cli': ^2.26.2
       '@element-plus/icons-vue': 2.1.0
       '@gaddi/cli': ^0.0.1-alpha.1
-      '@gaddi/components': workspace:0.0.1-alpha.18
+      '@gaddi/components': workspace:0.0.1-alpha.19
       '@gaddi/utils': workspace:0.0.1-alpha.1
       '@rollup/plugin-commonjs': ^24.1.0
       '@rollup/plugin-json': ^6.0.0
@@ -20,6 +20,7 @@ importers:
       '@types/lodash-es': ^4.17.9
       '@types/node': ^16.18.38
       '@types/shelljs': ^0.8.12
+      '@types/string-template': ^1.0.2
       '@vitejs/plugin-vue': ^4.3.4
       '@vueuse/core': 9.13.0
       axios: 1.5.0
@@ -38,6 +39,7 @@ importers:
       prettier: ^3.0.3
       rollup: ^3.26.2
       shelljs: ^0.8.5
+      string-template: ^1.0.0
       tslib: ^2.6.0
       typescript: ^5.2.2
       vite: 4.4.9
@@ -63,6 +65,7 @@ importers:
       log-symbols: 5.1.0
       ora: 6.3.1
       shelljs: 0.8.5
+      string-template: 1.0.0
       vue: 3.3.4
     devDependencies:
       '@changesets/cli': 2.26.2
@@ -77,6 +80,7 @@ importers:
       '@types/lodash-es': 4.17.9
       '@types/node': 16.18.38
       '@types/shelljs': 0.8.12
+      '@types/string-template': 1.0.2
       '@vitejs/plugin-vue': 4.3.4_vite@4.4.9+vue@3.3.4
       only-allow: 1.1.1
       prettier: 3.0.3
