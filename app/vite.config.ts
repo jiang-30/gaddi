@@ -18,6 +18,12 @@ export default ({ command, mode }: ConfigEnv) => {
     server: {
       port: 5190,
       proxy: {
+
+        "/ai": {
+          target: "http://222.74.215.220:38000",
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/ai/, ""),
+        },
         "/api/amap": {
           target: 'https://restapi.amap.com',
           changeOrigin: true,
