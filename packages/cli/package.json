@@ -3,32 +3,42 @@
   "version": "0.0.1-alpha.1",
   "description": "",
   "keywords": [],
-  "author": "jiang-30 <514770300@qq.com>",
   "license": "MIT",
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org/"
+  "engines": {
+    "node": ">=16.0.0"
   },
+  "type": "module",
+  "bin": {
+    "gaddi": "./lib/index.js"
+  },
+  "scripts": {
+    "build": "rollup -c rollup.config.js"
+  },
+  "author": "jiang-30 <514770300@qq.com> (https://blob)",
+  "homepage": "https://gaddi.jiangbo.fun/cli/",
   "repository": {
     "type": "git",
     "url": "git@github.com:jiang-30/gaddi.git"
   },
-  "bugs": "https://github.com/jiang-30/gaddi/issues",
-  "homepage": "https://gaddi.jiangbo.fun/cli/",
-  "type": "module",
-  "bin": {
-    "gaddi": "./dist/index.js"
+  "bugs": {
+    "url": "https://github.com/jiang-30/gaddi/issues",
+    "email": "514770300@qq.com"
+  },
+  "contributors": [
+    "jiang-30 <514770300@qq.com> (https://blob)"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
   "files": [
-    "dist",
+    "es",
+    "lib",
     "config.json",
     "CHANGELOG.md",
     "README.md",
     "package.json"
   ],
-  "scripts": {
-    "build": "rollup -c rollup.config.js"
-  },
   "dependencies": {},
   "devDependencies": {}
 }

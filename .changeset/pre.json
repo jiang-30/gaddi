@@ -2,21 +2,31 @@
   "mode": "pre",
   "tag": "alpha",
   "initialVersions": {
-    "@gaddi/app": "0.0.2-alpha.1",
+    "@gaddi/admin": "0.0.2-alpha.1",
     "@gaddi/cli": "0.0.1-alpha.1",
     "@gaddi/components": "0.0.1-alpha.2",
-    "@gaddi/utils": "0.0.1-alpha.1"
+    "@gaddi/utils": "0.0.1-alpha.1",
+    "@gaddi/docs": "1.0.0"
   },
   "changesets": [
+    "breezy-nails-melt",
+    "giant-avocados-brush",
     "good-islands-wink",
     "green-eggs-sniff",
     "green-eyes-applaud",
     "loud-elephants-cough",
+    "mighty-shoes-run",
+    "nervous-kids-push",
+    "odd-cows-fetch",
     "odd-toys-mate",
     "plenty-pianos-tickle",
     "poor-mice-pull",
     "quick-ants-tap",
+    "serious-icons-sparkle",
     "small-suits-matter",
+    "swift-melons-play",
+    "three-sloths-accept",
+    "two-ligers-marry",
     "two-melons-fix"
   ]
 }

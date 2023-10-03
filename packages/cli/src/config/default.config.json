@@ -1,0 +1,10 @@
+{
+    "page": {
+        "isEnabled": true,
+        "isStatic": true,
+        "icon": "mdi:home",
+        "layout": "admin",
+        "isTab": true,
+        "isShowMenu": true
+    }
+}

@@ -1,0 +1,21 @@
+import type { ICrudOption } from '@gaddi/components'
+
+export const option: ICrudOption = {
+  align: 'center',
+  labelWidth: '100px',
+  isInfoBtn: false,
+  isCreateBtn: true,
+  isUpdateBtn: true,
+  isDeleteBtn: true,
+  fields: [<% for (let i = 0; i < fields.length; i++) { %>
+    {
+      label: '<%= fields[i].label %>',
+      prop: '<%= fields[i].prop %>',
+      type: 'input',
+      rules: [
+        { required: false, message: '请输入', trigger: 'change' },
+        { type: 'string', max: 10, message: '请输入', trigger: 'change' },
+      ],
+    },<% } %>
+  ]
+}

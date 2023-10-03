@@ -1,54 +1,46 @@
 <template>
-  <section>
-    <el-descriptions v-bind="__infoAttrs" :column="24">
-      <!-- 接受插槽 -->
-      <el-descriptions-item
-        v-for="item in __infoFields"
-        :key="item.prop"
-        v-bind="item.__itemAttrs"
-        :span="item.span"
-      >
-        <template #label>
-          <span>{{ item.label }}</span>
-        </template>
-        <template #default>
-          <slot :name="item.prop + 'Info'" :model="infoModel" :row="infoModel" :field="item">
-            {{ formatValue(item, infoModel, null, null) }}
-          </slot>
-        </template>
-      </el-descriptions-item>
-    </el-descriptions>
-
-    <footer class="w-info-footer">
-      <el-button v-if="onCancel" type="default" :icon="CircleClose" @click="_onCancel">
-        关闭
-      </el-button>
-    </footer>
-  </section>
+  <el-descriptions v-bind="__infoAttrs" :column="24">
+    <el-descriptions-item v-for="field in __infoFields" :key="field.prop" v-bind="field.__itemAttrs" :span="field.span">
+      <template #label>
+        <LabelTooltip :label="field.label" :hint="field.hint"></LabelTooltip>
+      </template>
+      <template #default>
+        <slot :name="getSlotName(field.prop)" :model="infoModel" :row="infoModel" :field="field">
+          <!-- 图片显示 -->
+          <template v-if="field.type == 'image' || field.type == 'images'">
+            <ImageList :images="formatValue(infoModel, field)" width="148px" height="148px" gap="8px"></ImageList>
+          </template>
+          <template v-else>
+            {{ formatValue(infoModel, field) }}
+          </template>
+        </slot>
+      </template>
+    </el-descriptions-item>
+  </el-descriptions>
 </template>
 <script lang="ts" setup>
-import { CircleClose } from '@element-plus/icons-vue'
+import { useSlots } from 'vue'
+import LabelTooltip from '../../common/components/label-tooltip.vue'
+import ImageList from '../../common/components/image-list.vue'
 import { infoProps, infoEmits } from './info'
 import { useInfoOption } from './utils'
-import { formatValue } from '../../utils'
+import { formatValue } from '../../handle'
 
-defineOptions({ name: 'WInfo' })
+defineOptions({ name: 'DInfo' })
+
 const props = defineProps(infoProps)
-const emits = defineEmits(infoEmits)
+const emit = defineEmits(infoEmits)
 
 const { __infoAttrs, __infoFields } = useInfoOption(props.option)
 
-const _onCancel = () => {
-  if (props.onCancel) {
-    props.onCancel()
+const getSlotName = (prop: string) => {
+  const slots = Object.keys(useSlots())
+
+  if (slots.includes(prop + 'Info')) {
+    return prop + 'Info'
+  } else {
+    return prop
   }
 }
-</script>
 
-<style scoped>
-.w-info-footer {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 20px;
-}
-</style>
+</script>

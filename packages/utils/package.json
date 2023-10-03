@@ -2,18 +2,29 @@
   "name": "@gaddi/utils",
   "version": "0.0.1-alpha.1",
   "description": "",
-  "author": "",
+  "keywords": [],
   "license": "MIT",
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org/"
+  "engines": {
+    "node": ">=16.0.0"
   },
-  "bugs": "https://github.com/jiang-30/gaddi/issues",
-  "homepage": "https://gaddi.jiangbo.fun/utils/",
   "type": "module",
+  "scripts": {
+    "build": "vite build"
+  },
+  "author": "jiang-30 <514770300@qq.com> (https://blob)",
+  "homepage": "https://gaddi.jiangbo.fun/utils/",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:jiang-30/gaddi.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jiang-30/gaddi/issues",
+    "email": "514770300@qq.com"
+  },
+  "contributors": [],
   "main": "lib/index.js",
   "module": "es/index.mjs",
-  "types": "es/index.d.ts",
+  "typings": "es/index.d.ts",
   "exports": {
     ".": {
       "require": "./lib/index.js",
@@ -22,7 +33,12 @@
     },
     "./*": "./*"
   },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "files": [
+    "dist",
     "es",
     "lib"
   ],
@@ -30,11 +46,5 @@
     "lib": "lib",
     "test": "__tests__"
   },
-  "scripts": {
-    "build": "vite build"
-  },
-  "devDependencies": {},
-  "peerDependencies": {
-    "vue": "^3.2.47"
-  }
+  "dependencies": {}
 }

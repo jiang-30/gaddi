@@ -1,0 +1,23 @@
+{
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "compilerOptions": {
+    "moduleResolution": "Node",
+    "composite": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "types": [
+      "string-template",
+      "nprogress",
+      "crypto-js",
+      "leaflet",
+      "lodash-es",
+      "element-plus/global",
+      "pinia-plugin-persist",
+      "@gaddi/components/global"
+    ]
+  },
+  "include": ["auto-components.d.ts", "src/**/*.ts", "src/**/*.vue"],
+  "exclude": ["src/**/__tests__/*"]
+}

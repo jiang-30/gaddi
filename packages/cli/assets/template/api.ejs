@@ -1,0 +1,55 @@
+import { request } from '@/plugin/request'
+
+// 新增
+export const createUser = (params: any) => {
+  return request({
+    method: 'post',
+    url: '<%= restful %>',
+    data: params,
+  })
+}
+
+// 修改
+export const updateUser = (params: any) => {
+  return request({
+    method: 'put',
+    url: '<%= restful %>',
+    data: params,
+  })
+}
+
+// 删除
+export const deleteUser = (id: any) => {
+  return request({
+    method: 'delete',
+    url: `<%= restful %>/${id}`,
+  })
+}
+
+// 详情查询
+export const queryUser = (id: any) => {
+  return request({
+    method: 'get',
+    url: `<%= restful %>/${id}`,
+  })
+}
+
+// 分页查询
+export const queryUserPage = (params: any) => {
+  return request({
+    method: 'get',
+    url: `<%= restful %>`,
+    params: params,
+  })
+}
+
+// 列表查询
+export const queryUserList = (params: any) => {
+  return request({
+    method: 'get',
+    url: `<%= restful %>/list`,
+    params: params,
+  })
+}
+
+

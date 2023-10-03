@@ -1,6 +1,6 @@
-import type { ICrudOption } from './index'
+import type { IDCrudOption } from './index'
 
-export const option: ICrudOption = {
+export const option: IDCrudOption = {
   // =========================================== ElTable Props ===========================================
   // height: ;
   // maxHeight?: string | number;

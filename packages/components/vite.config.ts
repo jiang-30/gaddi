@@ -1,16 +1,14 @@
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
-import defineOptions from "unplugin-vue-define-options/vite";
 import dts from "vite-plugin-dts";
 
 export default defineConfig({
   plugins: [
     vue(),
-    defineOptions(),
     dts({
       // 指定使用的tsconfig.json为我们整个项目根目录下掉,如果不配置,你也可以在components下新建tsconfig.json
-      tsConfigFilePath: "./tsconfig.json",
-      outputDir: "es",
+      tsconfigPath: "tsconfig.json",
+      outDir: "es",
       entryRoot: "./src",
       staticImport: true,
     }),
@@ -20,25 +18,27 @@ export default defineConfig({
     // 打包文件目录
     outDir: "dist",
     // chunkSizeWarningLimit: 1000, // 包大小超过多少K有提示信息
-    // cssCodeSplit: true, // css 文件也拆分
+    // css 文件也拆分
+    // cssCodeSplit: true,
+    // 构建后是否生成 source map 文件
     // sourcemap: false,
     // minify: 'terser', // esbuild 速度快, terser 体积小
     // assetsInlineLimit: 4000, // 小于4000 被编译成base64
     // 压缩
     minify: false,
-    // css分离
-    // cssCodeSplit: true,
-    // 构建后是否生成 source map 文件
-    // sourcemap: true,
     lib: {
       entry: "./src/index.ts",
-      name: "WhirlComponents",
+      name: "GaddiComponents",
     },
     rollupOptions: {
       //忽略打包vue文件
-      external: ["vue", "element-plus"],
+      external: ["vue", "element-plus", '@element-plus/icons-vue', 'axios', '@vueuse/core', 'lodash-es'],
       output: [
         {
+          globals: {
+            'vue': 'vue',
+            'element-plus': 'elementPlus',
+          },
           format: "umd",
           name: "WhirlComponents",
           exports: "named",

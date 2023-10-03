@@ -1,33 +1,83 @@
 import type { Plugin } from "vue";
-import type { AxiosInstance } from "axios";
 
 export * from "./button/index";
 export * from "./info/index";
 export * from "./form/index";
 export * from "./crud/index";
 export * from "./roll/index";
+export * from "./common/directives/authorize";
+export * from "./common/directives/resize";
 
-import { tools } from "./utils";
-import { WButton } from "./button/index";
-import { WInfo } from "./info/index";
-import { WForm, WSearchForm } from "./form/index";
-import { WCrud } from "./crud/index";
+
+import type { IDOption } from './typings'
+import { handle } from "./handle";
+import { DImageUpload, DImagesUpload } from "./upload/index";
 import { WSection } from "./section/index";
 import { WRoll } from "./roll/index";
+import { DInfo } from "./info/index";
+import { DForm, DSearchForm } from "./form/index";
+import { DCrud } from "./crud/index";
+import { authorizeDirective } from "./common/directives/authorize";
+import { resizeDirective } from "./common/directives/resize";
 
-export default <Plugin<{ axios?: AxiosInstance }>>{
+export const setDictList = (dictList: IDOption['dictList']) => {
+  if (dictList) {
+    handle.dictList.push(...dictList);
+  }
+}
+
+export const setPermission = (permissions: IDOption['permissions']) => {
+  if (permissions) {
+    handle.permissions.push(...permissions)
+  }
+}
+
+export default <Plugin<IDOption>>{
   install: (app, option) => {
     option = option ?? {}
+
     if (option.axios) {
-      tools.axios = option.axios;
+      handle.axios = option.axios;
     }
 
-    app.use(WButton);
-    app.use(WInfo);
-    app.use(WForm);
-    app.use(WSearchForm);
-    app.use(WCrud, option);
+    if (option.uploadFile) {
+      handle.uploadFile = option.uploadFile;
+    }
+
+    if (option.defaultAttrs) {
+      handle.defaultAttrs = {
+        ...handle.defaultAttrs,
+        ...option.defaultAttrs,
+      };
+    }
+
+    if (option.defaultFieldAttrs) {
+      handle.defaultFieldAttrs = {
+        ...handle.defaultFieldAttrs,
+        ...option.defaultFieldAttrs,
+      }
+    }
+    if (option.dictList) {
+      handle.dictList.push(...option.dictList);
+    }
+
+    if (option.permissions) {
+      handle.permissions.push(...option.permissions)
+    }
+
+    // 自定义权限指令
+    app.directive('authorize', authorizeDirective)
+    // 自定义尺寸响应指令
+    app.directive('resize', resizeDirective)
+
+    // 自定义组件
+    app.use(DImageUpload);
+    app.use(DImagesUpload);
     app.use(WSection);
     app.use(WRoll);
+    app.use(DInfo);
+    app.use(DForm);
+    app.use(DSearchForm);
+    app.use(DCrud);
   },
 };

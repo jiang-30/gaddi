@@ -1,9 +1,10 @@
 declare module '@vue/runtime-core' {
   // 全局组件
   export interface GlobalComponents {
-    WInfo: typeof import('@gaddi/components')['WInfo']
-    WForm: typeof import('@gaddi/components')['WForm']
-    WCrud: typeof import('@gaddi/components')['WCrud']
+    DInfo: typeof import('@gaddi/components')['DInfo']
+    DForm: typeof import('@gaddi/components')['DForm']
+    DSearchForm: typeof import('@gaddi/components')['DSearchForm']
+    DCrud: typeof import('@gaddi/components')['DCrud']
   }
 
   // // 全局属性
@@ -12,4 +13,4 @@ declare module '@vue/runtime-core' {
   // }
 }
 
-export {}
+export { }

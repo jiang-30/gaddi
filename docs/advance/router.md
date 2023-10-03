@@ -183,7 +183,7 @@ useRouteStore().setRoutes();
   title: '权限管理',
   icon: 'ic:baseline-broadcast-on-personal',
   path: '/admin',
-  isShow: true,
+  isShowMenu: true,
   component: '', // pageComponent
   target: 'self', // pageTarget
   layout: 'admin', // pageLayout
@@ -205,7 +205,7 @@ interface IMate {
   type: "menu" | "page" | "button";
   title: string;
   icon: string;
-  isShow: boolean;
+  isShowMenu: boolean;
   component: string;
   path?: string;
   name?: string;
