@@ -38,6 +38,7 @@ export async function getBaseFields(field: IDFieldBase): Promise<IDFieldBase> {
     default: field.default,
     hint: field.hint,
     span: field.span ?? 24,
+    multiple: field.multiple ?? false,
     formatter: field.formatter,
     dictData: await getDictData(field),
   }
@@ -61,7 +62,9 @@ export const getDictData = async (field: IDFieldBase) => {
 export const fetchDict = async (field: IDFieldBase) => {
   try {
     const dict = handle.dictList.find(item => item.url == field.dictUrl);
-    if (dict) return dict.items;
+    if (dict) {
+      return await dict._promise ?? dict.items;
+    }
 
     const dictProps = {
       res: field.dictProps?.res ?? 'data',
@@ -72,11 +75,15 @@ export const fetchDict = async (field: IDFieldBase) => {
     };
 
     if (handle.axios) {
+      let __resolve: (value: IDDictItem[] | PromiseLike<IDDictItem[]>) => void
       // 添加数据，防止重复请求
       const _dict: IDDict = {
         url: field.dictUrl,
         status: 'padding',
         items: [],
+        _promise: new Promise((resolve) => {
+          __resolve = resolve
+        })
       }
       handle.dictList.push(_dict)
 
@@ -99,6 +106,8 @@ export const fetchDict = async (field: IDFieldBase) => {
       // console.log(props?.formatter, res)
       _dict.items = field.dictFormatter ? field.dictFormatter(resData) : resData
       _dict.status = 'done'
+      //@ts-ignore
+      __resolve(_dict.items);
       return _dict.items
     }
   } catch (error) {
@@ -108,7 +117,7 @@ export const fetchDict = async (field: IDFieldBase) => {
 }
 
 // format Value 对不同的数据域类型格式化显示结果
-export const formatValue = (row: IDModel, field: any) => {
+export const formatValue = (row: IDModel, field: IDFieldBase) => {
   const value = row[field.prop]
 
   if (field.formatter) {
@@ -117,7 +126,7 @@ export const formatValue = (row: IDModel, field: any) => {
     const dict = field.dictData?.filter((item: any) => value.includes(item.value))
     return dict?.map((item: any) => item.label).join(',') ?? value
   } else if (field.type === 'select' || field.type === 'radio' || field.type === 'radioButton') {
-    const dict = field.dictData?.find((item: any) => item.value === value) ?? {}
+    const dict = field.dictData?.find((item: any) => item.value === value)
     return dict?.label ?? value
   } else if (field.type === 'tree') {
     const dict =

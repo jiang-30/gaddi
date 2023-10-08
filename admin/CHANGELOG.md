@@ -1,5 +1,47 @@
 # @gaddi/admin
 
+## 0.0.1-alpha.7
+
+### Patch Changes
+
+- Updated dependencies
+  - @gaddi/components@0.0.1-alpha.25
+
+## 0.0.1-alpha.6
+
+### Patch Changes
+
+- Updated dependencies
+  - @gaddi/components@0.0.1-alpha.24
+
+## 0.0.1-alpha.5
+
+### Patch Changes
+
+- Updated dependencies
+  - @gaddi/components@0.0.1-alpha.23
+
+## 0.0.1-alpha.4
+
+### Patch Changes
+
+- Updated dependencies
+  - @gaddi/components@0.0.1-alpha.22
+
+## 0.0.1-alpha.3
+
+### Patch Changes
+
+- Updated dependencies
+  - @gaddi/components@0.0.1-alpha.21
+
+## 0.0.1-alpha.2
+
+### Patch Changes
+
+- Updated dependencies
+  - @gaddi/components@0.0.1-alpha.20
+
 ## 0.0.1-alpha.1
 
 ### Patch Changes

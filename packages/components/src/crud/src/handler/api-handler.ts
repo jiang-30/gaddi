@@ -43,14 +43,14 @@ export async function queryPageApi(props: IDCrudProps, model: IDModel, searchMod
   }
 
   beforeInterceptors('query', requestConfig, props);
-  const res: any = await handle.axios(requestConfig)
-  const data = at(res, api.pageProps?.res ?? 'data.records')[0];
+  const res: any = await handle.axios(requestConfig);
+  const data = {
+    data: at(res, api.pageProps?.res ?? 'data.records')[0],
+    total: at(res, api.pageProps?.total ?? 'data.total')[0]
+  };
   afterInterceptors('query', data, props);
 
-  return {
-    data,
-    total: at(res, api.pageProps?.total ?? 'data.total')[0]
-  }
+  return data;
 }
 
 

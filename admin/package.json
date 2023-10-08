@@ -1,6 +1,6 @@
 {
   "name": "@gaddi/admin",
-  "version": "0.0.1-alpha.1",
+  "version": "0.0.1-alpha.7",
   "private": true,
   "engines": {
     "node": ">=16",
@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@amap/amap-jsapi-loader": "^1.0.1",
-    "@gaddi/components": "workspace:0.0.1-alpha.19",
+    "@gaddi/components": "workspace:0.0.1-alpha.25",
     "@iconify/vue": "^4.1.1",
     "crypto-js": "^4.1.1",
     "leaflet": "1.9.2",

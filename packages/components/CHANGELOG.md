@@ -1,5 +1,43 @@
 # @gaddi/components
 
+## 0.0.1-alpha.25
+
+### Patch Changes
+
+- fix
+
+## 0.0.1-alpha.24
+
+### Patch Changes
+
+- fix
+
+## 0.0.1-alpha.23
+
+### Patch Changes
+
+- fix
+
+## 0.0.1-alpha.22
+
+### Patch Changes
+
+- 依赖
+
+## 0.0.1-alpha.21
+
+### Patch Changes
+
+- 更新依赖
+
+## 0.0.1-alpha.20
+
+### Patch Changes
+
+- 优化
+- Updated dependencies
+  - @gaddi/utils@0.0.1-alpha.2
+
 ## 0.0.1-alpha.19
 
 ### Patch Changes

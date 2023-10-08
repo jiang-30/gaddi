@@ -33,6 +33,7 @@ export type IDDict = {
   url?: string
   status?: 'padding' | 'done'
   items: IDDictItem[]
+  _promise?: Promise<IDDictItem[]>
 }
 
 // 数据格式化 dict、tree.props、cascader.props
@@ -84,6 +85,8 @@ export interface IDFieldBase {
   hint?: string
   // 布局
   span?: number
+  // 多选
+  multiple?: boolean
   // 字典数据
   dictData?: IDDictItem[]
   // 字典编码
