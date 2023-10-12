@@ -1,11 +1,3 @@
-import type { IDCrudStatus, IDCrudBeforeFetchFn, IDCrudAfterFetchFn } from "./index"
-
-export interface IDCrudApiHook {
-  currentType: IDCrudStatus // data.total
-  beforeFetch?: IDCrudBeforeFetchFn,
-  afterFetch?: IDCrudAfterFetchFn    // data
-}
-
 /**
  *  format('url?id={id}'， {id: 1})
  */
