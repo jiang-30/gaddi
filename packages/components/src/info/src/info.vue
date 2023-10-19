@@ -1,6 +1,11 @@
 <template>
   <el-descriptions v-bind="__infoAttrs" :column="24">
-    <el-descriptions-item v-for="field in __infoFields" :key="field.prop" v-bind="field.__itemAttrs" :span="field.span">
+    <el-descriptions-item
+      v-for="field in __infoFields"
+      :key="field.prop"
+      v-bind="field.__itemAttrs"
+      :span="field.span"
+    >
       <template #label>
         <LabelTooltip :label="field.label" :hint="field.hint"></LabelTooltip>
       </template>
@@ -8,7 +13,12 @@
         <slot :name="getSlotName(field.prop)" :model="infoModel" :row="infoModel" :field="field">
           <!-- 图片显示 -->
           <template v-if="field.type == 'image' || field.type == 'images'">
-            <ImageList :images="formatValue(infoModel, field)" width="148px" height="148px" gap="8px"></ImageList>
+            <ImageList
+              :images="formatValue(infoModel, field)"
+              width="148px"
+              height="148px"
+              gap="8px"
+            ></ImageList>
           </template>
           <template v-else>
             {{ formatValue(infoModel, field) }}
@@ -24,7 +34,7 @@ import LabelTooltip from '../../common/components/label-tooltip.vue'
 import ImageList from '../../common/components/image-list.vue'
 import { infoProps, infoEmits } from './info'
 import { useInfoOption } from './utils'
-import { formatValue } from '../../handle'
+import { formatValue } from '../../handler'
 
 defineOptions({ name: 'DInfo' })
 
@@ -42,5 +52,4 @@ const getSlotName = (prop: string) => {
     return prop
   }
 }
-
 </script>

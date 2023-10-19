@@ -3,19 +3,26 @@ import { useDictStore } from '@/store'
 import { ref, computed, type Ref } from 'vue'
 
 export const useModel = (tableData: Ref<any[]>) => {
+
   const api = ref<IDCrudApi>({
-    create: '/admin/menu',
-    update: '/admin/menu',
-    delete: '/admin/menu/',
+    restful: '/admin/menu',
     list: '/admin/menu/tree',
   })
 
   const option = computed<IDCrudOption>(() => {
     return {
-      indexColumn: false,
+      dialogWidth: '1000px',
       rowKey: 'id',
+      indexColumn: false,
+      rowActionWidth: 220,
       labelWidth: '100px',
       fields: [
+        {
+          prop: 'title',
+          label: '名称',
+          type: 'input',
+          isForm: false,
+        },
         {
           prop: 'type',
           label: '类型',
@@ -24,6 +31,7 @@ export const useModel = (tableData: Ref<any[]>) => {
           default: 'page',
           width: 160,
           span: 12,
+          align: 'center',
         },
         {
           prop: 'parentId',
@@ -51,13 +59,12 @@ export const useModel = (tableData: Ref<any[]>) => {
               trigger: 'change',
             },
           ],
+          isTable: false,
         },
         {
           prop: 'icon',
           label: '图标',
           type: 'input',
-          formSlot: true,
-          tableSlot: true,
           width: 100,
           align: 'center',
         },
@@ -76,9 +83,10 @@ export const useModel = (tableData: Ref<any[]>) => {
           listen: {
             show: { type: 'page' },
           },
+          isTable: false,
         },
         {
-          prop: 'component',
+          prop: 'componentPath',
           label: '组件路径',
           type: 'input',
           listen: {
@@ -93,6 +101,7 @@ export const useModel = (tableData: Ref<any[]>) => {
               trigger: 'change',
             },
           ],
+          align: 'center',
         },
         {
           prop: 'permission',
@@ -134,6 +143,7 @@ export const useModel = (tableData: Ref<any[]>) => {
           listen: {
             hide: { type: 'button' },
           },
+          align: 'center',
           width: 100,
           span: 12,
         },
@@ -179,6 +189,7 @@ export const useModel = (tableData: Ref<any[]>) => {
           type: 'inputNumber',
           default: 1,
           span: 12,
+          align: 'center',
           width: 100,
         },
         {
@@ -187,6 +198,7 @@ export const useModel = (tableData: Ref<any[]>) => {
           type: 'radio',
           dictData: useDictStore().items('SYS_ENABLED'),
           default: '1',
+          align: 'center',
           width: 100,
           span: 12,
         },

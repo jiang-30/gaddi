@@ -2,7 +2,7 @@
 import type { TableColumnCtx } from 'element-plus'
 import type { IDCrudOption } from '../type'
 import type { IDCrudColumnAttrs } from '../type/field'
-import { omitProperty, handle } from '../../../handle'
+import { omitProperty, handle } from '../../../handler'
 
 // element-plus ElTabelColumn Attrs
 export const tableColumnAttrsFormat = (option: IDCrudOption, field: IDCrudColumnAttrs): Partial<TableColumnCtx<any>> => {

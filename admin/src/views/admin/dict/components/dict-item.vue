@@ -1,6 +1,11 @@
 <template>
   <el-dialog v-model="visible" title="字典项" width="800px" destroy-on-close>
-    <WCrud v-model:table-data="tableData" :option="option" :api="api" :before-fetch="beforeFetchHandler"></WCrud>
+    <DCrud
+      v-model:table-data="tableData"
+      :option="option"
+      :api="api"
+      :before-fetch="beforeFetchHandler"
+    ></DCrud>
   </el-dialog>
 </template>
 
@@ -8,7 +13,7 @@
 import type { IDCrudOption } from '@gaddi/components'
 import type { IDictDataType } from '@/typings'
 import { useDictStore } from '@/store'
-import { computed, ref } from 'vue';
+import { computed, ref } from 'vue'
 
 const visible = ref(false)
 const dictDataType = ref<IDictDataType>('list')

@@ -14,11 +14,10 @@
     <!-- 内容区 -->
     <main class="app-layout-main" ref="mainRef">
       <RouterView v-slot="{ Component, route }">
-        <transition name="main" mode="out-in" appear>
-          <keep-alive :max="10" :include="routeStore.keepAliveList">
-            <component :is="Component" :key="route.fullPath" />
-          </keep-alive>
-        </transition>
+        <!-- <transition name="main" mode="out-in" appear></transition> -->
+        <keep-alive :max="10" :include="routeStore.keepAliveList">
+          <component :is="Component" :key="route.fullPath" />
+        </keep-alive>
       </RouterView>
     </main>
     <!-- 脚注 -->
@@ -75,7 +74,6 @@ useResizeObserver(document.body, event => {
 onBeforeUnmount(() => {
   eventBus.reset()
 })
-
 </script>
 
 <style scoped>

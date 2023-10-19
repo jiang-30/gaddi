@@ -1,7 +1,7 @@
 import { computed } from 'vue'
 import type { TableProps, PaginationProps, DialogProps } from 'element-plus'
 import type { IDCrudOption, boolFun } from './type'
-import { handle, getBaseFields, omitProperty } from '../../handle'
+import { handle, getBaseFields, omitProperty } from '../../handler'
 import { tableAttrsFormat } from './handler/table-handler'
 import { paginationAttrsFormat } from './handler/pagination-handler'
 import { dialogAttrsFormat } from './handler/dialog-handler'
@@ -23,7 +23,7 @@ export const useCrudOption = (option: IDCrudOption) => {
   })
 
   // 弹窗 ElDialog 属性
-  const __dialogAttrs = computed<Partial<DialogProps>>(() => {
+  const __dialogAttrs = computed<Partial<{ height: string } & DialogProps>>(() => {
     return omitProperty(dialogAttrsFormat(option))
   })
 

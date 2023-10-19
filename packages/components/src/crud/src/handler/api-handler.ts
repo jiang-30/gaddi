@@ -1,6 +1,6 @@
 import type { IDModel } from '../../../typings'
 import type { IDCrudProps, IDCrudStatus } from '../type/index'
-import { handle } from '../../../handle'
+import { handle } from '../../../handler'
 import { at } from 'lodash-es'
 import format from 'string-template'
 import { ElNotification } from 'element-plus'

@@ -6,18 +6,18 @@ meta:
 
 <template>
   <PageContainer>
-    <WCrud :option="option" :api="api">
+    <DCrud :option="option" :api="api">
       <template #row-action="{ row }">
         <el-button text size="small" type="primary" @click="onOpen(row)">权限</el-button>
       </template>
-    </WCrud>
+    </DCrud>
 
     <PermissionView ref="permissionRef" />
   </PageContainer>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref } from 'vue'
 import PermissionView from './components/permission-view.vue'
 import { useModel } from './model'
 

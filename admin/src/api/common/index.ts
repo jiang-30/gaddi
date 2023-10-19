@@ -1,7 +1,7 @@
+import { isArray } from './../../utils/type';
 import type { AxiosProgressEvent } from 'axios'
 import { request } from '@/plugin/request'
 import { encrypt } from '@/utils/crypto-utils'
-import appConfig from '@/app.config'
 import type { ILoginParam, ILoginResponse } from './types'
 
 // 用户登录
@@ -28,22 +28,25 @@ export function fetchPermission() {
   return request({
     method: 'get',
     url: '/admin/auth/permission',
+  }).then(res => {
+    res.data.menus.forEach((menu: any) => {
+      menu.isEnabled = menu.isEnabled === '1'
+      menu.isAlive = menu.isAlive === '1'
+      menu.isShowMenu = menu.isShowMenu === '1'
+      menu.isTab = menu.isTab === '1'
+      menu.permission = menu.permission ? menu.permission.split(',') : []
+    })
+
+    return res
   })
 }
 
 // 查询字典列表
 export function fetchDict() {
-  if (!appConfig.remoteDict) {
-    return Promise.resolve({
-      code: 1,
-      data: [],
-    })
-  } else {
-    return request({
-      method: 'get',
-      url: '/admin/dict/items/all',
-    })
-  }
+  return request({
+    method: 'get',
+    url: '/admin/dict/items/all',
+  })
 }
 
 // 修改信息

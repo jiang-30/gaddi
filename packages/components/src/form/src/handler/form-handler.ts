@@ -1,6 +1,6 @@
 import type { FormProps } from 'element-plus'
 import type { IDFormOption, IDSearchFormOption } from '../type'
-import { omitProperty, handle } from '../../../handle'
+import { omitProperty, handle } from '../../../handler'
 
 export const formAttrsFormat = (option: IDFormOption): Partial<FormProps> => {
   const defaultAttrs = handle.defaultAttrs

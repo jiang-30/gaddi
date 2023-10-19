@@ -1,5 +1,5 @@
 import type { IDFormFieldAttrs } from '../type'
-import { omitProperty, handle } from '../../../handle'
+import { omitProperty, handle } from '../../../handler'
 
 export const formFieldSelectFormat = (field: IDFormFieldAttrs) => {
   const defaultFieldAttrs = handle.defaultFieldAttrs

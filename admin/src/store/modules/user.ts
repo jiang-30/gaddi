@@ -21,10 +21,9 @@ export const useUserStore = defineStore({
     accessToken: '',
     refreshToken: '',
     expires: 0,
-    isInit: false,
     userInfo: <IUserInfo>{},
     dept: {},
-    roleList: {},
+    roleList: <any[]>[],
     // 当前用户的权限列表
     permissions: <string[]>[], // setAuthorities ["ROLE:ADMIN"]
   }),
@@ -45,11 +44,6 @@ export const useUserStore = defineStore({
       }
     },
 
-    // 校验用户登录态
-    async fetchCheck() {
-      return true
-    },
-
     // 设置认证信息
     async setTokenInfo(tokenInfo: ITokenInfo) {
       this.accessToken = tokenInfo.accessToken
@@ -61,39 +55,51 @@ export const useUserStore = defineStore({
     async setUserInfo(userInfo: IUserInfo) {
       this.userInfo = userInfo
     },
-
+    // 设置部门信息
+    async setDept(dept: any) {
+      this.dept = dept
+    },
+    // 设置角色列表
+    async setRoleList(roleList: any[]) {
+      this.roleList = roleList
+    },
     // 设置用户的权限信息 角色可以使用 ROLE:ADMIN 表示
     async setPermissions(permissions: string[]) {
-      this.permissions = permissions
+      this.permissions = [...this.roleList.map((item: any) => `ROLE:${item.code}`), ...permissions]
     },
 
+    // 校验用户登录态
+    async fetchCheck() {
+      return true
+    },
     // 获取用户信息
     async fetchUserInfo() {
       return fetchProfile().then(({ data }) => {
-        this.userInfo = data.userInfo
-        this.dept = data.dept
-        this.roleList = data.roleList
+        this.setUserInfo(data.userInfo)
+        this.setDept(data.dept)
+        this.setRoleList(data.roleList)
       })
     },
 
     async init() {
-      // if (this.isLogin && !this.isInit) {
-      //   this.isInit = true
-      //   await this.fetchUserInfo() // 用户信息
-      // }
+      if (this.isLogin) {
+        await this.fetchUserInfo() // 用户信息
+      }
     },
-
     async clear() {
       this.$reset()
     },
 
     // 初始化基础必要信息: 用户信息、菜单信息、字典信息
     async initHandler() {
-      return Promise.all([
-        this.init(),
-        useDictStore().init(this.isLogin), // 字典信息
-        useMenuStore().init(this.isLogin), // 菜单权限信息
-      ])
+      if (!IS_INIT) {
+        IS_INIT = true
+        return Promise.all([
+          this.init(),
+          useDictStore().init(this.isLogin), // 字典信息
+          useMenuStore().init(this.isLogin), // 菜单权限信息
+        ])// 用户信息
+      }
     },
 
     /**

@@ -1,15 +1,36 @@
 <template>
-  <el-form ref="formRef" :model="formData" :rules="formRules" :disabled="loading" @keyup.enter="onSubmit(formRef)">
+  <el-form
+    ref="formRef"
+    :model="formData"
+    :rules="formRules"
+    :disabled="loading"
+    @keyup.enter="onSubmit(formRef)"
+  >
     <el-form-item prop="username">
-      <el-input v-model="formData.username" type="primary" link :prefix-icon="User" placeholder="请输入登录用户名"
-        clearable></el-input>
+      <el-input
+        v-model="formData.username"
+        type="primary"
+        link
+        :prefix-icon="User"
+        placeholder="请输入登录用户名"
+        clearable
+      ></el-input>
     </el-form-item>
     <el-form-item prop="password">
-      <el-input v-model="formData.password" type="password" :prefix-icon="Lock" placeholder="请输入登录密码" show-password
-        clearable @keyup.enter="onSubmit(formRef)">
+      <el-input
+        v-model="formData.password"
+        type="password"
+        :prefix-icon="Lock"
+        placeholder="请输入登录密码"
+        show-password
+        clearable
+        @keyup.enter="onSubmit(formRef)"
+      >
       </el-input>
     </el-form-item>
-    <el-button class="w-full" type="primary" @click="onSubmit(formRef)" :loading="loading">登录</el-button>
+    <el-button class="w-full" type="primary" @click="onSubmit(formRef)" :loading="loading"
+      >登录</el-button
+    >
   </el-form>
 </template>
 
@@ -79,8 +100,6 @@ const onSubmit = (form: FormInstance | undefined) => {
             loading.value = false
           })
       }
-    } else {
-      return false
     }
   })
 }

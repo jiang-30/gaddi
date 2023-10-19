@@ -38,6 +38,9 @@ export default defineConfig({
           globals: {
             'vue': 'vue',
             'element-plus': 'elementPlus',
+            '@element-plus/icons-vue': 'iconsVue',
+            'lodash-es': 'lodashEs',
+            '@vueuse/core': 'vueUse',
           },
           format: "umd",
           name: "WhirlComponents",

@@ -1,11 +1,12 @@
 import { useDictStore } from '@/store'
-import { ref } from 'vue'
+import type { IDCrudApi, IDCrudOption } from '@gaddi/components'
 
 export const useModel = () => {
-  const api = ref({
+  const api: IDCrudApi = {
     restful: '/admin/user',
-  })
-  const option = ref({
+  }
+
+  const option: IDCrudOption = {
     rowActionWidth: 200,
     labelWidth: 100,
     fields: [
@@ -67,14 +68,14 @@ export const useModel = () => {
         prop: 'phone',
         label: '手机号码',
         type: 'input',
-        table: false,
-        rules: [{ type: 'string', length: 11, message: '手机号码格式不正确', trigger: 'blur' }],
+        isTable: false,
+        rules: [{ type: 'string', max: 11, message: '手机号码格式不正确', trigger: 'blur' }],
       },
       {
         prop: 'remark',
         label: '备注',
         type: 'textarea',
-        rules: [{ type: 'string', length: 255, message: '255个字符以内', trigger: 'blur' }],
+        rules: [{ type: 'string', max: 255, message: '255个字符以内', trigger: 'blur' }],
         isTable: false,
       },
       {
@@ -86,7 +87,7 @@ export const useModel = () => {
         width: 100,
       },
     ],
-  })
+  }
 
   return {
     api,

@@ -1,5 +1,5 @@
 import type { Directive } from "vue";
-import { handle } from "../../handle";
+import { handle } from "../../handler";
 
 /**
  * 权限指令

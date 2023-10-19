@@ -6,7 +6,7 @@ meta:
 
 <template>
   <PageContainer>
-    <WCrud :option="option" :api="api"> </WCrud>
+    <DCrud :option="option" :api="api"> </DCrud>
   </PageContainer>
 </template>
 

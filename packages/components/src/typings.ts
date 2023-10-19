@@ -33,6 +33,7 @@ export type IDDict = {
   url?: string
   status?: 'padding' | 'done'
   items: IDDictItem[]
+  _timestamp?: number
   _promise?: Promise<IDDictItem[]>
 }
 

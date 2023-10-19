@@ -1,7 +1,7 @@
 
 import type { TableProps } from 'element-plus'
 import type { IDCrudOption } from '../type'
-import { handle } from '../../../handle'
+import { handle } from '../../../handler'
 
 // element-plus ElTabel Attrs
 export const tableAttrsFormat = (option: IDCrudOption): Omit<TableProps<any>, 'data'> => {

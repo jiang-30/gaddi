@@ -1,29 +1,20 @@
+import type { IDCrudApi, IDCrudOption } from '@gaddi/components';
 import { ref } from 'vue'
 
 export const useModel = () => {
-  const api = ref({});
-  const option = ref({
-    width: 600,
-    draggable: true,
-    appendToBody: true,
-    border: true,
-    stripe: true,
-    labelSuffix: "：",
-    labelWidth: 100,
-    rowMenu: true,
-    rowMenuWidth: 210,
-    rowMenuAlign: "center",
-    createBtn: false,
-    updateBtn: false,
-    deleteBtn: true,
-    infoBtn: true,
-    span: 24,
+  const api: IDCrudApi = {
+    restful: '/admin/file'
+  };
+  const option: IDCrudOption = {
+    isCreateBtn: false,
+    isUpdateBtn: false,
+    isInfoBtn: true,
     fields: [
       {
         prop: "originFilename",
         label: "文件名",
         type: "input",
-        search: true,
+        isSearch: true,
       },
       {
         prop: "访问地址",
@@ -46,13 +37,13 @@ export const useModel = () => {
         prop: "bucket",
         label: "bucket",
         type: "input",
-        table: false,
+        isTable: false,
       },
       {
         prop: "etag",
         label: "etag",
         type: "input",
-        table: false,
+        isTable: false,
       },
       {
         prop: "createdTime",
@@ -62,7 +53,7 @@ export const useModel = () => {
         align: "center",
       },
     ],
-  });
+  }
 
   return {
     api,

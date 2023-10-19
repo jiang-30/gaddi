@@ -10,7 +10,6 @@ import type { RouteRecordName } from 'vue-router'
 import { cloneDeep } from 'lodash-es'
 
 const storeKey = 'MENU_STORE'
-let IS_INIT = false
 
 export const useMenuStore = defineStore({
   id: storeKey,
@@ -24,7 +23,6 @@ export const useMenuStore = defineStore({
   },
   state: () => ({
     menus: <IMenu[]>[],
-    isInit: false,
   }),
   getters: {
     /**
@@ -136,7 +134,6 @@ export const useMenuStore = defineStore({
         ...generateStaticMenus(),
         ...flatMenus(menus),
       ]
-      IS_INIT = true
       useRouteStore().setRoutes(this.enabledMenus)
     },
 
@@ -147,6 +144,7 @@ export const useMenuStore = defineStore({
     async fetchMenus() {
       return fetchPermission().then(({ data }) => {
         this.setMenus(data.menus)
+        useUserStore().setPermissions(data.permissions)
       })
     },
 
@@ -155,23 +153,15 @@ export const useMenuStore = defineStore({
      */
     async init(isLogin: boolean) {
       if (isLogin) {
-        // if (!this.isInit) {
-        //   this.isInit = true
-        //   await this.fetchMenus()
-        // }
-
-        if (!IS_INIT) {
-          IS_INIT = true
-          useRouteStore().setRoutes(this.menus)
-        }
+        await this.fetchMenus()
+        useRouteStore().setRoutes(this.menus)
       }
     },
 
     // 清除数据
     async clear() {
-      IS_INIT = false
+      this.setMenus([])
       this.$reset()
-      useRouteStore().setRoutes([])
     }
   },
 })

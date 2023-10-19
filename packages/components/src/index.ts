@@ -10,7 +10,7 @@ export * from "./common/directives/resize";
 
 
 import type { IDOption } from './typings'
-import { handle } from "./handle";
+import { handle } from "./handler";
 import { DImageUpload, DImagesUpload } from "./upload/index";
 import { WSection } from "./section/index";
 import { WRoll } from "./roll/index";

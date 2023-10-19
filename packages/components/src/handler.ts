@@ -60,34 +60,40 @@ export const getDictData = async (field: IDFieldBase) => {
 
 // dictUrl 请求字典数据
 export const fetchDict = async (field: IDFieldBase) => {
-  try {
-    const dict = handle.dictList.find(item => item.url == field.dictUrl);
-    if (dict) {
-      return await dict._promise ?? dict.items;
+  let __resolve: (value: IDDictItem[] | PromiseLike<IDDictItem[]>) => void
+  const currentTimestamp = Date.now()
+  let dict = handle.dictList.find(item => item.url == field.dictUrl);
+
+  // 不是动态请求
+  // 动态请求没有过期
+  if (dict && !dict._promise) {
+    return dict.items;
+  } else if (dict?._promise && dict?._timestamp && dict?._timestamp - currentTimestamp < 10000) {
+    return await dict._promise
+  }
+
+  if (!dict) {
+    dict = {
+      url: field.dictUrl,
+      items: [],
     }
+    handle.dictList.push(dict)
+  }
+  dict.status = 'padding';
+  dict._timestamp = currentTimestamp;
+  dict._promise = new Promise((resolve) => {
+    __resolve = resolve
+  });
 
-    const dictProps = {
-      res: field.dictProps?.res ?? 'data',
-      label: field.dictProps?.label ?? 'label',
-      value: field.dictProps?.value ?? 'value',
-      children: field.dictProps?.children ?? 'children',
-      disabled: field.dictProps?.disabled ?? 'disabled',
-    };
-
-    if (handle.axios) {
-      let __resolve: (value: IDDictItem[] | PromiseLike<IDDictItem[]>) => void
-      // 添加数据，防止重复请求
-      const _dict: IDDict = {
-        url: field.dictUrl,
-        status: 'padding',
-        items: [],
-        _promise: new Promise((resolve) => {
-          __resolve = resolve
-        })
-      }
-      handle.dictList.push(_dict)
-
-      // 请求数据
+  if (handle.axios) {
+    try {
+      const dictProps = {
+        res: field.dictProps?.res ?? 'data',
+        label: field.dictProps?.label ?? 'label',
+        value: field.dictProps?.value ?? 'value',
+        children: field.dictProps?.children ?? 'children',
+        disabled: field.dictProps?.disabled ?? 'disabled',
+      };
       const res = await handle
         .axios({
           method: 'get',
@@ -95,6 +101,7 @@ export const fetchDict = async (field: IDFieldBase) => {
         })
 
       let resData = at(res as any, dictProps.res)[0]
+      // TODO: 树结构
       resData = resData.map((item: any) => {
         return {
           label: at(item, dictProps.label)[0],
@@ -104,15 +111,19 @@ export const fetchDict = async (field: IDFieldBase) => {
         }
       })
       // console.log(props?.formatter, res)
-      _dict.items = field.dictFormatter ? field.dictFormatter(resData) : resData
-      _dict.status = 'done'
+      dict.items = field.dictFormatter ? field.dictFormatter(resData) : resData
+      dict.status = 'done'
       //@ts-ignore
       __resolve(_dict.items);
-      return _dict.items
+      return dict.items
+    } catch (error) {
+      console.error(error)
+      //@ts-ignore
+      __resolve([]);
+      return []
     }
-  } catch (error) {
-    console.error(error)
   }
+
   return []
 }
 

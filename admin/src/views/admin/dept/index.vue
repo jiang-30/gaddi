@@ -6,12 +6,12 @@ meta:
 
 <template>
   <PageContainer>
-    <WCrud :option="option" :api="api" v-model:table-data="tableData"> </WCrud>
+    <DCrud :option="option" :api="api" v-model:table-data="tableData"> </DCrud>
   </PageContainer>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref } from 'vue'
 import { useModel } from './model'
 const tableData = ref<any[]>([])
 const { option, api } = useModel(tableData)

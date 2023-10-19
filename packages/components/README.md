@@ -1,5 +1,6 @@
 ## TODO
 
+- info query 参数未正常携带
 - modelKey = id
 - fetch dict 过期时间， 要不然数据修改后不能重新加载
 - 主动关闭弹窗

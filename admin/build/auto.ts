@@ -35,7 +35,7 @@ export default function createAuto() {
       dts: "./auto-components.d.ts",
       // 自动引入自定义组件
       dirs: [
-        "src/components",
+        // "src/components",
       ],
       include: [/\.vue$/],
       // // 导入 vue 和 vue-router 中的组件

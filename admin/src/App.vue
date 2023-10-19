@@ -1,22 +1,26 @@
 <template>
   <el-config-provider :size="size" :zIndex="zIndex" :locale="zhCn">
-    <RouterView />
+    <UseNetwork v-slot="{ isOnline }">
+      <RouterView v-if="isOnline" />
+      <AppOffline v-else></AppOffline>
+    </UseNetwork>
   </el-config-provider>
 </template>
 
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
-import { watchEffect, onMounted } from 'vue'
+import { UseNetwork } from '@vueuse/components'
+import AppOffline from './components/AppOffline.vue'
+import { watchEffect } from 'vue'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { useConfigStore } from './store'
-import { useSearchBar } from '@/hooks/use-search-bar'
 
 NProgress.configure({ showSpinner: false })
 const configStore = useConfigStore()
-const zIndex = 2000;
-const size = "default";
+const zIndex = 2000
+const size = 'default'
 
 // 设置应用title
 watchEffect(() => {
@@ -54,15 +58,5 @@ watchEffect(() => {
   } else {
     NProgress.done()
   }
-})
-
-const { openSearchBar } = useSearchBar()
-
-onMounted(() => {
-  window.addEventListener('keydown', (event) => {
-    if (event.ctrlKey && event.key === " ") {
-      openSearchBar()
-    }
-  })
 })
 </script>

@@ -32,8 +32,8 @@ meta:
 import UsernamePassword from './components/UsernamePassword.vue'
 import { useRouteStore, useUserStore, useMenuStore, useDictStore } from '@/store'
 import type { ILoginInfo } from './index'
-import { useRoute, useRouter } from 'vue-router';
-import { ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router'
+import { ref } from 'vue'
 
 const userStore = useUserStore()
 const route = useRoute()
@@ -64,7 +64,7 @@ async function successHandler(data: ILoginInfo) {
   useDictStore().setDictList([])
 
   // 登录后请求必要的信息
-  // await userStore.initHandler()
+  await userStore.initHandler()
 
   // 跳转路由
   if (route.query.redirect) {
@@ -72,7 +72,6 @@ async function successHandler(data: ILoginInfo) {
   } else {
     router.replace({ name: useRouteStore().indexPageName })
   }
-
 }
 </script>
 

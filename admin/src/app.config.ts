@@ -3,7 +3,7 @@ import type { IConfig } from './typings'
 
 const config: IConfig & Record<string, any> = {
   // 登录， 用户信息，用户权限
-  isLocalLogin: true,
+  isLocalLogin: false,
   // 字典项
   remoteDict: false,
 

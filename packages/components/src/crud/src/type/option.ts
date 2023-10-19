@@ -115,9 +115,10 @@ interface ICrudPaginationAttrs {
 
 // CRUD Dialog 属性
 interface ICrudDialogAttrs {
-  // dialogTitle?: string;
+  dialogHeight?: string
   dialogWidth?: DialogProps['width']
-  dialogFullscreen?: boolean
+  dialogTitle?: string;
+  // dialogFullscreen?: boolean
   dialogTop?: string
   dialogModal?: boolean
   dialogAppendToBody?: boolean

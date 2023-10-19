@@ -5,7 +5,7 @@ import type {
   IDSearchFormOption,
 } from './type'
 import type { IDFormType } from './type'
-import { omitProperty, handle, getBaseFields } from '../../handle'
+import { omitProperty, handle, getBaseFields } from '../../handler'
 import { formAttrsFormat, searchFormAttrsFormat } from './handler/form-handler'
 import { formItemAttrsFormat, searchFormItemAttrsFormat } from './handler/form-item-handler'
 import { formFieldTreeFormat, searchFormFieldTreeFormat } from './handler/field-tree'

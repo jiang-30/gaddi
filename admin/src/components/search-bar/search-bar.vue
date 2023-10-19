@@ -2,13 +2,24 @@
   <div class="app-search-bar" @click="onClickMask">
     <section class="app-search-bar-wrapper" @click.stop>
       <header class="app-search-bar-input">
-        <el-input ref="inputRef" style="height: 100%;" v-model="keyword" placeholder="请输入搜索内容" clearable
-          @input="onInputChange"></el-input>
+        <el-input
+          ref="inputRef"
+          style="height: 100%"
+          v-model="keyword"
+          placeholder="请输入搜索内容"
+          clearable
+          @input="onInputChange"
+        ></el-input>
       </header>
       <main class="app-search-bar-result">
         <el-scrollbar max-height="400px">
           <div v-if="menuList.length" class="app-search-bar-list">
-            <div class="app-search-bar-item" v-for="item in menuList" :key="item.name" @click="onNav(item)">
+            <div
+              class="app-search-bar-item"
+              v-for="item in menuList"
+              :key="item.name"
+              @click="onNav(item)"
+            >
               <span>{{ item.title }}</span>
               <el-icon>
                 <Right />
@@ -25,17 +36,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted } from 'vue'
 import { ElInput, ElEmpty, ElScrollbar, ElIcon, type InputInstance } from 'element-plus'
 import { Right } from '@element-plus/icons-vue'
-import { useMenuStore } from '@/store';
-import type { IMenu } from '@/typings';
+import { useMenuStore } from '@/store'
+import type { IMenu } from '@/typings'
 
 const emit = defineEmits(['close'])
 const inputRef = ref<InputInstance>()
 const menuStore = useMenuStore()
 const keyword = ref('')
-const menuList = ref<IMenu[]>([]);
+const menuList = ref<IMenu[]>([])
 
 onMounted(() => {
   inputRef.value?.focus()
@@ -43,7 +54,12 @@ onMounted(() => {
 
 const searchHandler = () => {
   if (keyword.value) {
-    menuList.value = menuStore.enabledMenus.filter(item => item.type == 'page' && item.title && item.title.includes(keyword.value))
+    menuList.value = menuStore.enabledMenus.filter(
+      item =>
+        item.type == 'page' &&
+        item.title &&
+        item.title.toLowerCase().includes(keyword.value.toLowerCase()),
+    )
   } else {
     menuList.value = []
   }
@@ -62,7 +78,7 @@ const onInputChange = (value: string) => {
 }
 
 const onNav = (menu: IMenu) => {
-  menuStore.navTo(menu.name);
+  menuStore.navTo(menu.name)
   closeHandler()
 }
 </script>
@@ -120,11 +136,11 @@ const onNav = (menu: IMenu) => {
 
 @keyframes appSearchBarIn {
   from {
-    transform: scale(0)
+    transform: scale(0);
   }
 
   to {
-    transform: scale(1)
+    transform: scale(1);
   }
 }
 </style>

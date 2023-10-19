@@ -1,23 +1,13 @@
-import { ref } from 'vue'
+import type { IDCrudApi, IDCrudOption } from '@gaddi/components';
 
 export const useModel = () => {
-  const api = ref({});
-  const option = ref({
-    width: 600,
-    draggable: true,
-    appendToBody: true,
-    border: true,
-    stripe: true,
-    labelSuffix: "：",
-    labelWidth: 100,
-    rowMenu: true,
-    rowMenuWidth: 160,
-    rowMenuAlign: "center",
-    createBtn: false,
-    updateBtn: false,
-    deleteBtn: true,
-    infoBtn: true,
-    span: 24,
+  const api: IDCrudApi = {
+    restful: '/admin/log'
+  };
+  const option: IDCrudOption = {
+    isCreateBtn: false,
+    isUpdateBtn: false,
+    isInfoBtn: true,
     fields: [
       {
         prop: "userId",
@@ -70,7 +60,7 @@ export const useModel = () => {
         align: "center",
       },
     ],
-  });
+  }
 
   return {
     api,

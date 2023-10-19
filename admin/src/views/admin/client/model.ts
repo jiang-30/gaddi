@@ -1,29 +1,23 @@
+import type { IDCrudApi, IDCrudOption } from '@gaddi/components';
 import { ref } from 'vue'
 
 export const useModel = () => {
-  const api = ref({});
-  const option = ref({
-    title: "操作",
-    width: 600,
-    draggable: true,
-    appendToBody: true,
-    border: true,
-    stripe: true,
+  const api: IDCrudApi = {
+    restful: '/admin/client'
+  };
+  const option: IDCrudOption = {
     labelWidth: 100,
-    rowMenu: true,
-    rowMenuWidth: 150,
-    createBtn: true,
-    infoBtn: false,
+    rowActionWidth: 150,
     span: 24,
     fields: [
       {
         prop: "name",
-        label: "平台名称",
+        label: "客户端名称",
         type: "input",
         rules: [
           {
             required: true,
-            message: "请输入平台名称",
+            message: "请输入客户端名称",
             trigger: "blur",
           },
           { type: "string", max: 30, message: "30个字符以内", trigger: "blur" },
@@ -42,6 +36,7 @@ export const useModel = () => {
       {
         prop: "secret",
         label: "密钥",
+        type: "input",
         isForm: false,
         width: 290,
         align: "center",
@@ -64,13 +59,13 @@ export const useModel = () => {
         prop: "isEnabled",
         label: "状态",
         type: "radio",
-        dictKey: "SYS_ENABLED",
-        defaultValue: "1",
+        dictCode: "SYS_ENABLED",
+        default: "1",
         width: 100,
         align: "center",
       },
     ],
-  });
+  }
 
   return {
     option,

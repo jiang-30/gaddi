@@ -6,13 +6,13 @@ meta:
 
 <template>
   <PageContainer>
-    <WCrud :option="option" :api="api">
+    <DCrud :option="option" :api="api">
       <template #row-action="{ row }">
         <el-button text size="small" type="primary" @click="onResetPassword(row)">
           重置密码
         </el-button>
       </template>
-    </WCrud>
+    </DCrud>
   </PageContainer>
 </template>
 
@@ -21,7 +21,7 @@ import { useModel } from './model'
 import { fetchQueryRoleList } from '@/api/admin/role'
 import { fetchUpdatePassword } from '@/api/admin/user'
 import { ElMessageBox, ElNotification } from 'element-plus'
-import { ref } from 'vue';
+import { ref } from 'vue'
 
 const roleList = ref([])
 
@@ -43,6 +43,6 @@ const onResetPassword = (row: any) => {
         type: 'success',
       })
     })
-    .catch(() => { })
+    .catch(() => {})
 }
 </script>

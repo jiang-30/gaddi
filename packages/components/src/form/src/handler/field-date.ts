@@ -1,5 +1,5 @@
 import type { IDFormFieldAttrs } from '../type'
-import { handle } from '../../../handle'
+import { handle } from '../../../handler'
 
 export const formFieldDateFormat = (field: IDFormFieldAttrs) => {
   const defaultFieldAttrs = handle.defaultFieldAttrs

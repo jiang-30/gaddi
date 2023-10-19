@@ -1,18 +1,12 @@
+import type { IDCrudApi, IDCrudOption } from '@gaddi/components';
 import { ref } from 'vue'
 
 export const useModel = () => {
-  const api = ref({});
-  const option = ref({
-    title: "操作",
-    width: 600,
-    draggable: true,
-    appendToBody: true,
-    border: true,
-    labelSuffix: "：",
+  const api: IDCrudApi = {
+    restful: '/admin/config'
+  };
+  const option: IDCrudOption = {
     labelWidth: 100,
-    rowMenu: true,
-    createBtn: false,
-    span: 24,
     fields: [
       {
         prop: "name",
@@ -23,13 +17,15 @@ export const useModel = () => {
       {
         prop: "code",
         label: "配置标识",
+        type: "input",
       },
       {
         prop: "note",
         label: "备注",
+        type: "input",
       },
     ],
-  });
+  }
 
   return {
     api,

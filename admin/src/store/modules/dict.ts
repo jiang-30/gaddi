@@ -4,7 +4,6 @@ import { fetchDict } from '@/api/common'
 import type { IDict, IDictItem } from '@/typings'
 
 const storeKey = 'DICT_STORE'
-let IS_INIT = false
 
 export const useDictStore = defineStore({
   id: storeKey,
@@ -20,7 +19,6 @@ export const useDictStore = defineStore({
   state() {
     return {
       dictList: <IDict[]>[...localDicts],
-      isInit: false,
     }
   },
   getters: {
@@ -49,12 +47,11 @@ export const useDictStore = defineStore({
 
     // 获取字典数据
     async init(isLogin: boolean) {
-      // if (isLogin && !this.isInit) {
-      //   this.isInit = true
-      //   return fetchDict().then(({ data }) => {
-      //     this.setDictList(data)
-      //   })
-      // }
+      if (isLogin) {
+        return fetchDict().then(({ data }) => {
+          this.setDictList(data)
+        })
+      }
     },
 
     // 清除数据

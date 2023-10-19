@@ -1,8 +1,17 @@
 <template>
   <div>
-    <el-upload class="image-upload" v-model:file-list="fileList" action="" :show-file-list="false" accept="image/*"
-      :on-preview="handlePreview" :before-upload="handleBefore" :http-request="handleRequest" :on-success="handleSuccess"
-      :on-error="handleError">
+    <el-upload
+      class="image-upload"
+      v-model:file-list="fileList"
+      action=""
+      :show-file-list="false"
+      accept="image/*"
+      :on-preview="handlePreview"
+      :before-upload="handleBefore"
+      :http-request="handleRequest"
+      :on-success="handleSuccess"
+      :on-error="handleError"
+    >
       <img v-if="modelValue" :src="modelValue" class="image" />
       <el-icon v-else class="icon">
         <Plus />
@@ -10,7 +19,7 @@
     </el-upload>
 
     <el-dialog v-model="dialogVisible">
-      <img style="width: 100%; height: auto;" :src="dialogImageUrl" alt="Preview Image" />
+      <img style="width: 100%; height: auto" :src="dialogImageUrl" alt="Preview Image" />
     </el-dialog>
   </div>
 </template>
@@ -18,11 +27,20 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { Plus } from '@element-plus/icons-vue'
-import { ElMessage, ElMessageBox, type UploadProps, type UploadFile, type UploadFiles, type UploadRawFile, type UploadRequestOptions, type UploadUserFile } from 'element-plus';
-import { handle } from '../../handle'
+import {
+  ElMessage,
+  ElMessageBox,
+  type UploadProps,
+  type UploadFile,
+  type UploadFiles,
+  type UploadRawFile,
+  type UploadRequestOptions,
+  type UploadUserFile,
+} from 'element-plus'
+import { handle } from '../../handler'
 
 defineOptions({
-  name: 'DImageUpload'
+  name: 'DImageUpload',
 })
 const props = defineProps({
   modelValue: {
@@ -31,14 +49,13 @@ const props = defineProps({
   },
   size: {
     type: Number,
-    default: 2
+    default: 2,
   },
 })
 const emit = defineEmits(['update:modelValue'])
 const fileList = ref<UploadUserFile[]>([])
 const dialogImageUrl = ref('')
 const dialogVisible = ref(false)
-
 
 // 预览
 const handlePreview = (uploadFile: UploadFile): void => {
@@ -63,11 +80,13 @@ const handleBefore = (rawFile: UploadRawFile) => {
 // 上传函数
 const handleRequest = (options: UploadRequestOptions) => {
   // console.log(options)
-  return handle.uploadFile!(options.file, options.onProgress).then(res => {
-    return res
-  }).catch(error => {
-    return Promise.reject(error)
-  })
+  return handle.uploadFile!(options.file, options.onProgress)
+    .then(res => {
+      return res
+    })
+    .catch(error => {
+      return Promise.reject(error)
+    })
   // return Promise.reject(new Error('sdff'))
 }
 
@@ -86,7 +105,6 @@ const handleError = (error: Error, uploadFile: UploadFile, uploadFiles: UploadFi
 function change(url: string) {
   emit('update:modelValue', url)
 }
-
 </script>
 
 <style>

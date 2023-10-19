@@ -1,6 +1,6 @@
 import { computed } from 'vue'
 import type { IDInfoOption } from './type'
-import { omitProperty, handle, getBaseFields } from '../../handle'
+import { omitProperty, handle, getBaseFields } from '../../handler'
 import { computedAsync } from '@vueuse/core'
 
 export const useInfoOption = (option: IDInfoOption) => {

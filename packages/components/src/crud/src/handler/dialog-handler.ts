@@ -1,16 +1,17 @@
 
 import type { DialogProps } from 'element-plus'
 import type { IDCrudOption } from '../type'
-import { omitProperty, handle } from '../../../handle'
+import { handle } from '../../../handler'
 
 // element-plus ElDialog Attrs
-export const dialogAttrsFormat = (option: IDCrudOption): Partial<DialogProps> => {
+export const dialogAttrsFormat = (option: IDCrudOption): Partial<{ height: string } & DialogProps> => {
   const defaultAttrs = handle.defaultAttrs
 
   return {
-    // title
+    height: option.dialogHeight ?? defaultAttrs.dialogHeight,
     width: option.dialogWidth ?? defaultAttrs.dialogWidth,
-    fullscreen: option.dialogFullscreen ?? defaultAttrs.dialogFullscreen,
+    title: option.dialogTitle,
+    // fullscreen: option.dialogFullscreen ?? defaultAttrs.dialogFullscreen,
     top: option.dialogTop ?? defaultAttrs.dialogTop,
     modal: option.dialogModal ?? defaultAttrs.dialogModal,
     appendToBody: option.dialogAppendToBody ?? defaultAttrs.dialogAppendToBody,
@@ -18,13 +19,13 @@ export const dialogAttrsFormat = (option: IDCrudOption): Partial<DialogProps> =>
     customClass: option.dialogCustomClass ?? defaultAttrs.dialogCustomClass,
     openDelay: option.dialogOpenDelay ?? defaultAttrs.dialogOpenDelay,
     closeDelay: option.dialogCloseDelay ?? defaultAttrs.dialogCloseDelay,
-    // closeOnClickModal: option.dialogCloseOnClickModal ?? defaultAttrs.dialogCloseOnClickModal,
+    closeOnClickModal: option.dialogCloseOnClickModal ?? defaultAttrs.dialogCloseOnClickModal,
     closeOnPressEscape: option.dialogCloseOnPressEscape ?? defaultAttrs.dialogCloseOnPressEscape,
     showClose: option.dialogShowClose ?? defaultAttrs.dialogShowClose,
     beforeClose: option.dialogBeforeClose ?? defaultAttrs.dialogBeforeClose,
     draggable: option.dialogDraggable ?? defaultAttrs.dialogDraggable,
     center: option.dialogCenter ?? defaultAttrs.dialogCenter,
     alignCenter: option.dialogAlignCenter ?? defaultAttrs.dialogAlignCenter,
-    // destroyOnClose: option.dialogDestroyOnClose ?? defaultAttrs.dialogDestroyOnClose,
+    destroyOnClose: option.dialogDestroyOnClose ?? defaultAttrs.dialogDestroyOnClose,
   }
 }

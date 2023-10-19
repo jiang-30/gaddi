@@ -1,7 +1,7 @@
 
 import type { PaginationProps } from 'element-plus'
 import type { IDCrudOption } from '../type'
-import { omitProperty, handle } from '../../../handle'
+import { omitProperty, handle } from '../../../handler'
 
 // element-plus ElPagination Attrs
 export const paginationAttrsFormat = (option: IDCrudOption): Partial<PaginationProps> => {

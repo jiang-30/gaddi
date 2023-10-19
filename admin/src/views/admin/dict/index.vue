@@ -6,18 +6,18 @@ meta:
 
 <template>
   <PageContainer>
-    <WCrud :option="option" :api="api">
+    <DCrud :option="option" :api="api">
       <template #row-action="{ row }">
         <el-button type="primary" text size="small" @click="onOpenItems(row)"> 字典项 </el-button>
       </template>
-    </WCrud>
+    </DCrud>
 
     <DictItem ref="itemRef" />
   </PageContainer>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref } from 'vue'
 import DictItem from './components/dict-item.vue'
 import { useModel } from './model'
 

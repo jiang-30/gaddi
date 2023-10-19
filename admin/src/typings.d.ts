@@ -26,7 +26,7 @@ export interface IMeta {
    * 是否开启
    * @default false
    */
-  isEnabled: boolean
+  isEnabled: boolean | '1' | '0' | 1 | 0
   /**
    * 是否是静态路由
    * @default false
@@ -57,7 +57,7 @@ export interface IMeta {
    * 是否展示在菜单栏中
    * @default false
    */
-  isShowMenu: boolean
+  isShowMenu: boolean | '1' | '0' | 1 | 0
   /**
    * 访问路径
    * @default route.path
@@ -93,17 +93,17 @@ export interface IMeta {
    * 页面缓存 isKeepAlive
    * @default false
    */
-  isAlive: boolean
+  isAlive: boolean | '1' | '0' | 1 | 0
   /**
    * 是否添加到tab
    * @default false
    */
-  isTab: boolean
+  isTab: boolean | '1' | '0' | 1 | 0
   /**
    * 是否需要权限 isAuth
    * @default true
    */
-  isAuth: boolean
+  isAuth: boolean | '1' | '0' | 1 | 0
   /**
    * 权限列表使用 , 分隔
    */

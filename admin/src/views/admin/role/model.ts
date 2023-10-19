@@ -1,11 +1,12 @@
-import { ref } from 'vue'
 import { useDictStore } from '@/store'
+import type { IDCrudApi, IDCrudOption } from '@gaddi/components'
 
 export const useModel = () => {
-  const api = {
+  const api: IDCrudApi = {
     restful: '/admin/role',
   }
-  const option = ref({
+  const option: IDCrudOption = {
+    rowActionWidth: 220,
     labelWidth: 100,
     fields: [
       {
@@ -33,7 +34,7 @@ export const useModel = () => {
         prop: 'scope',
         type: 'select',
         dictData: useDictStore().items('SYS_DATA_SCOPE'),
-        defaultValue: 'all',
+        default: 'all',
       },
       {
         label: '备注',
@@ -60,7 +61,7 @@ export const useModel = () => {
         span: 12,
       },
     ],
-  })
+  }
 
   return {
     api,
