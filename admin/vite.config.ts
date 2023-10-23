@@ -16,7 +16,11 @@ export default ({ command, mode }: ConfigEnv) => {
     server: {
       port: 5190,
       proxy: {
-
+        "/api/aaa": {
+          target: "https://dimingzhi.mengguyu.cn",
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api\/aaa/, "/api"),
+        },
         "/ai": {
           target: "http://222.74.215.220:38000",
           changeOrigin: true,
@@ -32,6 +36,7 @@ export default ({ command, mode }: ConfigEnv) => {
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api/, ""),
         },
+
       },
     },
     css: {

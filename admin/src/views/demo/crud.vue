@@ -33,7 +33,7 @@ meta:
       </template>
     </w-section> -->
 
-    <el-button @click="onClick">test</el-button>
+    <!-- <el-button @click="onClick">test</el-button> -->
     <el-button @click="onClick1">close</el-button>
     <!-- 
     <el-dialog
@@ -166,11 +166,6 @@ const option: IDCrudOption = {
     //   dictUrl: '/dict/item/isDisabled',
     // },
   ],
-}
-
-const onClick = () => {
-  visiable.value = true
-  // render(h(ElDialog, { modelValue: true, title: '测试' }, 'sdf'), document.body)
 }
 
 const onClick1 = () => {
