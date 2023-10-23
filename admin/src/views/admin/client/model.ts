@@ -43,6 +43,9 @@ export const useModel = () => {
         prop: "secret",
         label: "密钥",
         type: "input",
+        rules: [
+          { type: "string", max: 32, min: 32, message: "密钥长度为32", trigger: "blur" },
+        ],
       },
       {
         prop: "expires",
