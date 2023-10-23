@@ -3,6 +3,7 @@ gaddi 是一个 monorepo, 多个工程放到一个 git 仓库中;共享一套构
 通过 pnpm 管理依赖，通过 changesets 管理库的更新日志
 
 ## TODO
+- dictProps 和 dictFormatter 的问题
 - crud 触发俩次query
 - app localStorage 缓存
 - crud v-premission
