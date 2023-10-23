@@ -2,10 +2,9 @@ import type { IConfig } from './typings'
 // const ENV = import.meta.env
 
 const config: IConfig & Record<string, any> = {
+  version: '',
   // 登录， 用户信息，用户权限
   isLocalLogin: false,
-  // 字典项
-  remoteDict: false,
 
   title: '管理系统',
 
@@ -13,7 +12,7 @@ const config: IConfig & Record<string, any> = {
 
   clientCode: 'ADMIN',
 
-  clientSecret: '',
+  secret: 'uBdUx82vPHkDKb284d7NkjFoNcKWBuka',
 
   amap: {
     key: '8590441b668b5ec58a8921edaab94a0a',

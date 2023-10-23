@@ -17,7 +17,6 @@ meta:
           <UsernamePassword v-if="current === 'usernamePassword'" @success="successHandler" />
         </main>
         <footer class="login-page-footer">
-          <el-button @click="onClick">button</el-button>
           <!-- <div class="text-right mt-2">
             <el-space>
               <router-link class="text-xs hover:text-blue-500" :to="{ name: 'FindPassword' }">忘记密码</router-link>
@@ -35,25 +34,6 @@ import { useRouteStore, useUserStore, useMenuStore, useDictStore } from '@/store
 import type { ILoginInfo } from './index'
 import { useRoute, useRouter } from 'vue-router'
 import { ref } from 'vue'
-import { request } from '@/plugin/request'
-import json from '@/assets/response.json'
-
-const onClick = () => {
-  // visiable.value = true
-  // render(h(ElDialog, { modelValue: true, title: '测试' }, 'sdf'), document.body)
-  // http://localhost:9999
-  request({
-    method: 'post',
-    url: '/aaa/admin/test/writeText',
-    data: {
-      password: 'qjsjhfl',
-      data: json.data,
-    },
-    timeout: 50000000,
-  })
-
-  console.log(json.data.length)
-}
 
 const userStore = useUserStore()
 const route = useRoute()

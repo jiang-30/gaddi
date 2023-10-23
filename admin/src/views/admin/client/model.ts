@@ -32,18 +32,25 @@ export const useModel = () => {
           { required: true, message: "请输入平台名称", trigger: "blur" },
           { type: "string", max: 30, message: "30个字符以内", trigger: "blur" },
         ],
+        updateDisabled: true,
+      },
+      {
+        label: "默认密码",
+        prop: "defaultPassword",
+        type: "input",
       },
       {
         prop: "secret",
         label: "密钥",
         type: "input",
-        isForm: false,
-        width: 290,
-        align: "center",
       },
-      // 登录方式
       {
-        prop: "note",
+        prop: "expires",
+        label: "认证过期时间",
+        type: "input",
+      },
+      {
+        prop: "remark",
         label: "备注",
         type: "textarea",
         rules: [
@@ -54,6 +61,7 @@ export const useModel = () => {
             trigger: "blur",
           },
         ],
+        isTable: false,
       },
       {
         prop: "isEnabled",

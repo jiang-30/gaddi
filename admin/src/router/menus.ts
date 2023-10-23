@@ -22,6 +22,15 @@ const menusList: IBaseMenu[] = [
   //   sort: 2,
   // },
   {
+    id: 'Case',
+    type: 'menu',
+    title: '案例',
+    icon: 'mdi:store',
+    isEnabled: true,
+    isShowMenu: true,
+    sort: 2,
+  },
+  {
     id: 'Demo',
     type: 'menu',
     title: 'DEMO',
@@ -29,15 +38,6 @@ const menusList: IBaseMenu[] = [
     isEnabled: true,
     isShowMenu: true,
     sort: 3,
-  },
-  {
-    id: 'Case',
-    type: 'menu',
-    title: '案例',
-    icon: 'mdi:store',
-    isEnabled: true,
-    isShowMenu: true,
-    sort: 5,
   },
   {
     id: 'Data',
