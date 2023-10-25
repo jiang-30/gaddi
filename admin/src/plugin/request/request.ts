@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { useUserStore } from '@/store'
 import { errorHandler } from './error'
+import AppConfig from '@/app.config'
 
 // 记录正在请求的实例
 // const requestList = []
@@ -10,8 +11,7 @@ const instance = axios.create({
   baseURL: '/api',
   timeout: 10000,
   headers: {
-    'X-Client-Code': 'X-Client-Code',
-    'X-Client-Secret': '',
+    'X-Client-Code': AppConfig.clientCode,
     'X-Version': '',
   },
   validateStatus(status) {

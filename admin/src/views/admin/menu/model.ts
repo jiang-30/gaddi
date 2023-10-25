@@ -11,17 +11,19 @@ export const useModel = (tableData: Ref<any[]>) => {
 
   const option = computed<IDCrudOption>(() => {
     return {
-      dialogWidth: '1000px',
+      dialogWidth: '900px',
       rowKey: 'id',
       indexColumn: false,
       rowActionWidth: 220,
       labelWidth: '100px',
+      align: 'center',
       fields: [
         {
           prop: 'title',
           label: '名称',
           type: 'input',
           isForm: false,
+          align: 'left',
         },
         {
           prop: 'type',
@@ -31,7 +33,6 @@ export const useModel = (tableData: Ref<any[]>) => {
           default: 'page',
           width: 160,
           span: 12,
-          align: 'center',
         },
         {
           prop: 'parentId',
@@ -66,7 +67,6 @@ export const useModel = (tableData: Ref<any[]>) => {
           label: '图标',
           type: 'input',
           width: 100,
-          align: 'center',
         },
         {
           prop: 'path',
@@ -101,7 +101,6 @@ export const useModel = (tableData: Ref<any[]>) => {
               trigger: 'change',
             },
           ],
-          align: 'center',
         },
         {
           prop: 'permission',
@@ -143,7 +142,6 @@ export const useModel = (tableData: Ref<any[]>) => {
           listen: {
             hide: { type: 'button' },
           },
-          align: 'center',
           width: 100,
           span: 12,
         },
@@ -184,23 +182,21 @@ export const useModel = (tableData: Ref<any[]>) => {
           span: 12,
         },
         {
-          prop: 'sort',
-          label: '排序',
-          type: 'inputNumber',
-          default: 1,
-          span: 12,
-          align: 'center',
-          width: 100,
-        },
-        {
           prop: 'isEnabled',
           label: '状态',
           type: 'radio',
           dictData: useDictStore().items('SYS_ENABLED'),
           default: '1',
-          align: 'center',
           width: 100,
           span: 12,
+        },
+        {
+          prop: 'sort',
+          label: '排序',
+          type: 'inputNumber',
+          default: 1,
+          span: 12,
+          width: 100,
         },
       ],
     }

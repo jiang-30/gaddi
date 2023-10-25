@@ -18,12 +18,9 @@ meta:
 
 <script setup lang="ts">
 import { useModel } from './model'
-import { fetchQueryRoleList } from '@/api/admin/role'
 import { fetchUpdatePassword } from '@/api/admin/user'
 import { ElMessageBox, ElNotification } from 'element-plus'
 import { ref } from 'vue'
-
-const roleList = ref([])
 
 const { option, api } = useModel()
 

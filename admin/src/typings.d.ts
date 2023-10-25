@@ -227,7 +227,7 @@ export interface IConfig {
   /**
    * 客户端密钥
    */
-  clientSecret: string
+  secret: string
 
   /**
    * 主题配置

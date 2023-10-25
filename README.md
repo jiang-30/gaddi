@@ -4,6 +4,7 @@ gaddi 是一个 monorepo, 多个工程放到一个 git 仓库中;共享一套构
 
 ## TODO
 - dictProps 和 dictFormatter 的问题
+- formatter 支持树结构
 - crud 触发俩次query
 - app localStorage 缓存
 - crud v-premission
@@ -17,18 +18,23 @@ gaddi 是一个 monorepo, 多个工程放到一个 git 仓库中;共享一套构
 - info slot 服用 table的
 
 ## 模块
+
 ### docs
+
 文档
 
 ### admin
+
 后台管理
 
 ### cli
+
 脚手架
 
 ### components
+
 crud组件
 
 ### utils
-常用函数
 
+常用函数

@@ -7,8 +7,9 @@ export const useModel = () => {
   }
 
   const option: IDCrudOption = {
-    rowActionWidth: 200,
+    rowActionWidth: 240,
     labelWidth: 100,
+    align: 'center',
     fields: [
       {
         prop: 'username',
@@ -26,12 +27,12 @@ export const useModel = () => {
         type: 'tree',
         default: '',
         dictUrl: '/admin/dept/tree',
-        checkStrictly: true,
-        valueKey: 'id',
-        props: {
+        dictProps: {
           label: 'name',
           value: 'id',
         },
+        valueKey: 'value',
+        checkStrictly: true,
         rules: [{ required: true, message: '请选择部门', trigger: 'change' }],
       },
       {
@@ -39,12 +40,12 @@ export const useModel = () => {
         label: '角色',
         type: 'select',
         dictUrl: '/admin/role/list',
-        multiple: true,
-        default: [],
-        props: {
+        dictProps: {
           value: 'id',
           label: 'name',
         },
+        default: [],
+        multiple: true,
         rules: [{ required: true, message: '请选择用户角色', trigger: 'change' }],
       },
       {
@@ -52,25 +53,33 @@ export const useModel = () => {
         label: '密码',
         type: 'password',
         rules: [
-          { required: true, message: '请输入密码', trigger: 'blur' },
           { type: 'string', min: 6, max: 30, message: '6 - 30个字符', trigger: 'blur' },
         ],
         isTable: false,
         isUpdateForm: false,
       },
       {
+        prop: 'phoneNum',
+        label: '手机号码',
+        type: 'input',
+        rules: [{ type: 'string', max: 11, message: '手机号码格式不正确', trigger: 'blur' }],
+        isTable: false,
+      },
+      {
         prop: 'email',
         label: '邮箱',
         type: 'input',
         rules: [{ type: 'string', max: 50, message: '50个字符以内', trigger: 'blur' }],
-      },
-      {
-        prop: 'phone',
-        label: '手机号码',
-        type: 'input',
         isTable: false,
-        rules: [{ type: 'string', max: 11, message: '手机号码格式不正确', trigger: 'blur' }],
       },
+      // nickname
+      // avatar
+      // birthday
+      // gender
+      // resume
+      // type
+      // level
+      // clientCode
       {
         prop: 'remark',
         label: '备注',

@@ -87,34 +87,46 @@ export const fetchDict = async (field: IDFieldBase) => {
 
   if (handle.axios) {
     try {
-      const dictProps = {
-        res: field.dictProps?.res ?? 'data',
-        label: field.dictProps?.label ?? 'label',
-        value: field.dictProps?.value ?? 'value',
-        children: field.dictProps?.children ?? 'children',
-        disabled: field.dictProps?.disabled ?? 'disabled',
-      };
       const res = await handle
         .axios({
           method: 'get',
           url: field.dictUrl,
         })
 
-      let resData = at(res as any, dictProps.res)[0]
-      // TODO: 树结构
-      resData = resData.map((item: any) => {
-        return {
-          label: at(item, dictProps.label)[0],
-          value: at(item, dictProps.value)[0],
-          children: at(item, dictProps.children)[0],
-          disabled: at(item, dictProps.disabled)[0],
+      if (field.dictFormatter) {
+        dict.items = field.dictFormatter(res)
+      } else {
+        const dictProps = {
+          res: field.dictProps?.res ?? 'data',
+          label: field.dictProps?.label ?? 'label',
+          value: field.dictProps?.value ?? 'value',
+          children: field.dictProps?.children ?? 'children',
+          disabled: field.dictProps?.disabled ?? 'disabled',
+        };
+
+        let resData = at(res as any, dictProps.res)[0]
+        // 可以是树结构
+        const treeForEach = (tree: any) => {
+          return tree.map((item: any) => {
+            const newItem: IDDictItem = {
+              label: at(item, dictProps.label)[0],
+              value: at(item, dictProps.value)[0],
+              disabled: at(item, dictProps.disabled)[0],
+            }
+            if (at(item, dictProps.children)[0]) {
+              newItem.children = treeForEach(at(item, dictProps.children)[0])
+            }
+            return newItem;
+          })
         }
-      })
-      // console.log(props?.formatter, res)
-      dict.items = field.dictFormatter ? field.dictFormatter(resData) : resData
+        resData = treeForEach(resData);
+
+        dict.items = resData
+      }
+
       dict.status = 'done'
       //@ts-ignore
-      __resolve(_dict.items);
+      __resolve(dict.items);
       return dict.items
     } catch (error) {
       console.error(error)
