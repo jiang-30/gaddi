@@ -22,9 +22,18 @@ export const useMenuStore = defineStore({
     ],
   },
   state: () => ({
+    activeLayoutType: '',
     menus: <IMenu[]>[],
   }),
   getters: {
+    /**
+     * 某种布局下的首页
+     */
+    indexPageName: (state) => {
+      const layoutType = state.activeLayoutType || useUserStore().layoutType
+      const menu = state.menus.find(item => item.layout == layoutType && item.type == 'page' && item.isIndex);
+      return menu?.name ?? useRouteStore().indexPageName
+    },
     /**
      * 菜单列表 启用、授权
      */

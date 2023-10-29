@@ -11,7 +11,7 @@
         <el-input v-model="userInfo.nickname" placeholder="请输入用户昵称"></el-input>
       </el-form-item>
       <el-form-item label="简介">
-        <el-input v-model="userInfo.description" type="textarea" placeholder="请输入用户简介"></el-input>
+        <el-input v-model="userInfo.resume" type="textarea" placeholder="请输入用户简介"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button class="w-full" type="primary" @click="onConfirm" :loading="loading">
@@ -26,7 +26,7 @@
 import { useUserStore } from '@/store'
 import { fetchUpdateInfo } from '@/api/common'
 import { ElMessage } from 'element-plus'
-import { ref } from 'vue';
+import { ref } from 'vue'
 
 const userStore = useUserStore()
 const loading = ref(false)
@@ -34,7 +34,7 @@ const userInfo = ref({
   username: userStore.userInfo.username,
   avatar: userStore.userInfo.avatar,
   nickname: userStore.userInfo.nickname,
-  description: userStore.userInfo.description,
+  resume: userStore.userInfo.resume,
   email: userStore.userInfo.email,
 })
 

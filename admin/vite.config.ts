@@ -16,6 +16,11 @@ export default ({ command, mode }: ConfigEnv) => {
     server: {
       port: 5190,
       proxy: {
+        "/api/aaa-local": {
+          target: "http://localhost:9999",
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api\/translation-local/, ""),
+        },
         "/api/translation": {
           target: "https://www.mengguyu.cn",
           changeOrigin: true,

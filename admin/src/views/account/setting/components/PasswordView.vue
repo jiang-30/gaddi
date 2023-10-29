@@ -2,13 +2,25 @@
   <section class="w-[500px] p-10">
     <el-form ref="formRef" :model="formModel" :rules="formRules" label-position="top">
       <el-form-item label="原密码" prop="oldPassword">
-        <el-input v-model="formModel.oldPassword" type="password" placeholder="请输入原密码"></el-input>
+        <el-input
+          v-model="formModel.oldPassword"
+          type="password"
+          placeholder="请输入原密码"
+        ></el-input>
       </el-form-item>
       <el-form-item label="新密码" prop="password">
-        <el-input v-model="formModel.password" type="password" placeholder="请输入新密码"></el-input>
+        <el-input
+          v-model="formModel.password"
+          type="password"
+          placeholder="请输入新密码"
+        ></el-input>
       </el-form-item>
       <el-form-item label="确认密码" prop="rePassword">
-        <el-input v-model="formModel.rePassword" type="password" placeholder="请输入确认密码"></el-input>
+        <el-input
+          v-model="formModel.rePassword"
+          type="password"
+          placeholder="请输入确认密码"
+        ></el-input>
       </el-form-item>
       <el-form-item>
         <el-button class="w-full" type="primary" @click="onSubmit" :loading="loading">
@@ -21,9 +33,8 @@
 <script lang="ts" setup>
 import { useUserStore } from '@/store'
 import { fetchUpdatePassword } from '@/api/common'
-import { encrypt } from '@/utils/crypto-utils'
 import type { FormInstance, FormRules, FormItemRule } from 'element-plus'
-import { ref } from 'vue';
+import { ref } from 'vue'
 
 const loading = ref(false)
 const formRef = ref<FormInstance>()
@@ -60,8 +71,8 @@ const onSubmit = () => {
   formRef.value?.validate(valid => {
     if (valid) {
       const params = {
-        oldPassword: encrypt(formModel.value.oldPassword),
-        password: encrypt(formModel.value.password),
+        oldPassword: formModel.value.oldPassword,
+        password: formModel.value.password,
       }
 
       loading.value = true

@@ -11,7 +11,8 @@ export const useModel = () => {
     labelWidth: 100,
     align: 'center',
     fields: [
-      // clientCode、layoutType、
+      // layoutType: 'translation'; ro
+      // roleIds: '' 通过 roleCode 转换
       {
         prop: 'username',
         label: '用户名',
@@ -21,34 +22,35 @@ export const useModel = () => {
           { type: 'string', max: 30, message: '30个字符以内', trigger: 'blur' },
         ],
         isSearch: true,
+        updateDisabled: true,
       },
-      {
-        prop: 'deptId',
-        label: '所属部门',
-        type: 'tree',
-        default: '',
-        dictUrl: '/admin/dept/tree',
-        dictProps: {
-          label: 'name',
-          value: 'id',
-        },
-        valueKey: 'value',
-        checkStrictly: true,
-        rules: [{ required: true, message: '请选择部门', trigger: 'change' }],
-      },
-      {
-        prop: 'roleIds',
-        label: '角色',
-        type: 'select',
-        dictUrl: '/admin/role/list',
-        dictProps: {
-          value: 'id',
-          label: 'name',
-        },
-        default: [],
-        multiple: true,
-        rules: [{ required: true, message: '请选择用户角色', trigger: 'change' }],
-      },
+      // {
+      //   prop: 'deptId',
+      //   label: '所属部门',
+      //   type: 'tree',
+      //   default: '',
+      //   dictUrl: '/admin/dept/tree',
+      //   dictProps: {
+      //     label: 'name',
+      //     value: 'id',
+      //   },
+      //   valueKey: 'value',
+      //   checkStrictly: true,
+      //   rules: [{ required: true, message: '请选择部门', trigger: 'change' }],
+      // },
+      // {
+      //   prop: 'roleIds',
+      //   label: '角色',
+      //   type: 'select',
+      //   dictUrl: '/admin/role/list',
+      //   dictProps: {
+      //     value: 'id',
+      //     label: 'name',
+      //   },
+      //   default: [],
+      //   multiple: true,
+      //   rules: [{ required: true, message: '请选择用户角色', trigger: 'change' }],
+      // },
       {
         prop: 'password',
         label: '密码',
@@ -60,18 +62,30 @@ export const useModel = () => {
         isUpdateForm: false,
       },
       {
+        prop: 'nickname',
+        label: '姓名',
+        type: 'input',
+        rules: [{ type: 'string', max: 20, message: '最多20个字符', trigger: 'blur' }],
+      },
+      {
         prop: 'phoneNum',
         label: '手机号码',
         type: 'input',
         rules: [{ type: 'string', max: 11, message: '手机号码格式不正确', trigger: 'blur' }],
-        isTable: false,
       },
+      // {
+      //   prop: 'email',
+      //   label: '邮箱',
+      //   type: 'input',
+      //   rules: [{ type: 'string', max: 50, message: '50个字符以内', trigger: 'blur' }],
+      //   isTable: false,
+      // },
       {
-        prop: 'email',
-        label: '邮箱',
+        prop: 'level',
+        label: '保密等级',
         type: 'input',
         rules: [{ type: 'string', max: 50, message: '50个字符以内', trigger: 'blur' }],
-        isTable: false,
+        updateDisabled: true,
       },
       // nickname
       // avatar

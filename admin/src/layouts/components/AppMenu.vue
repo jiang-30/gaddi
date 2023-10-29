@@ -1,6 +1,14 @@
 <template>
-  <el-menu class="app-menu" :mode="mode" :collapse="collapse" :default-active="defaultActive" :background-color="bgColor"
-    :text-color="textColor" unique-opened @select="onSelect">
+  <el-menu
+    class="app-menu"
+    :mode="mode"
+    :collapse="collapse"
+    :default-active="defaultActive"
+    :background-color="bgColor"
+    :text-color="textColor"
+    unique-opened
+    @select="onSelect"
+  >
     <AppMenuItem v-for="menu in menuList" :key="menu.name" :menu="menu"></AppMenuItem>
   </el-menu>
 </template>
@@ -9,8 +17,8 @@
 import AppMenuItem from './AppMenuItem.vue'
 import { useMenuStore } from '@/store'
 import type { IMenu } from '@/typings'
-import { ref, watchEffect } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, watchEffect } from 'vue'
+import { useRouter } from 'vue-router'
 
 defineProps<{
   mode: 'horizontal' | 'vertical'
@@ -42,8 +50,8 @@ function onSelect(index: string) {
   border-bottom: none;
 }
 
-.app-menu.el-menu--horizontal> :deep(.el-menu-item),
-.app-menu.el-menu--horizontal> :deep(.el-sub-menu .el-sub-menu__title) {
+.app-menu.el-menu--horizontal > :deep(.el-menu-item),
+.app-menu.el-menu--horizontal > :deep(.el-sub-menu .el-sub-menu__title) {
   border-bottom: none;
   line-height: 60px;
 }

@@ -90,6 +90,11 @@ export interface IMeta {
   layout: 'default' | 'admin' | 'data' | string
 
   /**
+   * 是否是首页
+   */
+  isIndex: boolean
+
+  /**
    * 页面缓存 isKeepAlive
    * @default false
    */

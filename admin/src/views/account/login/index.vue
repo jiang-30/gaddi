@@ -70,7 +70,7 @@ async function successHandler(data: ILoginInfo) {
   if (route.query.redirect) {
     router.replace({ path: route.query.redirect as string })
   } else {
-    router.replace({ name: useRouteStore().indexPageName })
+    router.replace({ name: useMenuStore().indexPageName })
   }
 }
 </script>

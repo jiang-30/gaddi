@@ -31,6 +31,9 @@ export const useUserStore = defineStore({
     isLogin: state => {
       return !!state.accessToken
     },
+    layoutType: state => {
+      return state.userInfo.layoutType ?? 'admin'
+    },
   },
   actions: {
     // 路由权限判断

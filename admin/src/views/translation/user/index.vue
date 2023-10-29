@@ -6,7 +6,12 @@ meta:
 
 <template>
   <PageContainer>
-    <DCrud :option="option" :api="api" :search-model="searchModel">
+    <DCrud
+      :option="option"
+      :api="api"
+      :search-model="searchModel"
+      :before-fecth="beforeFecthHandle"
+    >
       <template #row-action="{ row }">
         <el-button text size="small" type="primary" @click="onResetPassword(row)">
           重置密码
@@ -19,11 +24,21 @@ meta:
 <script setup lang="ts">
 import { useModel } from './model'
 import { fetchUpdatePassword } from '@/api/admin/user'
+import { IDCrudBeforeFetchFn } from '@gaddi/components'
 import { ElMessageBox, ElNotification } from 'element-plus'
 import { ref } from 'vue'
 
 const { option, api } = useModel()
-const searchModel = ref({})
+const searchModel = ref({
+  layoutType: 'translation',
+})
+
+const beforeFecthHandle: IDCrudBeforeFetchFn = (type, config) => {
+  if (type == 'create') {
+    config.data.layoutType = 'translation'
+    config.data.roleCode = 'TRANSLATION'
+  }
+}
 
 const onResetPassword = (row: any) => {
   ElMessageBox({

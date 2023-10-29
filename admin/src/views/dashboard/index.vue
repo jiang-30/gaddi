@@ -1,15 +1,10 @@
 <route lang="yaml">
 meta:
   isEnabled: true
-  isStatic: true
   title: 首页
-  icon: mdi:home
   name: Home
-  path: /
   layout: admin
-  isTab: true
-  isShowMenu: true
-  sort: -1
+  isIndex: true
 </route>
 
 <template>
@@ -24,6 +19,6 @@ import { useMenuStore } from '@/store'
 // console.log(useMenuStore().menuTree)
 // console.log(useMenuStore().getMenuTree())
 defineOptions({
-  name: 'Dashboard'
+  name: 'Dashboard',
 })
 </script>

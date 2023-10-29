@@ -4,7 +4,7 @@ import {
   type RouteLocationNormalized,
 } from 'vue-router'
 import { setupLayouts } from 'virtual:generated-layouts'
-import { useConfigStore, useTabStore, useUserStore, useRouteStore } from '@/store'
+import { useConfigStore, useTabStore, useUserStore, useRouteStore, useMenuStore } from '@/store'
 import { constantRoutes } from './routes'
 
 // console.log('enabledPages', allRoutes)
@@ -18,7 +18,7 @@ const router = createRouter({
   routes: setupLayouts(constantRoutes),
 })
 
-let IS_INIT = false
+let IS_INIT = true
 
 // 路由拦截器
 // 1. 已登录
@@ -40,13 +40,17 @@ router.beforeEach(async to => {
   if (userStore.isLogin) {
     await userStore.initHandler()
 
-    if (to.name === routeStore.loginPageName) {
-      return { name: routeStore.indexPageName }
-    } else if (!useUserStore().isAuth(to.meta.permission)) {
+    const defaultIndexPageName = useMenuStore().indexPageName
+
+    if (!useUserStore().isAuth(to.meta.permission)) {
       return { name: routeStore.notAuthorizedPageName }
-    } else if (to.name == routeStore.notFoundPageName && !IS_INIT) {
-      IS_INIT = true
+    } else if (to.name === routeStore.loginPageName) {
+      return { name: defaultIndexPageName }
+    } else if (to.name == routeStore.notFoundPageName && IS_INIT) {
+      IS_INIT = false
       return { path: to.fullPath }
+    } else if (to.name == routeStore.notFoundPageName && to.path == '/') {
+      return { name: defaultIndexPageName }
     } else {
       return true
     }
@@ -66,6 +70,7 @@ router.beforeEach(async to => {
 
 // 路由拦后置截器
 router.afterEach((to: RouteLocationNormalized, from: RouteLocationNormalized) => {
+  // console.log('afterEach: ', to)
   // 停止 loading 关闭进度条
   useConfigStore().isLoading = false
 

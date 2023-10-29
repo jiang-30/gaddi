@@ -50,7 +50,7 @@ export function fetchDict() {
 }
 
 // 修改信息
-export function fetchUpdateInfo(args: { nickname: string; avatar: string; description: string }) {
+export function fetchUpdateInfo(args: { nickname: string; avatar: string; resume: string }) {
   return request({
     method: 'put',
     url: '/admin/auth/info',
