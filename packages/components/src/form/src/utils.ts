@@ -65,6 +65,7 @@ export const useFormOption = (option: IDFormOption, type: IDFormType) => {
           fieldAttrs = formFieldImagesFormat(field)
         }
 
+        // 默认样式
         const __formFieldAttrs: any = {
           clearable: field.clearable ?? true,
           disabled:
@@ -73,7 +74,7 @@ export const useFormOption = (option: IDFormOption, type: IDFormType) => {
               : type == 'update'
                 ? field.updateDisabled ?? field.disabled
                 : field.disabled,
-          ...fieldAttrs,
+          ...omitProperty(fieldAttrs),
         }
 
         fields.push(
@@ -81,7 +82,7 @@ export const useFormOption = (option: IDFormOption, type: IDFormType) => {
             ...await getBaseFields(field),
             __listen: field.listen,
             __formItemAttrs: omitProperty(formItemAttrsFormat(field)),
-            __formFieldAttrs: omitProperty(__formFieldAttrs),
+            __formFieldAttrs: __formFieldAttrs,
           }),
         )
       }

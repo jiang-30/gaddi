@@ -4,9 +4,17 @@ import type { IDFormFieldSelectAttrs } from './field-select'
 import type { IDFormFieldTreeAttrs } from './field-tree'
 import type { IDFormFieldDateAttrs } from './field-date'
 import type { IDFormFieldImagesAttrs } from './field-images'
+import type { IDFormFieldCascaderAttrs } from './field-cascader'
+import type { IDFormFieldInputAttrs } from './field-input'
 
 // 表单域配置
-export interface IDFormFieldAttrs extends IDFormFieldSelectAttrs, IDFormFieldTreeAttrs, IDFormFieldDateAttrs, IDFormFieldImagesAttrs { }
+export interface IDFormFieldAttrs extends
+  Partial<IDFormFieldInputAttrs>,
+  Partial<IDFormFieldSelectAttrs>,
+  Partial<IDFormFieldTreeAttrs>,
+  Partial<IDFormFieldDateAttrs>,
+  Partial<IDFormFieldImagesAttrs>,
+  Partial<IDFormFieldCascaderAttrs> { }
 
 // ElFormItem
 export interface IDFormItemAttrs extends IDFieldBase, IElFormItemAttrs {

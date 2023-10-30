@@ -151,7 +151,7 @@ export const formatValue = (row: IDModel, field: IDFieldBase) => {
   } else if (field.type === 'select' || field.type === 'radio' || field.type === 'radioButton') {
     const dict = field.dictData?.find((item: any) => item.value === value)
     return dict?.label ?? value
-  } else if (field.type === 'tree') {
+  } else if (field.type === 'tree' || field.type === 'cascader') {
     const dict =
       treeFind(field.dictData, (item: any) => {
         if (item.value === value) return true

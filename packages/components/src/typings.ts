@@ -73,6 +73,8 @@ export type IDFieldType =
 export interface IDFormFieldBaseAttrs {
   clearable?: boolean
   disabled?: boolean
+  placeholder?: string
+  validateEvent?: boolean
 }
 
 // 字段基础属性
