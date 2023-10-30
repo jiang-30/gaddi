@@ -102,7 +102,7 @@ export const useCrudOption = (option: IDCrudOption) => {
     for (let index = 0; index < option.fields.length; index++) {
       const field = option.fields[index];
 
-      if (field.isTable !== false) {
+      if (field.isTable !== false && field.isIgnore !== true) {
         tableFields.push({
           ...await getBaseFields(field),
           __isTableShow: field.isTableShow ?? true,

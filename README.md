@@ -3,6 +3,9 @@ gaddi 是一个 monorepo, 多个工程放到一个 git 仓库中;共享一套构
 通过 pnpm 管理依赖，通过 changesets 管理库的更新日志
 
 ## TODO
+
+- multiple formatter
+- dialog footer 插入问题
 - dictProps 和 dictFormatter 的问题
 - formatter 支持树结构
 - crud 触发俩次query

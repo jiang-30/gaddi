@@ -1,5 +1,12 @@
 # @gaddi/components
 
+## 0.0.1-alpha.26
+
+### Patch Changes
+
+- 弹窗样式调整
+- 弹窗样式
+
 ## 0.0.1-alpha.25
 
 ### Patch Changes

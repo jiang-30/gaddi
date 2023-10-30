@@ -1,7 +1,19 @@
 <template>
-  <el-form v-if="isShow" ref="formRef" :model="searchModel" :disabled="loading" v-bind="__searchFormAttrs" inline>
-    <FormItem v-for="field in __searchFormFields" :key="field.prop" :field="field" :form-model="searchModel"
-      form-type="searchForm" />
+  <el-form
+    v-if="isShow"
+    ref="formRef"
+    :model="searchModel"
+    :disabled="loading"
+    v-bind="__searchFormAttrs"
+    inline
+  >
+    <FormItem
+      v-for="field in __searchFormFields"
+      :key="field.prop"
+      :field="field"
+      :form-model="searchModel"
+      form-type="searchForm"
+    />
     <el-form-item>
       <el-button type="primary" :icon="Search" :loading="loading" @click="_onSearch">
         查询

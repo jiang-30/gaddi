@@ -42,7 +42,7 @@ export const useFormOption = (option: IDFormOption, type: IDFormType) => {
             ? field.isUpdateForm ?? field.isForm
             : field.isForm
 
-      if (isForm !== false) {
+      if (isForm !== false && field.isIgnore !== true) {
         const _props = {
           ...(defaultFieldAttrs.props ?? {}),
           ...(field.props ?? {}),
@@ -117,7 +117,7 @@ export const useSearchFormOption = (option: IDSearchFormOption) => {
 
     for (let index = 0; index < option.fields.length; index++) {
       const field = option.fields[index];
-      if (field.isSearch === true) {
+      if (field.isSearch === true && field.isIgnore !== true) {
 
         let __formFieldAttrs: any = {
           clearable: field.clearable ?? true,
@@ -138,7 +138,7 @@ export const useSearchFormOption = (option: IDSearchFormOption) => {
         fields.push({
           ...await getBaseFields(field),
           type: ['radio', 'radioButton'].includes(field.type) ? 'select' : field.type,
-          default: field.searchDefault ?? field.default,
+          searchDefault: field.searchDefault,
           __formItemAttrs: omitProperty(searchFormItemAttrsFormat(field)),
           __formFieldAttrs: omitProperty(__formFieldAttrs),
         })

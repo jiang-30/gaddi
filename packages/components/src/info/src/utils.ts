@@ -25,7 +25,7 @@ export const useInfoOption = (option: IDInfoOption) => {
     for (let index = 0; index < option.fields.length; index++) {
       const field = option.fields[index];
 
-      if (field.isInfo !== false) {
+      if (field.isInfo !== false && field.isIgnore !== true) {
         const _props = {
           ...(defaultFieldAttrs.props ?? {}),
           ...(field.props ?? {}),

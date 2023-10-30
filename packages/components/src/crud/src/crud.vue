@@ -617,7 +617,7 @@ defineExpose({
 }
 
 .d-dialog .d-dialog-wrapper {
-  padding: 15px 20px;
+  padding: 20px 30px;
 }
 
 /* .d-dialog.d-dialog__center .el-dialog__body {

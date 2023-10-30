@@ -1,6 +1,6 @@
 {
   "name": "@gaddi/components",
-  "version": "0.0.1-alpha.25",
+  "version": "0.0.1-alpha.26",
   "description": "vue element-plus datacom组件",
   "keywords": [
     "crud"

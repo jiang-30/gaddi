@@ -84,6 +84,8 @@ export interface IDFieldBase {
   type: IDFieldType
   // 默认值
   default?: any
+  // ignore 
+  isIgnore?: boolean
   // 提示内容
   hint?: string
   // 布局
