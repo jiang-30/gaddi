@@ -23,3 +23,10 @@ export const formFieldCascaderFormat = (field: IDFormFieldAttrs) => {
 }
 
 
+export const searchFormFieldCascaderFormat = (field: IDFormFieldAttrs) => {
+  const defaultFieldAttrs = handle.defaultFieldAttrs
+
+  return formFieldCascaderFormat(field)
+}
+
+

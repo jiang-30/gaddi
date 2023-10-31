@@ -212,7 +212,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, toRaw } from 'vue'
+import { ref, computed, watch, toRaw, nextTick } from 'vue'
 import { ElMessageBox, type TableInstance, type DialogBeforeCloseFn } from 'element-plus'
 import {
   View,
@@ -353,11 +353,13 @@ const openDialogHandler = () => {
     dialogVisible.value = true
   }
 
-  if (props.beforeOpen) {
-    props.beforeOpen(currentStatus.value, _currentModelValue.value, openDone)
-  } else {
-    openDone()
-  }
+  nextTick(() => {
+    if (props.beforeOpen) {
+      props.beforeOpen(currentStatus.value, _currentModelValue.value, openDone)
+    } else {
+      openDone()
+    }
+  })
 }
 
 // ========== 搜索 ==========
@@ -377,13 +379,10 @@ const searchHandler = (_type: IDCrudQueryType) => {
       .then(data => {
         _currentTableData.value = data
       })
-      .catch(err => {
-        // console.error(err)
-      })
       .finally(() => {
         _currentTableLoading.value = false
       })
-  } else {
+  } else if (props.api?.page || props.api?.restful) {
     // 分页查询
     _currentTableLoading.value = true
     queryPageApi(props, _currentModelValue.value, {
@@ -394,9 +393,6 @@ const searchHandler = (_type: IDCrudQueryType) => {
       .then(data => {
         _currentTableData.value = data.data
         props.pageModel.total = data.total
-      })
-      .catch(err => {
-        // console.error(err)
       })
       .finally(() => {
         _currentTableLoading.value = false
@@ -458,14 +454,12 @@ const onOpenInfo = (row: IDModel) => {
   _currentModelValue.value = cloneDeep(toRaw(row))
 
   if (props.api?.info) {
-    queryInfoApi(props, _currentModelValue.value)
-      .then(data => {
+    nextTick(() => {
+      queryInfoApi(props, _currentModelValue.value).then(data => {
         _currentModelValue.value = data
         openDialogHandler()
       })
-      .catch(err => {
-        // console.error(err)
-      })
+    })
   } else {
     openDialogHandler()
   }
@@ -478,7 +472,7 @@ const onDelete = (row: IDModel) => {
 
   if (props.deleteHandler) {
     props.deleteHandler(_currentModelValue.value)
-  } else {
+  } else if (props.api?.restful || props.api?.delete) {
     ElMessageBox.confirm('确定执行删除操作吗', {
       title: '提示',
       type: 'warning',
@@ -490,9 +484,6 @@ const onDelete = (row: IDModel) => {
         backTableStatus()
         searchRefreshHandler('delete')
       })
-      .catch(err => {
-        // console.error(err)
-      })
       .finally(() => {
         backTableStatus()
       })
@@ -503,7 +494,7 @@ const onDelete = (row: IDModel) => {
 const formCreateSaveHandler = (record: IDModel, done: any) => {
   if (props.createHandler) {
     props.createHandler(record, done)
-  } else {
+  } else if (props.api?.create || props.api?.restful) {
     createApi(props, _currentModelValue.value)
       .then(() => {
         done(true)
@@ -511,7 +502,7 @@ const formCreateSaveHandler = (record: IDModel, done: any) => {
       })
       .catch(err => {
         done()
-        // console.error(err)
+        return Promise.reject(err)
       })
   }
 }
@@ -520,7 +511,7 @@ const formCreateSaveHandler = (record: IDModel, done: any) => {
 const formUpdateSaveHandler = (record: IDModel, done: any) => {
   if (props.updateHandler) {
     props.updateHandler(record, done)
-  } else if ((props.api?.update || props.api?.restful) && handle.axios) {
+  } else if (props.api?.update || props.api?.restful) {
     updateApi(props, _currentModelValue.value)
       .then(() => {
         done(true)
@@ -528,7 +519,7 @@ const formUpdateSaveHandler = (record: IDModel, done: any) => {
       })
       .catch(err => {
         done()
-        // console.error(err)
+        return Promise.reject(err)
       })
   }
 }

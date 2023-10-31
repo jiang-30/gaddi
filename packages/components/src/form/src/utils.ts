@@ -12,7 +12,7 @@ import { formFieldTreeFormat, searchFormFieldTreeFormat } from './handler/field-
 import { formFieldSelectFormat, searchFormFieldSelectFormat } from './handler/field-select'
 import { formFieldInputFormat } from './handler/field-input'
 import { formFieldDateFormat } from './handler/field-date'
-import { formFieldCascaderFormat } from './handler/field-cascader'
+import { formFieldCascaderFormat, searchFormFieldCascaderFormat } from './handler/field-cascader'
 import { formFieldImagesFormat } from './handler/field-images'
 import { computedAsync } from '@vueuse/core'
 
@@ -119,20 +119,14 @@ export const useSearchFormOption = (option: IDSearchFormOption) => {
       const field = option.fields[index];
       if (field.isSearch === true && field.isIgnore !== true) {
 
-        let __formFieldAttrs: any = {
-          clearable: field.clearable ?? true,
-        }
+        let __formFieldAttrs: any = {}
 
         if (field.type === 'tree') {
-          __formFieldAttrs = {
-            ...__formFieldAttrs,
-            ...searchFormFieldTreeFormat(field),
-          }
+          __formFieldAttrs = searchFormFieldTreeFormat(field)
         } else if (field.type === 'select') {
-          __formFieldAttrs = {
-            ...__formFieldAttrs,
-            ...searchFormFieldSelectFormat(field),
-          }
+          __formFieldAttrs = searchFormFieldSelectFormat(field)
+        } else if (field.type === 'cascader') {
+          __formFieldAttrs = searchFormFieldCascaderFormat(field)
         }
 
         fields.push({
@@ -140,7 +134,10 @@ export const useSearchFormOption = (option: IDSearchFormOption) => {
           type: ['radio', 'radioButton'].includes(field.type) ? 'select' : field.type,
           searchDefault: field.searchDefault,
           __formItemAttrs: omitProperty(searchFormItemAttrsFormat(field)),
-          __formFieldAttrs: omitProperty(__formFieldAttrs),
+          __formFieldAttrs: {
+            clearable: field.clearable ?? true,
+            ...omitProperty(__formFieldAttrs)
+          },
         })
       }
 
