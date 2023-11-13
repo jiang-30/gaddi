@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import type { IDCrudOption } from '@gaddi/components'
+import type { IDCrudBeforeFetchFn, IDCrudOption } from '@gaddi/components'
 import type { IDictDataType } from '@/typings'
 import { useDictStore } from '@/store'
 import { computed, ref } from 'vue'
@@ -100,7 +100,7 @@ const option = computed<IDCrudOption>(() => {
 })
 
 // 请求前格式化数据
-const beforeFetchHandler = (config: any, type: string) => {
+const beforeFetchHandler: IDCrudBeforeFetchFn = (type, config) => {
   if (type == 'create') {
     config.data.dictId = dictId.value
   }

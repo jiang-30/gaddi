@@ -19,7 +19,9 @@
 
       <div>
         <span>{{ username }}</span>
-        <el-text type="danger">({{ userStore.userInfo.level }})</el-text>
+        <el-text type="danger">
+          ({{ useDictStore().filter(userStore.userInfo.level, 'security_level') }})
+        </el-text>
       </div>
 
       <el-button type="primary" text @click="logoutHandle">退出</el-button>
@@ -37,7 +39,7 @@
 import { computed } from 'vue'
 import { RouterView } from 'vue-router'
 import { useRoute } from 'vue-router'
-import { useUserStore } from '@/store'
+import { useUserStore, useDictStore } from '@/store'
 import { ElMessageBox } from 'element-plus'
 
 const bgColor = '#3364e4'

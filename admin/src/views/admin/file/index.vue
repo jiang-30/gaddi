@@ -6,7 +6,11 @@ meta:
 
 <template>
   <PageContainer>
-    <DCrud :option="option" :api="api"> </DCrud>
+    <DCrud :option="option" :api="api">
+      <template #action>
+        <el-button type="primary">上传文件</el-button>
+      </template>
+    </DCrud>
   </PageContainer>
 </template>
 

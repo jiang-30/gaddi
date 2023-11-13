@@ -26,6 +26,7 @@ export type IDDictItem = {
   value: string | number
   children?: IDDictItem[]
   disabled?: boolean
+  [key: string]: any
 };
 export type IDDict = {
   label?: string
@@ -101,7 +102,7 @@ export interface IDFieldBase {
   // 响应数据格式化
   dictProps?: IDDictProps
   // 字典返回数据格式化
-  dictFormatter?: (data: any) => IDDictItem[]
+  dictFormatter?: (data: Record<string, any>) => IDDictItem
   // 显示数据格式化
   formatter?: (model: IDModel, field: IDFieldBase) => string
 }

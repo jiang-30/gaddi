@@ -1,3 +1,4 @@
+import { useDictStore } from '@/store';
 import type { IDCrudApi, IDCrudOption } from '@gaddi/components';
 
 export const useModel = () => {
@@ -9,10 +10,21 @@ export const useModel = () => {
     isUpdateBtn: false,
     isInfoBtn: true,
     fields: [
+
       {
-        prop: "userId",
-        label: "用户ID",
+        prop: "type",
+        label: "类型",
+        type: "select",
+        dictData: useDictStore().items('SYS_LOG_TYPE'),
+        isSearch: true,
+        isTable: false,
+
+      },
+      {
+        prop: "title",
+        label: "操作名称",
         type: "input",
+        isSearch: true,
       },
       {
         prop: "username",
@@ -21,8 +33,8 @@ export const useModel = () => {
         isSearch: true,
       },
       {
-        prop: "clientName",
-        label: "客户端名称",
+        prop: "ip",
+        label: "IP",
         type: "input",
       },
       {
@@ -36,28 +48,21 @@ export const useModel = () => {
         type: "input",
       },
       {
-        prop: "ip",
-        label: "IP",
-        type: "input",
-        width: 100,
-        align: "center",
-      },
-      {
-        prop: "title",
-        label: "请求名称",
-        type: "input",
-      },
-      {
         prop: "description",
         label: "操作描述",
         type: "input",
+        isTable: false,
       },
       {
-        prop: "time",
+        prop: "result",
+        label: "操作结果",
+        type: "select",
+        dictData: useDictStore().items('SYS_RESULT'),
+      },
+      {
+        prop: "createdTime",
         label: "操作时间",
         type: "input",
-        width: 180,
-        align: "center",
       },
     ],
   }

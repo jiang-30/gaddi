@@ -40,7 +40,8 @@ export const useModel = () => {
       {
         prop: "level",
         label: "保密等级",
-        type: "input",
+        type: 'select',
+        dictCode: 'security_level',
       },
       {
         prop: "createdTime",

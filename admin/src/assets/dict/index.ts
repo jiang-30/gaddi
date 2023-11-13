@@ -10,6 +10,15 @@ const dicts: IDict[] = [
       { label: "填空题", value: "4" },
     ],
   },
+  {
+    code: "security_level",
+    name: '保密等级',
+    items: [
+      { label: "机密", value: '1' },
+      { label: "保密", value: '2' },
+      { label: "公开", value: '10' },
+    ],
+  },
 ];
 
 export default dicts;

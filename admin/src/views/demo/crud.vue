@@ -21,44 +21,13 @@ meta:
       v-model:table-data="tableData"
       :before-open="beforeOpen"
       :after-fetch="afterFetchHandler"
-    ></DCrud>
-    <!-- <div>demo</div> -->
-    <!-- <w-section title="边框标题">
-      <template #header>
-        <div> header </div>
-      </template>
-
-      <template #default>
-        <div> main </div>
-      </template>
-    </w-section> -->
-
-    <!-- <el-button @click="onClick">test</el-button> -->
-    <el-button @click="onClick1">close</el-button>
-    <!-- 
-    <el-dialog
-      class="d-dialog"
-      v-model="visiable"
-      title="修改"
-      align-center
-      :fullscreen="isFullscreen"
-      :draggable="true"
     >
-      <template #header>
-        <div> 修改 </div>
-        <button
-          class="el-dialog__headerbtn d-dialog-fullscreen"
-          @click="isFullscreen = !isFullscreen"
-        >
-          <el-icon><FullScreen /></el-icon>
-        </button>
+      <template #label>
+        <div> @username ajsdfl</div>
       </template>
-      <template #default>
-        <el-scrollbar :max-height="undefined">
-          <div v-for="item in 100" :key="item">visiable{{ item }}</div>
-        </el-scrollbar>
-      </template>
-    </el-dialog> -->
+    </DCrud>
+
+    <el-button @click="onClick1">close</el-button>
   </PageContainer>
 </template>
 
@@ -128,6 +97,7 @@ const option: IDCrudOption = {
       label: '类型',
       prop: 'type',
       type: 'radio',
+      isSearch: true,
     },
     {
       label: '图片',

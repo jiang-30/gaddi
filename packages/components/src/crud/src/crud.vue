@@ -370,34 +370,36 @@ const searchRefreshHandler = (_type: IDCrudQueryType) => {
 }
 const searchHandler = (_type: IDCrudQueryType) => {
   console.log(_type)
-  if (props.queryHandler) {
-    props.queryHandler(_type)
-  } else if (props.api?.list) {
-    // 查询全部列表
-    _currentTableLoading.value = true
-    queryListApi(props, _currentModelValue.value, props.searchModel)
-      .then(data => {
-        _currentTableData.value = data
+  nextTick(() => {
+    if (props.queryHandler) {
+      props.queryHandler(_type)
+    } else if (props.api?.list) {
+      // 查询全部列表
+      _currentTableLoading.value = true
+      queryListApi(props, _currentModelValue.value, props.searchModel)
+        .then(data => {
+          _currentTableData.value = data
+        })
+        .finally(() => {
+          _currentTableLoading.value = false
+        })
+    } else if (props.api?.page || props.api?.restful) {
+      // 分页查询
+      _currentTableLoading.value = true
+      queryPageApi(props, _currentModelValue.value, {
+        current: props.pageModel.current,
+        size: props.pageModel.size,
+        ...props.searchModel,
       })
-      .finally(() => {
-        _currentTableLoading.value = false
-      })
-  } else if (props.api?.page || props.api?.restful) {
-    // 分页查询
-    _currentTableLoading.value = true
-    queryPageApi(props, _currentModelValue.value, {
-      current: props.pageModel.current,
-      size: props.pageModel.size,
-      ...props.searchModel,
-    })
-      .then(data => {
-        _currentTableData.value = data.data
-        props.pageModel.total = data.total
-      })
-      .finally(() => {
-        _currentTableLoading.value = false
-      })
-  }
+        .then(data => {
+          _currentTableData.value = data.data
+          props.pageModel.total = data.total
+        })
+        .finally(() => {
+          _currentTableLoading.value = false
+        })
+    }
+  })
 }
 
 // 搜索默认值初始化
@@ -470,58 +472,64 @@ const onDelete = (row: IDModel) => {
   currentStatus.value = 'delete'
   _currentModelValue.value = cloneDeep(toRaw(row))
 
-  if (props.deleteHandler) {
-    props.deleteHandler(_currentModelValue.value)
-  } else if (props.api?.restful || props.api?.delete) {
-    ElMessageBox.confirm('确定执行删除操作吗', {
-      title: '提示',
-      type: 'warning',
-    })
-      .then(() => {
-        return deleteApi(props, _currentModelValue.value)
+  nextTick(() => {
+    if (props.deleteHandler) {
+      props.deleteHandler(_currentModelValue.value)
+    } else if (props.api?.restful || props.api?.delete) {
+      ElMessageBox.confirm('确定执行删除操作吗', {
+        title: '提示',
+        type: 'warning',
       })
-      .then(() => {
-        backTableStatus()
-        searchRefreshHandler('delete')
-      })
-      .finally(() => {
-        backTableStatus()
-      })
-  }
+        .then(() => {
+          return deleteApi(props, _currentModelValue.value)
+        })
+        .then(() => {
+          backTableStatus()
+          searchRefreshHandler('delete')
+        })
+        .finally(() => {
+          backTableStatus()
+        })
+    }
+  })
 }
 
 // 表单新增请求
 const formCreateSaveHandler = (record: IDModel, done: any) => {
-  if (props.createHandler) {
-    props.createHandler(record, done)
-  } else if (props.api?.create || props.api?.restful) {
-    createApi(props, _currentModelValue.value)
-      .then(() => {
-        done(true)
-        searchRefreshHandler('create')
-      })
-      .catch(err => {
-        done()
-        return Promise.reject(err)
-      })
-  }
+  nextTick(() => {
+    if (props.createHandler) {
+      props.createHandler(record, done)
+    } else if (props.api?.create || props.api?.restful) {
+      createApi(props, _currentModelValue.value)
+        .then(() => {
+          done(true)
+          searchRefreshHandler('create')
+        })
+        .catch(err => {
+          done()
+          return Promise.reject(err)
+        })
+    }
+  })
 }
 
 // 表单更新请求
 const formUpdateSaveHandler = (record: IDModel, done: any) => {
-  if (props.updateHandler) {
-    props.updateHandler(record, done)
-  } else if (props.api?.update || props.api?.restful) {
-    updateApi(props, _currentModelValue.value)
-      .then(() => {
-        done(true)
-        searchHandler('update')
-      })
-      .catch(err => {
-        done()
-        return Promise.reject(err)
-      })
-  }
+  nextTick(() => {
+    if (props.updateHandler) {
+      props.updateHandler(record, done)
+    } else if (props.api?.update || props.api?.restful) {
+      updateApi(props, _currentModelValue.value)
+        .then(() => {
+          done(true)
+          searchHandler('update')
+        })
+        .catch(err => {
+          done()
+          return Promise.reject(err)
+        })
+    }
+  })
 }
 
 // 表单保存事件

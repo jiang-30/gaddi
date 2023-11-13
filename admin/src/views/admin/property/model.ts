@@ -5,8 +5,11 @@ export const useModel = () => {
   const api: IDCrudApi = {
     restful: '/admin/config'
   };
+
   const option: IDCrudOption = {
     labelWidth: 100,
+    rowActionWidth: 140,
+    isDeleteBtn: false,
     fields: [
       {
         prop: "name",
@@ -20,9 +23,15 @@ export const useModel = () => {
         type: "input",
       },
       {
-        prop: "note",
-        label: "备注",
+        prop: "value",
+        label: "配置",
         type: "input",
+        isTable: false,
+      },
+      {
+        prop: "remark",
+        label: "备注",
+        type: "textarea",
       },
     ],
   }

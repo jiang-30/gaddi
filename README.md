@@ -4,6 +4,8 @@ gaddi 是一个 monorepo, 多个工程放到一个 git 仓库中;共享一套构
 
 ## TODO
 
+- 搜索插槽、搜索默认值
+- 字典数据同步到 DCRUD
 - multiple formatter
 - dialog footer 插入问题
 - dictProps 和 dictFormatter 的问题

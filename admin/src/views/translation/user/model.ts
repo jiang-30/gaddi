@@ -83,7 +83,8 @@ export const useModel = () => {
       {
         prop: 'level',
         label: '保密等级',
-        type: 'input',
+        type: 'select',
+        dictCode: 'security_level',
         rules: [{ type: 'string', max: 50, message: '50个字符以内', trigger: 'blur' }],
         updateDisabled: true,
       },

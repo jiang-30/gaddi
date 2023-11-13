@@ -44,6 +44,7 @@ const { __searchFormFields, __searchFormAttrs } = useSearchFormOption(props.opti
 watch(
   __searchFormFields,
   fields => {
+    console.log('search form fields watch: ', fields.length)
     if (fields.length) {
       isShow.value = true
     } else {

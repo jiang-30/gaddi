@@ -27,7 +27,7 @@ const config: IConfig & Record<string, any> = {
     settingEnabled: true,
     debugEnabled: true,
     userSettingEnabled: true,
-    userCenterEnabled: true,
+    userCenterEnabled: false,
   },
 
   request: {

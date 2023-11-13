@@ -1,0 +1,5 @@
+---
+'@gaddi/components': patch
+---
+
+fix

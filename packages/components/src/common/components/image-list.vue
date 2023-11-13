@@ -1,12 +1,18 @@
 <template>
-  <div>
-    <el-image v-for="imageUrl in imageList" :key="imageUrl" :style="style" :src="imageUrl" :fit="fit" />
+  <div v-if="imageList && imageList.length">
+    <el-image
+      v-for="imageUrl in imageList"
+      :key="imageUrl"
+      :style="style"
+      :src="imageUrl"
+      :fit="fit"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ElImage, type ImageProps } from 'element-plus';
-import { computed, type PropType } from 'vue';
+import { ElImage, type ImageProps } from 'element-plus'
+import { computed, type PropType } from 'vue'
 
 const props = defineProps({
   images: {
@@ -37,11 +43,10 @@ const imageList = computed(() => {
 
 const style = computed(() => {
   return {
-    "width": props.width,
-    "height": props.height,
-    "margin-top": props.gap,
-    "margin-right": props.gap,
+    'width': props.width,
+    'height': props.height,
+    'margin-top': props.gap,
+    'margin-right': props.gap,
   }
 })
 </script>
-

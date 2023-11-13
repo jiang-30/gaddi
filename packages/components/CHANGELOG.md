@@ -1,5 +1,17 @@
 # @gaddi/components
 
+## 0.0.1-alpha.31
+
+### Patch Changes
+
+- fix
+
+## 0.0.1-alpha.30
+
+### Patch Changes
+
+- fix
+
 ## 0.0.1-alpha.29
 
 ### Patch Changes

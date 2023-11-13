@@ -8,6 +8,7 @@ export const formFieldTreeFormat = (field: IDFormFieldAttrs) => {
     checkStrictly: field.checkStrictly,
     nodeKey: field.nodeKey,
     valueKey: field.valueKey ?? 'value',
+    multiple: field.multiple,
     props: field.props,
   }
 }

@@ -1,8 +1,8 @@
-import { isArray } from './../../utils/type';
 import type { AxiosProgressEvent } from 'axios'
 import { request } from '@/plugin/request'
 import { encrypt } from '@/utils/crypto-utils'
 import type { ILoginParam, ILoginResponse } from './types'
+import type { UploadProgressEvent } from 'element-plus'
 
 // 用户登录
 export const fetchLogin = (param: ILoginParam) => {
@@ -70,7 +70,7 @@ export function fetchUpdatePassword(args: { oldPassword: string; password: strin
 // 文件上传
 export function fetchUpload(
   file: File,
-  progress?: (percentage: number, event?: AxiosProgressEvent) => void,
+  progress?: (progressEvent: UploadProgressEvent) => void,
 ) {
   const formData = new FormData()
   formData.append('file', file)
@@ -83,7 +83,7 @@ export function fetchUpload(
     onUploadProgress(progressEvent) {
       if (progress && progressEvent.total) {
         const percent = (progressEvent.loaded / progressEvent.total) * 100
-        progress(percent, progressEvent)
+        progress({ ...progressEvent, percent } as any)
       }
     },
     url: '/admin/file/upload',

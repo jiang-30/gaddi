@@ -93,36 +93,34 @@ export const fetchDict = async (field: IDFieldBase) => {
           url: field.dictUrl,
         })
 
-      if (field.dictFormatter) {
-        dict.items = field.dictFormatter(res)
-      } else {
-        const dictProps = {
-          res: field.dictProps?.res ?? 'data',
-          label: field.dictProps?.label ?? 'label',
-          value: field.dictProps?.value ?? 'value',
-          children: field.dictProps?.children ?? 'children',
-          disabled: field.dictProps?.disabled ?? 'disabled',
-        };
 
-        let resData = at(res as any, dictProps.res)[0]
-        // 可以是树结构
-        const treeForEach = (tree: any) => {
-          return tree.map((item: any) => {
-            const newItem: IDDictItem = {
-              label: at(item, dictProps.label)[0],
-              value: at(item, dictProps.value)[0],
-              disabled: at(item, dictProps.disabled)[0],
-            }
-            if (at(item, dictProps.children)[0]) {
-              newItem.children = treeForEach(at(item, dictProps.children)[0])
-            }
-            return newItem;
-          })
-        }
-        resData = treeForEach(resData);
+      const dictProps = {
+        res: field.dictProps?.res ?? 'data',
+        label: field.dictProps?.label ?? 'label',
+        value: field.dictProps?.value ?? 'value',
+        children: field.dictProps?.children ?? 'children',
+        disabled: field.dictProps?.disabled ?? 'disabled',
+      };
 
-        dict.items = resData
+      let resData = at(res as any, dictProps.res)[0]
+      // 可以是树结构
+      const treeForEach = (tree: any) => {
+        return tree.map((item: any) => {
+          const newItem: IDDictItem = field.dictFormatter ? field.dictFormatter(item) : {
+            label: at(item, dictProps.label)[0],
+            value: at(item, dictProps.value)[0],
+            disabled: at(item, dictProps.disabled)[0],
+          }
+          if (at(item, dictProps.children)[0]) {
+            newItem.children = treeForEach(at(item, dictProps.children)[0])
+          }
+          return newItem;
+        })
       }
+      resData = treeForEach(resData);
+
+      dict.items = resData
+
 
       dict.status = 'done'
       //@ts-ignore
@@ -151,6 +149,16 @@ export const formatValue = (row: IDModel, field: IDFieldBase) => {
   } else if (field.type === 'select' || field.type === 'radio' || field.type === 'radioButton') {
     const dict = field.dictData?.find((item: any) => item.value === value)
     return dict?.label ?? value
+  } else if (field.multiple === true && (field.type === 'tree' || field.type === 'cascader')) {
+    const dicts: IDDictItem[] = []
+
+    treeFind(field.dictData, (item: any) => {
+      if (item.value === value) {
+        dicts.push(item)
+      }
+    })
+
+    return dicts.map((item: any) => item.label).join(',') ?? value
   } else if (field.type === 'tree' || field.type === 'cascader') {
     const dict =
       treeFind(field.dictData, (item: any) => {

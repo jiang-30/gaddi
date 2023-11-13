@@ -5,7 +5,7 @@ export const formFieldCascaderFormat = (field: IDFormFieldAttrs) => {
   const defaultFieldAttrs = handle.defaultFieldAttrs
 
   return {
-    props: field.cascaderProps,
+    props: field.multiple ? { ...field.cascaderProps, multiple: field.multiple } : field.cascaderProps,
     showAllLevels: field.showAllLevels,
     collapseTags: field.collapseTags,
     collapseTagsTooltip: field.collapseTagsTooltip,
