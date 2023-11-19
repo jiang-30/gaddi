@@ -68,7 +68,7 @@ export function fetchUpdatePassword(args: { oldPassword: string; password: strin
 }
 
 // 文件上传
-export function fetchUpload(
+export function uploadFile(
   file: File,
   progress?: (progressEvent: UploadProgressEvent) => void,
 ) {

@@ -13,7 +13,7 @@ import type { AxiosInstance } from 'axios'
 import App from './App.vue'
 import pinia, { useDictStore } from './store'
 import router from './router/index'
-import { fetchUpload } from './api/common'
+import { uploadFile } from './api/common'
 
 const app = createApp(App)
 
@@ -23,7 +23,7 @@ app.use(router)
 app.use(globalComponent)
 app.use(DComponents, {
   axios: request as AxiosInstance,
-  uploadFile: fetchUpload as any,
+  uploadFile: uploadFile as any,
   dictList: useDictStore().dictList,
   permissions: ['gaddi'],
   defaultAttrs: {},
