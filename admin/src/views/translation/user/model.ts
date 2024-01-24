@@ -59,7 +59,6 @@ export const useModel = () => {
           { type: 'string', min: 6, max: 30, message: '6 - 30个字符', trigger: 'blur' },
         ],
         isTable: false,
-        isUpdateForm: false,
       },
       {
         prop: 'nickname',
@@ -73,6 +72,13 @@ export const useModel = () => {
         type: 'input',
         rules: [{ type: 'string', max: 11, message: '手机号码格式不正确', trigger: 'blur' }],
       },
+      {
+        prop: 'identityNumber',
+        label: '身份证号码',
+        type: 'input',
+        rules: [{ type: 'string', max: 18, message: '身份证号码格式不正确', trigger: 'blur' }],
+        isTable: false,
+      },
       // {
       //   prop: 'email',
       //   label: '邮箱',
@@ -85,8 +91,7 @@ export const useModel = () => {
         label: '保密等级',
         type: 'select',
         dictCode: 'security_level',
-        rules: [{ type: 'string', max: 50, message: '50个字符以内', trigger: 'blur' }],
-        updateDisabled: true,
+        default: '1',
       },
       // nickname
       // avatar

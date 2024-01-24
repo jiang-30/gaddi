@@ -160,8 +160,8 @@ export const useMenuStore = defineStore({
     /**
      *动态路由并且未加载
      */
-    async init(isLogin: boolean) {
-      if (isLogin) {
+    async init(isInit: boolean, isLogin: boolean) {
+      if (isInit && isLogin) {
         await this.fetchMenus()
         useRouteStore().setRoutes(this.menus)
       }

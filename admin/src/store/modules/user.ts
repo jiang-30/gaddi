@@ -3,9 +3,10 @@ import type { IUserInfo, ITokenInfo } from '@/typings'
 import router from '@/router/index'
 import { fetchProfile } from '@/api/common'
 import { useMenuStore, useDictStore, useTabStore, useRouteStore, useConfigStore } from '@/store'
+import { setGaddiPermission } from '@gaddi/components'
 
 const storeKey = 'USER_STORE'
-let IS_INIT = false
+let IS_INIT = true
 
 export const useUserStore = defineStore({
   id: storeKey,
@@ -69,6 +70,7 @@ export const useUserStore = defineStore({
     // 设置用户的权限信息 角色可以使用 ROLE:ADMIN 表示
     async setPermissions(permissions: string[]) {
       this.permissions = [...this.roleList.map((item: any) => `ROLE:${item.code}`), ...permissions]
+      setGaddiPermission(this.permissions)
     },
 
     // 校验用户登录态
@@ -84,8 +86,8 @@ export const useUserStore = defineStore({
       })
     },
 
-    async init() {
-      if (this.isLogin) {
+    async init(isInit: boolean) {
+      if (this.isLogin && isInit) {
         await this.fetchUserInfo() // 用户信息
       }
     },
@@ -94,21 +96,25 @@ export const useUserStore = defineStore({
     },
 
     // 初始化基础必要信息: 用户信息、菜单信息、字典信息
-    async initHandler() {
-      if (!IS_INIT) {
-        IS_INIT = true
-        return Promise.all([
-          this.init(),
-          useDictStore().init(this.isLogin), // 字典信息
-          useMenuStore().init(this.isLogin), // 菜单权限信息
-        ])// 用户信息
+    async initHandler(isReset: boolean = false) {
+      if (isReset) {
+        IS_INIT = true;
       }
+
+      await Promise.all([
+        this.init(IS_INIT),
+        useConfigStore().init(IS_INIT, this.isLogin), // 配置信息
+        useDictStore().init(IS_INIT, this.isLogin), // 字典信息
+        useMenuStore().init(IS_INIT, this.isLogin), // 菜单权限信息
+      ])
+      IS_INIT = false
     },
 
     /**
      * 退出系统
      */
     async logoutHandler(isClear = false) {
+      IS_INIT = true;
       // 用户信息
       this.clear()
       // tab标签页数据

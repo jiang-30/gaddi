@@ -28,6 +28,22 @@
       >
       </el-input>
     </el-form-item>
+    <el-form-item prop="code">
+      <el-input
+        class="code-input"
+        v-model="formData.code"
+        :prefix-icon="CircleCheck"
+        placeholder="请输入验证码"
+        clearable
+        @keyup.enter="onSubmit(formRef)"
+      >
+        <template #append>
+          <div class="code" @click="resetCode">
+            <img v-if="codeUrl" class="code" :src="codeUrl" alt="code" />
+          </div>
+        </template>
+      </el-input>
+    </el-form-item>
     <el-button class="w-full" type="primary" @click="onSubmit(formRef)" :loading="loading"
       >登录</el-button
     >
@@ -35,9 +51,9 @@
 </template>
 
 <script lang="ts" setup>
-import { User, Lock } from '@element-plus/icons-vue'
+import { User, Lock, CircleCheck } from '@element-plus/icons-vue'
 import type { FormInstance, FormRules } from 'element-plus'
-import { fetchLogin } from '@/api/common'
+import { queryCode, fetchLogin } from '@/api/common'
 import type { ILoginInfo } from '../index'
 import appConfig from '@/app.config'
 import { ref } from 'vue'
@@ -46,9 +62,12 @@ const emit = defineEmits<{
   (event: 'success', data: ILoginInfo): void
 }>()
 
+const codeUrl = ref('')
 const formData = ref({
   username: 'admin',
   password: '123456',
+  code: '',
+  codeKey: '',
 })
 const formRules = ref<FormRules>({
   username: [
@@ -65,10 +84,32 @@ const formRules = ref<FormRules>({
       trigger: 'blur',
     },
   ],
+  code: [
+    {
+      required: true,
+      message: '请输入验证码',
+      trigger: 'blur',
+    },
+  ],
 })
 
 const loading = ref(false)
 const formRef = ref<FormInstance>()
+
+const loadCode = () => {
+  queryCode().then(res => {
+    codeUrl.value = res.data.codeImg
+    formData.value.codeKey = res.data.codeKey
+  })
+}
+
+loadCode()
+
+const resetCode = () => {
+  formData.value.code = ''
+  loadCode()
+}
+
 const onSubmit = (form: FormInstance | undefined) => {
   if (!form) return
 
@@ -96,6 +137,11 @@ const onSubmit = (form: FormInstance | undefined) => {
               refreshToken: data.refreshToken,
             })
           })
+          .catch(err => {
+            if (err && err.code == '41102') {
+              resetCode()
+            }
+          })
           .finally(() => {
             loading.value = false
           })
@@ -104,3 +150,22 @@ const onSubmit = (form: FormInstance | undefined) => {
   })
 }
 </script>
+
+<style scoped>
+.code-input {
+  flex: 1;
+  display: flex;
+}
+
+.code-input :deep(.el-input-group__append) {
+  padding: 0;
+}
+
+.code-input .code {
+  width: 76px;
+  height: 32px;
+  cursor: pointer;
+}
+.code-input .code:hover {
+}
+</style>

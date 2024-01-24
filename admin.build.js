@@ -4,7 +4,7 @@ import { fileURLToPath } from 'url'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
-const dist = resolve(__dirname, 'dist')
+const dist = resolve(__dirname, 'admin-template')
 
 // 1. 清空目录
 emptyDir(dist)

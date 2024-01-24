@@ -1,16 +1,18 @@
-import { useDictStore } from '@/store';
+import { useDictStore, useUserStore } from '@/store';
 import type { IDCrudApi, IDCrudOption } from '@gaddi/components';
-import { ref } from 'vue'
 
 export const useModel = () => {
+  const searchLevel = useDictStore().items('security_level').map(item => item)
+  searchLevel.unshift({ label: '全部', value: '' })
   const api: IDCrudApi = {
-    restful: '/yijinyun/translation'
+    restful: '/yijinyun/translation/by-user'
   };
   const option: IDCrudOption = {
     labelWidth: 100,
     rowActionWidth: 150,
     isCreateBtn: false,
     isUpdateBtn: false,
+    isDeleteBtn: false,
     isInfoBtn: true,
     span: 24,
     fields: [
@@ -24,22 +26,15 @@ export const useModel = () => {
         prop: "result",
         label: "结果",
         type: 'input',
-      },
-      {
-        label: "作者",
-        prop: "author",
-        type: "input",
-        isSearch: true,
-        width: 140,
-        align: 'center'
+        isTable: false,
       },
       {
         prop: "level",
         label: "保密等级",
         type: 'select',
-        dictCode: 'security_level',
+        dictData: searchLevel,
         isSearch: true,
-        width: 120,
+        width: 140,
         align: 'center'
       },
       {

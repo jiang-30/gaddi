@@ -1,12 +1,15 @@
 <template>
-  <div class="app-title" @click="$router.push({ name: useRouteStore().indexPageName })">
-    <img class="app-title-logo" src="/logo.png" alt="logo" />
-    <h1 class="app-title-text">{{ useConfigStore().appTitle }}</h1>
+  <div class="app-title" @click="$router.push({ name: routeStore.indexPageName })">
+    <img class="app-title-logo" :src="configStore.appLogo" alt="logo" />
+    <h1 class="app-title-text">{{ configStore.appTitle }}</h1>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { useRouteStore, useConfigStore } from '@/store'
+
+const configStore = useConfigStore()
+const routeStore = useRouteStore()
 
 defineProps<{
   textColor: string
@@ -27,16 +30,16 @@ defineProps<{
 }
 
 .app-title-logo {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   object-fit: contain;
 }
 
 .app-title-text {
   word-break: keep-all;
-  margin-left: 15px;
+  margin-left: 10px;
   line-height: 1;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
   color: v-bind(textColor);
 }

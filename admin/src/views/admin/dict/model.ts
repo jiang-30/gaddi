@@ -12,6 +12,7 @@ export const useModel = (): {
   const option: IDCrudOption = {
     labelWidth: '100px',
     rowActionWidth: 230,
+    dialogWidth: 600,
     fields: [
       {
         label: '字典名称',

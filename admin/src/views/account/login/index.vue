@@ -64,7 +64,7 @@ async function successHandler(data: ILoginInfo) {
   useDictStore().setDictList([])
 
   // 登录后请求必要的信息
-  await userStore.initHandler()
+  await userStore.initHandler(true)
 
   // 跳转路由
   if (route.query.redirect) {
@@ -87,7 +87,7 @@ async function successHandler(data: ILoginInfo) {
 }
 
 .login-page-wrapper {
-  width: 550px;
+  width: 600px;
   margin-top: -200px;
   background-color: #fff;
   box-shadow: 0 0 10px 0 #ccc;

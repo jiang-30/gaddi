@@ -4,6 +4,14 @@ import { encrypt } from '@/utils/crypto-utils'
 import type { ILoginParam, ILoginResponse } from './types'
 import type { UploadProgressEvent } from 'element-plus'
 
+// 验证码
+export const queryCode = () => {
+  return request({
+    method: 'get',
+    url: '/admin/auth/code',
+  })
+}
+
 // 用户登录
 export const fetchLogin = (param: ILoginParam) => {
   param.password = encrypt(param.password)

@@ -35,11 +35,10 @@ router.beforeEach(async to => {
 
   settingStore.isLoading = true
   useTabStore().removeTab()
+  await userStore.initHandler()
 
   // 已登录
   if (userStore.isLogin) {
-    await userStore.initHandler()
-
     const defaultIndexPageName = useMenuStore().indexPageName
 
     if (!useUserStore().isAuth(to.meta.permission)) {

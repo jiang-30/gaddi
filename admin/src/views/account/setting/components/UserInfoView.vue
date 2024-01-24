@@ -2,7 +2,7 @@
   <section class="w-[500px] p-10">
     <el-form label-position="top">
       <el-form-item label="头像">
-        <el-avatar :size="120"></el-avatar>
+        <el-avatar :src="userInfo.avatar" :size="120" @click="onClick"></el-avatar>
       </el-form-item>
       <el-form-item label="姓名">
         <el-input v-model="userInfo.username" disabled></el-input>
@@ -24,7 +24,7 @@
 
 <script lang="ts" setup>
 import { useUserStore } from '@/store'
-import { fetchUpdateInfo } from '@/api/common'
+import { fetchUpdateInfo, uploadFile } from '@/api/common'
 import { ElMessage } from 'element-plus'
 import { ref } from 'vue'
 
@@ -37,6 +37,23 @@ const userInfo = ref({
   resume: userStore.userInfo.resume,
   email: userStore.userInfo.email,
 })
+
+const onClick = () => {
+  const input = document.createElement('input')
+  input.setAttribute('type', 'file')
+  input.setAttribute('accept', 'image/jpeg,image/png')
+  input.onchange = (e: any) => {
+    const file = e.target?.files[0]
+    console.log(e)
+    if (file) {
+      uploadFile(file).then(res => {
+        // userStore.userInfo.avatar = `/api/admin/file/preview/${res.data.filename}`
+        userInfo.value.avatar = `/api/admin/file/preview/${res.data.filename}`
+      })
+    }
+  }
+  input.click()
+}
 
 const onConfirm = () => {
   loading.value = true

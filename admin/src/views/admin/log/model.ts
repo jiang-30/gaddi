@@ -3,12 +3,15 @@ import type { IDCrudApi, IDCrudOption } from '@gaddi/components';
 
 export const useModel = () => {
   const api: IDCrudApi = {
-    restful: '/admin/log'
+    restful: '/admin/log',
+    info: '/admin/log/{id}',
   };
   const option: IDCrudOption = {
     isCreateBtn: false,
     isUpdateBtn: false,
     isInfoBtn: true,
+    deleteBtnPermission: 'admin:log:delete',
+    infoBtnPermission: 'admin:log:info',
     fields: [
 
       {
@@ -33,19 +36,40 @@ export const useModel = () => {
         isSearch: true,
       },
       {
-        prop: "ip",
-        label: "IP",
+        prop: "nickname",
+        label: "姓名",
         type: "input",
+        isTable: false,
       },
       {
-        prop: "method",
-        label: "请求方法",
+        prop: "phoneNum",
+        label: "手机号码",
+        type: "input",
+        isTable: false,
+      },
+      {
+        prop: "identityNumber",
+        label: "身份证号码",
+        type: "input",
+        isTable: false,
+      },
+      {
+        prop: "ip",
+        label: "IP",
         type: "input",
       },
       {
         prop: "url",
         label: "请求路径",
         type: "input",
+
+      },
+      {
+        prop: "method",
+        label: "请求方法",
+        type: "input",
+        align: 'center',
+        width: 100,
       },
       {
         prop: "description",
@@ -58,11 +82,15 @@ export const useModel = () => {
         label: "操作结果",
         type: "select",
         dictData: useDictStore().items('SYS_RESULT'),
+        width: 100,
+        align: 'center'
       },
       {
         prop: "createdTime",
         label: "操作时间",
         type: "input",
+        width: 180,
+        align: 'center'
       },
     ],
   }

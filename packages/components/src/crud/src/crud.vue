@@ -89,6 +89,17 @@
                   height="40px"
                 ></ImageList>
               </template>
+              <template
+                v-else-if="
+                  (field.type === 'select' || field.type === 'radio') &&
+                  field.multiple !== true &&
+                  formatDictItem(scopeProps.row, field)?.tagType
+                "
+              >
+                <el-tag :type="formatDictItem(scopeProps.row, field)?.tagType">
+                  {{ formatValue(scopeProps.row, field) }}
+                </el-tag>
+              </template>
               <template v-else>
                 {{ formatValue(scopeProps.row, field) }}
               </template>
@@ -238,7 +249,7 @@ import {
   deleteApi,
 } from './handler/api-handler'
 import { dialogTypeMap } from './constant'
-import { handle, formatValue } from '../../handler'
+import { handle, formatValue, formatDictItem } from '../../handler'
 import { DSearchForm, DForm, DInfo, type IDForm, type IDCrudStatus } from '../../index'
 import type { IDCrudQueryType } from './type'
 import type { IDFormSaveFn } from '../../form'

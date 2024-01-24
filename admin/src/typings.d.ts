@@ -149,6 +149,7 @@ export type IDictDataType = 'list' | 'tree'
 export interface IDictItem {
   label: string
   value: string | number
+  tagType?: 'info' | 'success' | 'warning' | 'danger'
   disabled?: boolean
 }
 

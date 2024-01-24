@@ -20,13 +20,19 @@ import { DCrud } from "./crud/index";
 import { authorizeDirective } from "./common/directives/authorize";
 import { resizeDirective } from "./common/directives/resize";
 
-export const setDictList = (dictList: IDOption['dictList']) => {
+/**
+ * 设置字典列表
+ */
+export const setGaddiDictList = (dictList: IDOption['dictList']) => {
   if (dictList) {
     handle.dictList.push(...dictList);
   }
 }
 
-export const setPermission = (permissions: IDOption['permissions']) => {
+/**
+ * 设置权限列表
+ */
+export const setGaddiPermission = (permissions: IDOption['permissions']) => {
   if (permissions) {
     handle.permissions.push(...permissions)
   }

@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="visible" title="字典项" width="800px" destroy-on-close>
+  <el-dialog v-model="visible" title="字典项" width="1000px" destroy-on-close>
     <DCrud
       v-model:table-data="tableData"
       :option="option"
@@ -65,6 +65,20 @@ const option = computed<IDCrudOption>(() => {
         type: 'input',
         rules: [
           { required: true, message: '请输入名称', trigger: 'blur' },
+          {
+            type: 'string',
+            max: 30,
+            message: '最多输入30个字符',
+            trigger: 'blur',
+          },
+        ],
+      },
+      {
+        label: '类型',
+        prop: 'tagType',
+        type: 'select',
+        dictCode: 'TAG_TYPE',
+        rules: [
           {
             type: 'string',
             max: 30,

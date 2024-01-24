@@ -3,7 +3,7 @@ import { ref } from 'vue'
 
 export const useModel = () => {
   const api: IDCrudApi = {
-    restful: '/admin/config'
+    restful: '/admin/properties'
   };
 
   const option: IDCrudOption = {
@@ -27,11 +27,13 @@ export const useModel = () => {
         label: "配置",
         type: "input",
         isTable: false,
+        isForm: false,
       },
       {
         prop: "remark",
         label: "备注",
         type: "textarea",
+        isTable: false,
       },
     ],
   }

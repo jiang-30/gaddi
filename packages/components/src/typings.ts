@@ -24,6 +24,7 @@ export type IDModel = Record<string, any>;
 export type IDDictItem = {
   label: string;
   value: string | number
+  tagType?: 'info' | 'success' | 'warning' | 'danger'
   children?: IDDictItem[]
   disabled?: boolean
   [key: string]: any

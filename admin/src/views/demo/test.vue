@@ -15,12 +15,17 @@ meta:
 <template>
   <PageContainer>
     <el-button @click="onClick">test</el-button>
+
+    <DImageUpload v-model="value" prefix="/api" @change="onChange" width="500px"></DImageUpload>
   </PageContainer>
 </template>
 
 <script setup lang="ts">
 import axios from 'axios'
 import json from '@/assets/response.json'
+import { ref } from 'vue'
+
+const value = ref('')
 
 const onClick = () => {
   console.log(333)
@@ -34,5 +39,9 @@ const onClick = () => {
       timeout: 500000000,
     },
   )
+}
+
+const onChange = (data: any) => {
+  console.log(data)
 }
 </script>

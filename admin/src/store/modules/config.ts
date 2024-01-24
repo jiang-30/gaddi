@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia'
 import config from '@/app.config'
 import { setThemePrimaryColor } from '@/utils/color'
+import { queryPropertiesByCode } from '@/api/admin/properties'
+
 
 type IThemeMode = 'light' | 'dark'
 
@@ -24,6 +26,14 @@ export const useConfigStore = defineStore({
     appTitle: config.title,
     // 页面模块标题
     appSubTitle: '',
+    // 应用标题
+    appTitleImage: '',
+    // 应用Logo
+    appLogo: config.logo,
+    // 应用 Banner
+    appBanner: '',
+    // 应用版权
+    appCopyright: '',
     // debug
     showDebugBtn: config.theme?.debugEnabled ?? false,
     // 跳转帮助页面按钮
@@ -134,6 +144,23 @@ export const useConfigStore = defineStore({
     // 设置主题颜色模式
     generateThemeColor() {
       setThemePrimaryColor(this.themeColor, this.themeMode)
+    },
+    // 获取站点配置信息
+    queryAdminProperties() {
+      return queryPropertiesByCode('ADMIN_CLIENT_PROPERTY').then(res => {
+        const properties = res.data.value
+        if (properties.appTitle) this.appTitle = properties.appTitle
+        if (properties.appCopyright) this.appCopyright = properties.appCopyright
+        if (properties.appTitleImage) this.appTitleImage = this.baseUrl + properties.appTitleImage
+        if (properties.appLogo) this.appLogo = this.baseUrl + properties.appLogo
+        if (properties.appBanner) this.appBanner = this.baseUrl + properties.appBanner
+      })
+    },
+
+    async init(isInit: boolean, isLogin: boolean) {
+      if (isInit) {
+        await this.queryAdminProperties()
+      }
     },
 
     // 清除数据

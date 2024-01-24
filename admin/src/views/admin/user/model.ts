@@ -67,6 +67,13 @@ export const useModel = () => {
         isTable: false,
       },
       {
+        prop: 'identityNumber',
+        label: '身份证号码',
+        type: 'input',
+        rules: [{ type: 'string', max: 18, message: '身份证号码格式不正确', trigger: 'blur' }],
+        isTable: false,
+      },
+      {
         prop: 'email',
         label: '邮箱',
         type: 'input',

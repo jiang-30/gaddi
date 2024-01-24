@@ -24,7 +24,7 @@ meta:
 <script setup lang="ts">
 import { useModel } from './model'
 import { fetchUpdatePassword } from '@/api/admin/user'
-import { IDCrudBeforeFetchFn } from '@gaddi/components'
+import type { IDCrudBeforeFetchFn } from '@gaddi/components'
 import { ElMessageBox, ElNotification } from 'element-plus'
 import { ref } from 'vue'
 

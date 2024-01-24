@@ -8,6 +8,8 @@ const config: IConfig & Record<string, any> = {
 
   title: '管理系统',
 
+  logo: '/logo.png',
+
   description: 'vue3 + TypeScript 后台管理系统',
 
   clientCode: 'ADMIN',

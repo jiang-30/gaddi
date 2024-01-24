@@ -5,8 +5,15 @@ export const formFieldImagesFormat = (field: IDFormFieldAttrs) => {
   const defaultFieldAttrs = handle.defaultFieldAttrs
 
   return {
-    maxSize: field.maxSize,
+    sizeLimit: field.sizeLimit,
     limit: field.limit,
+    prefix: field.prefix,
+    width: field.imageWidth,
+    height: field.imageHeight,
+    radius: field.imageRadius,
+    props: field.imageProps,
+    uploadHandle: field.uploadHandle,
+    afterUploadHandle: field.afterUploadHandle,
   }
 }
 

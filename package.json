@@ -11,6 +11,7 @@
     "node": ">=16",
     "pnpm": ">=7"
   },
+  "type": "module",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "dev:docs": "pnpm --filter @gaddi/docs dev",
@@ -37,6 +38,7 @@
     "inquirer": "^9.2.8",
     "lodash-es": "^4.17.21",
     "log-symbols": "^5.1.0",
+    "mysql2": "^3.6.5",
     "ora": "^6.3.1",
     "shelljs": "^0.8.5",
     "string-template": "^1.0.0",

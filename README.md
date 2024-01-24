@@ -4,6 +4,11 @@ gaddi 是一个 monorepo, 多个工程放到一个 git 仓库中;共享一套构
 
 ## TODO
 
+- server 通过注解区分客户端
+- layout 不hot刷新
+- components 传递的值去掉响应性
+- components table 字段加tag状态
+
 - 搜索插槽、搜索默认值
 - 字典数据同步到 DCRUD
 - multiple formatter

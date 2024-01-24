@@ -7,39 +7,56 @@ meta:
 </route>
 
 <template>
-  <section class="translation-wrapper">
+  <section class="translation-wrapper" v-loading="loading">
     <section class="translation-box">
       <header class="translation-header">
-        <el-tag>国家通用语言</el-tag>
+        <el-form-item label="密级">
+          <el-select v-model="formModel.securityLevel">
+            <el-option
+              v-for="item in secrityLevelList"
+              :key="item.value"
+              :value="item.value"
+              :label="item.label"
+            ></el-option>
+          </el-select>
+        </el-form-item>
       </header>
       <main class="translation-main">
         <el-input
           class="translation-main-input"
-          v-model="source"
+          :class="{ 'translation-main-input__mw': formModel.source.lang == 'mw' }"
+          v-model="formModel.source.value"
           type="textarea"
           resize="none"
           show-word-limit
           max-length="1500"
-          placeholder="请输入要翻译的中文内容"
+          :placeholder="formModel.source.placeholder"
         ></el-input>
       </main>
       <footer class="translation-footer">
-        <el-button :icon="Close" circle @click="clearHandle"></el-button>
+        <el-tag>{{ formModel.source.langText }}</el-tag>
+        <div class="ml-auto"></div>
+        <el-button :icon="Delete" circle @click="clearHandle"></el-button>
       </footer>
     </section>
     <section class="translation-action">
+      <el-button type="primary" :loading="loading" :icon="Switch" @click="onTurn"></el-button>
       <el-button type="primary" :loading="loading" @click="translationHandle">翻译</el-button>
     </section>
     <section class="translation-box">
-      <header class="translation-header">
-        <el-tag>传统蒙古文</el-tag>
-      </header>
+      <header class="translation-header"> </header>
       <main class="translation-main">
-        <div class="translation-main-result">
-          <div>{{ result }}</div>
+        <div
+          class="translation-main-result"
+          :class="{ 'translation-main-result__mw': formModel.result.lang == 'mw' }"
+        >
+          <div v-if="formModel.result.value">{{ formModel.result.value }}</div>
+          <div v-else style="color: #999">{{ formModel.result.placeholder }}</div>
         </div>
       </main>
       <footer class="translation-footer">
+        <el-tag>{{ formModel.result.langText }}</el-tag>
+        <div class="ml-auto"></div>
         <el-button :icon="List" circle @click="navHandle"></el-button>
         <el-button :icon="CopyDocument" circle @click="copyHandle"></el-button>
       </footer>
@@ -50,38 +67,72 @@ meta:
 <script setup lang="ts">
 import { ref } from 'vue'
 import { ElDialog, ElMessage, ElMessageBox } from 'element-plus'
-import { CopyDocument, List, Close } from '@element-plus/icons-vue'
+import { CopyDocument, List, Delete, Switch } from '@element-plus/icons-vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
 import { useClipboard } from '@vueuse/core'
 import { createContent } from '@/api/translation/index'
-import { useUserStore } from '@/store'
+import { useUserStore, useDictStore } from '@/store'
+import replaceJson from '@/assets/json/replae.json'
 
 const router = useRouter()
 const { copy } = useClipboard()
-const source = ref('你好')
-const result = ref(
-  'ᠵᠠᠮ ᠳᠡᠭᠡᠷ᠎ᠡ ᠪᠢ ᠭᠠᠭᠴᠠᠭᠠᠷ ᠢᠶᠠᠨ ᠂ ᠭᠠᠷ ᠢᠶᠠᠨ ᠡᠭᠦᠷᠴᠦ ᠠᠯᠬᠤᠵᠤ ᠪᠠᠢᠨ᠎ᠠ᠃ ᠡᠨᠡ ᠬᠡᠰᠡᠭ ᠭᠠᠵᠠᠷ ᠨᠢ ᠮᠢᠨᠦᠬᠢ ᠰᠢᠭ ᠪᠢ ᠪᠠᠰᠠ ᠡᠩ ᠦᠨ ᠦᠶ᠎ᠡ ᠡᠴᠡ ᠪᠡᠨ ᠳᠠᠪᠠᠵᠤ ᠥᠭᠡᠷ᠎ᠡ ᠨᠢᠭᠡ ᠶᠢᠷᠲᠢᠨᠴᠦ ᠳᠦ ᠬᠦᠷᠦᠭᠰᠡᠨ ᠰᠢᠭ᠃ ᠪᠢ ᠨᠠᠷᠭᠢᠶᠠᠨ ᠳᠤ ᠳᠤᠷᠠᠲᠠᠶ ᠂ ᠪᠠᠰᠠ ᠲᠠᠢᠪᠤᠩ ᠪᠠᠢᠬᠤ ᠳᠤᠷᠠᠲᠠᠶ ᠭᠠᠭᠴᠠᠭᠠᠷ ᠠᠮᠢᠳᠤᠷᠠᠬᠤ ᠳᠤᠷᠠᠲᠠᠢ᠃ ᠥᠨᠥ ᠰᠥᠨᠢ ᠂ ᠭᠠᠭᠴᠠᠭᠠᠷ ᠢᠶᠠᠨ ᠡᠨᠡ ᠬᠦ ᠨᠡᠯᠦᠭᠡᠷ ᠰᠠᠷᠠᠨ ᠤ ᠳᠣᠣᠷ᠎ᠠ ᠂ ᠶᠠᠭᠤ ᠪᠦᠬᠦᠨ ᠢ ᠪᠣᠳᠣᠵᠤ ᠂ ᠶᠠᠭᠤ ᠪᠦᠬᠦᠨ ᠢ ᠪᠣᠳᠣᠬᠤ ᠦᠭᠡᠢ ᠪᠠᠶᠢᠵᠤ ᠪᠣᠯᠤᠨ᠎ᠠ ᠂ ᠲᠡᠭᠡᠪᠡᠯ ᠳᠠᠷᠤᠢ ᠡᠷᠬᠡ ᠴᠢᠯᠥᠭᠡ ᠲᠡᠶ ᠬᠥᠮᠦᠨ ᠰᠢᠭ ᠰᠠᠨᠠᠭᠳᠠᠨ᠎ᠠ᠃ ᠡᠳᠦᠷ ᠢᠶᠡᠷ ᠵᠠᠪᠠᠯ ᠬᠢᠬᠦ ᠠᠵᠢᠯ ᠂ ᠵᠠᠪᠠᠯ ᠬᠡᠯᠡᠬᠦ ᠦᠭᠡ ᠶᠢ ᠣᠳᠣ ᠪᠦᠷ ᠣᠶᠢᠰᠢᠶᠠᠬᠤ ᠦᠭᠡᠢ᠃ ᠡᠨᠡ ᠪᠣᠯ ᠭᠠᠭᠴᠠᠭᠠᠷ ᠪᠠᠢᠬᠤ ᠶᠢᠨ ᠰᠠᠶᠢᠨ ᠲᠠᠯ᠎ᠠ ᠂ ᠪᠢ ᠡᠨᠡ ᠬᠢᠵᠠᠭᠠᠷ ᠦᠭᠡᠢ ᠬᠦᠵᠢ ᠶᠢᠨ ᠰᠠᠷᠠᠨ ᠤ ᠥᠩᠭᠡ ᠶᠢ ᠡᠳ᠋ᠯᠡᠪᠡᠯ ᠪᠣᠯᠴᠢᠬᠠᠨ᠎ᠠ᠃ ᠮᠤᠷᠤᠶ ᠰᠠᠷᠤᠶ ᠯᠢᠩᠬᠤ᠎ᠠ ᠶᠢᠨ ᠨᠠᠭᠤᠷ ᠤᠨ ᠳᠡᠭᠡᠷ᠎ᠡ ᠂ ᠪᠠᠷᠠᠯᠠᠬᠤ ᠨᠢ ᠲᠠᠷᠢᠶᠠᠨ ᠭᠠᠵᠠᠷ ᠤᠨ ᠨᠠᠪᠴᠢ᠃ ᠨᠠᠪᠴᠢ ᠠᠴᠠ ᠤᠰᠤ ᠭᠠᠷᠬᠤ ᠨᠢ ᠮᠠᠰᠢ ᠥᠨᠳᠥᠷ ᠂ ᠶᠠᠭ ᠲᠢᠩ ᠲᠢᠩ ᠂ ᠪᠥᠵᠢᠭ ᠦᠨ ᠡᠮᠡᠭᠲᠡᠶ ᠪᠠᠩᠵᠠᠯ ᠰᠢᠭ᠃ ᠳᠠᠪᠬᠤᠷ ᠳᠠᠪᠬᠤᠷ ᠨᠠᠪᠴᠢᠨ ᠤ ᠳᠤᠮᠳᠠ ᠂ ᠬᠡᠰᠡᠭ ᠪᠤᠰᠠᠭ ᠢᠶᠠᠷ ᠴᠠᠭᠠᠨ ᠴᠡᠴᠡᠭ ᠬᠠᠳᠬᠤᠵᠤ ᠂ ᠨᠠ ᠨᠠ ( nio ᠂ nu )  ᠪᠠᠷ ᠨᠡᠭᠡᠭᠡᠭᠳᠡᠵᠦ ᠂ ᠢᠴᠢᠵᠦ ᠰᠢᠷᠪᠡᠭᠡᠲᠦᠭᠰᠡᠨ ᠪᠠᠶᠢᠳᠠᠯ ᠲᠠᠶ ᠪᠠᠷ ᠪᠠᠭᠴᠠ ᠪᠠᠨ ᠴᠣᠬᠢᠨ᠎ᠠ ᠶᠠᠭ ᠨᠢᠭᠡ ᠮᠥᠬᠥᠯᠢᠭ ᠮᠥᠬᠥᠯᠢᠭ ᠭᠡᠷᠡᠯᠲᠦ ᠰᠤᠪᠤᠳ ᠰᠢᠭ ᠂ ᠪᠠᠰᠠ ᠶᠠᠭ ᠬᠥᠬᠡ ᠣᠭᠲᠠᠷᠭᠤᠢ ᠳᠠᠬᠢ ᠣᠳᠣᠳ ᠰᠢᠭ ᠂ ᠪᠠᠰᠠ ᠶᠠᠭ ᠰᠠᠶᠢᠬᠠᠨ ᠰᠠᠶ᠋ᠢ ᠤᠬᠢᠶᠠᠵᠤ ᠭᠠᠷᠭᠠᠭᠰᠠᠨ ᠭᠤᠶᠤ ᠬᠥᠮᠦᠨ ᠰᠢᠭ᠃ ᠰᠠᠯᠬᠢᠨ ᠤ ᠠᠶ᠎ᠠ ᠪᠠᠷ ᠠᠩᠬᠢᠯᠤᠮ᠎ᠠ ᠦᠨᠦᠷ ᠬᠠᠩᠬᠤᠯᠵᠤ ᠂ ᠶᠠᠭ ᠯᠠ ᠬᠣᠯᠠᠬᠢ ᠥᠨᠳᠥᠷ ᠠᠰᠠᠷ ᠳᠡᠭᠡᠷᠡᠬᠢ ᠡᠯᠦᠢ ᠬᠤᠯᠤᠢ ᠳᠠᠭᠤᠤ ᠮᠡᠲᠦ᠃ ᠡᠨᠡ ᠦᠶ᠎ᠡ ᠳᠦ ᠨᠠᠪᠴᠢ ᠪᠠ ᠴᠡᠴᠡᠭ ᠪᠠᠰᠠ ᠨᠢᠭᠡ ᠰᠢᠷᠬᠡᠭ ᠴᠡᠴᠡᠷᠡᠵᠦ ᠂ ᠶᠠᠭ ᠴᠠᠬᠢᠯᠭᠠᠨ ᠴᠠᠬᠢᠯᠬᠤ ᠮᠡᠲᠦ ᠠᠭᠱᠠᠨ ᠵᠠᠭᠤᠷ᠎ᠠ ᠯᠢᠩᠬᠤ᠎ᠠ ᠶᠢᠨ ᠨᠠᠭᠤᠷ ᠤᠨ ᠴᠠᠭᠠᠳᠤ ᠲᠠᠯ᠎ᠠ ᠳᠤ ᠲᠠᠷᠬᠠᠪᠠ᠃ ᠨᠠᠪᠴᠢ ᠨᠢ ᠮᠥᠷᠥ ᠵᠡᠷᠭᠡᠴᠡᠨ ᠨᠢᠭᠲᠠ ᠨᠠᠭᠠᠯᠳᠤᠵᠤ ᠪᠠᠶᠢᠳᠠᠭ ᠂ ᠡᠨᠡ ᠨᠢ ᠶᠠᠭ ᠯᠠ ᠨᠢᠭᠡᠨ ᠵᠤᠷᠪᠤᠰ ᠴᠠᠷᠴᠠᠮᠠᠯ ᠨᠣᠭᠣᠭᠠᠨ ᠳᠣᠯᠭᠢᠶᠠᠨ ᠣᠷᠣᠮ ᠲᠠᠶ ᠪᠣᠯᠤᠭᠰᠠᠨ ᠪᠠᠶᠢᠨ᠎ᠠ᠃ ᠨᠠᠪᠴᠢᠨ ᠤ ᠳᠣᠣᠷ᠎ᠠ ᠰᠤᠳᠠᠯ ( m )  ᠤᠨ ᠤᠰᠤ ᠤᠷᠤᠰᠤᠨ ᠂ ᠬᠠᠯᠬᠠᠯᠠᠭᠠᠳ ᠂ ᠵᠠᠷᠢᠮ ᠥᠩᠭᠡ ᠶᠢ ᠣᠯᠵᠤ ᠦᠵᠡᠬᠦ ᠦᠭᠡᠢ ᠬᠠᠷᠢᠨ ᠨᠠᠪᠴᠢ ᠨᠢ ᠨᠠᠩ ᠰᠠᠢᠬᠠᠨ ᠬᠠᠷᠠᠭᠳᠠᠨ᠎ᠠ᠃',
-)
+const secrityLevelList = useDictStore().items('security_level')
 const loading = ref(false)
+const formModel = ref({
+  securityLevel: '1',
+  source: {
+    value: '',
+    lang: 'zh',
+    langText: '国家通用语言',
+    placeholder: '请输入要翻译的内容',
+  },
+  result: {
+    value: '',
+    lang: 'mw',
+    langText: '传统蒙古文',
+    placeholder: 'ᠣᠷᠴᠢᠭᠤᠯᠬᠤ ᠠᠭᠤᠯᠭ᠎ᠠ ᠶᠢ ᠣᠷᠣᠭᠤᠯᠤᠭᠠᠷᠠᠶ᠃',
+  },
+})
+
+const clearHandle = () => {
+  formModel.value.source.value = ''
+  formModel.value.result.value = ''
+}
+
+const onTurn = () => {
+  clearHandle()
+  const middle = { ...formModel.value.source }
+  formModel.value.source = { ...formModel.value.result }
+  formModel.value.result = { ...middle }
+}
 
 const translationHandle = () => {
-  if (!source.value) {
+  if (!formModel.value.source.value) {
     ElMessage.warning('请输入要翻译的内容')
     return
   }
   loading.value = true
   axios
-    .get(`/api/translation/index.php?act=chat_gpt&op=index&content=${source.value}&frm=zh&to=mw`)
+    .get(
+      `/api/translation/index.php?act=chat_gpt&op=index&content=${formModel.value.source.value}&frm=${formModel.value.source.lang}&to=${formModel.value.result.lang}`,
+    )
     .then(res => {
-      result.value = res.data
+      // 汉到蒙语的时候对部分词语进行替换
+      if (formModel.value.source.lang == 'zh') {
+        replaceJson.forEach(item => {
+          res.data = res.data.replaceAll(item[0], item[1])
+        })
+      }
+
+      formModel.value.result.value = res.data
       return createContent({
-        source: source.value,
-        result: result.value,
-        sourceLang: 'zh',
-        resultLang: 'mw',
+        source: formModel.value.source.value,
+        result: formModel.value.result.value,
+        sourceLang: formModel.value.source.lang,
+        resultLang: formModel.value.result.lang,
         author: useUserStore().userInfo.username,
-        level: useUserStore().userInfo.level,
+        level: formModel.value.securityLevel,
       })
     })
     .finally(() => {
@@ -89,20 +140,16 @@ const translationHandle = () => {
     })
 }
 
-const clearHandle = () => {
-  source.value = ''
-}
-
 const navHandle = () => {
-  router.push('/translation/list?type=user')
+  router.push('/translation/list-user')
 }
 
 const copyHandle = () => {
-  if (!result.value) {
+  if (!formModel.value.result.value) {
     ElMessage.warning('没有内容')
     return
   }
-  copy(result.value).then(() => {
+  copy(formModel.value.result.value).then(() => {
     ElMessage.success('复制成功')
   })
 }
@@ -124,8 +171,9 @@ const copyHandle = () => {
 }
 
 .translation-header {
-  padding: 10px;
-  text-align: center;
+  height: 60px;
+  display: flex;
+  align-items: center;
 }
 
 .translation-main {
@@ -146,16 +194,40 @@ const copyHandle = () => {
   height: 100%;
 }
 
+.translation-main :deep(.el-textarea__inner) {
+  padding: 15px;
+  word-break: break-word;
+}
+
+.translation-main .translation-main-input__mw {
+  writing-mode: vertical-lr;
+  text-orientation: sideways-right;
+}
+.translation-main .translation-main-input__mw :deep(.el-textarea__inner) {
+  display: table-column;
+  writing-mode: vertical-lr;
+  text-orientation: sideways-right;
+  white-space: wrap;
+  word-break: break-word;
+  /* overflow-x: scroll;
+    overflow-x: hidden; */
+}
+
 .translation-main .translation-main-result {
-  /* font-family: 'OrhonChaganTigNew' !important;  */
   width: 100%;
   height: 100%;
   font-size: inherit;
   line-height: 1;
   color: inherit;
-  writing-mode: vertical-lr;
-  text-orientation: sideways;
+  word-break: break-word;
   padding: 15px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.translation-main .translation-main-result__mw {
+  writing-mode: vertical-lr;
+  text-orientation: sideways-right;
   overflow-y: hidden;
   overflow-x: auto;
 }
@@ -171,7 +243,14 @@ const copyHandle = () => {
 .translation-action {
   width: 100px;
   display: flex;
+  flex-direction: column;
+  gap: 10px;
   justify-content: center;
   align-items: center;
+}
+
+.translation-action .el-button {
+  width: 70px;
+  margin: 0;
 }
 </style>

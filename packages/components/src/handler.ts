@@ -109,7 +109,8 @@ export const fetchDict = async (field: IDFieldBase) => {
           const newItem: IDDictItem = field.dictFormatter ? field.dictFormatter(item) : {
             label: at(item, dictProps.label)[0],
             value: at(item, dictProps.value)[0],
-            disabled: at(item, dictProps.disabled)[0],
+            tagType: item.tagType,
+            disabled: at(item, dictProps.disabled)[0] === true || at(item, dictProps.disabled)[0] === '1',
           }
           if (at(item, dictProps.children)[0]) {
             newItem.children = treeForEach(at(item, dictProps.children)[0])
@@ -137,6 +138,12 @@ export const fetchDict = async (field: IDFieldBase) => {
   return []
 }
 
+export const formatDictItem = (row: IDModel, field: IDFieldBase) => {
+  const dictItem = field.dictData?.find((item) => item.value === row[field.prop])
+
+  return dictItem
+}
+
 // format Value 对不同的数据域类型格式化显示结果
 export const formatValue = (row: IDModel, field: IDFieldBase) => {
   const value = row[field.prop]
@@ -144,10 +151,10 @@ export const formatValue = (row: IDModel, field: IDFieldBase) => {
   if (field.formatter) {
     return field.formatter(row, field)
   } else if (field.type === 'select' && field.multiple === true && Array.isArray(value)) {
-    const dict = field.dictData?.filter((item: any) => value.includes(item.value))
-    return dict?.map((item: any) => item.label).join(',') ?? value
+    const dict = field.dictData?.filter((item) => value.includes(item.value))
+    return dict?.map((item) => item.label).join(',') ?? value
   } else if (field.type === 'select' || field.type === 'radio' || field.type === 'radioButton') {
-    const dict = field.dictData?.find((item: any) => item.value === value)
+    const dict = formatDictItem(row, field)
     return dict?.label ?? value
   } else if (field.multiple === true && (field.type === 'tree' || field.type === 'cascader')) {
     const dicts: IDDictItem[] = []

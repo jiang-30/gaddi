@@ -9,6 +9,8 @@ import createAuto from "./auto";
 import createLint from "./lint";
 import createFavicon from "./favicon";
 import { PluginOption } from "vite";
+// @ts-ignore
+import { generatePlugin } from "./generate";
 
 // import vue from '@vitejs/plugin-vue'
 // import vueJsx from '@vitejs/plugin-vue-jsx'
@@ -60,5 +62,6 @@ export function createVitePlugins(): any[] {
     visualizer({
       open: false,
     }),
+    generatePlugin()
   ];
 }

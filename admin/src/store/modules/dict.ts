@@ -2,6 +2,8 @@ import { defineStore } from 'pinia'
 import localDicts from '@/assets/dict/index'
 import { fetchDict } from '@/api/common'
 import type { IDict, IDictItem } from '@/typings'
+import { setGaddiDictList } from '@gaddi/components'
+
 
 const storeKey = 'DICT_STORE'
 
@@ -43,11 +45,12 @@ export const useDictStore = defineStore({
     // 设置字典列表
     async setDictList(data: IDict[]) {
       this.dictList = [...data, ...localDicts]
+      setGaddiDictList(this.dictList)
     },
 
     // 获取字典数据
-    async init(isLogin: boolean) {
-      if (isLogin) {
+    async init(isInit: boolean, isLogin: boolean) {
+      if (isInit && isLogin) {
         return fetchDict().then(({ data }) => {
           this.setDictList(data)
         })
