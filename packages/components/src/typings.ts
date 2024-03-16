@@ -58,6 +58,8 @@ export type IDFieldType =
   | 'cascader'
   | 'radio'
   | 'radioButton'
+  | 'checkbox'
+  | 'checkboxButton'
   | 'tree'
   | 'year'
   | 'month'

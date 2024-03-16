@@ -62,6 +62,9 @@ const emit = defineEmits<{
   (event: 'success', data: ILoginInfo): void
 }>()
 
+const formRef = ref<FormInstance>()
+const loading = ref(false)
+
 const codeUrl = ref('')
 const formData = ref({
   username: 'admin',
@@ -92,9 +95,6 @@ const formRules = ref<FormRules>({
     },
   ],
 })
-
-const loading = ref(false)
-const formRef = ref<FormInstance>()
 
 const loadCode = () => {
   queryCode().then(res => {

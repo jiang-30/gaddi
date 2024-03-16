@@ -1,11 +1,12 @@
 import type { FormItemProps } from 'element-plus'
-import type { IDFieldBase } from '../../../typings'
+import type { IDFieldBase, IDModel } from '../../../typings'
 import type { IDFormFieldSelectAttrs } from './field-select'
 import type { IDFormFieldTreeAttrs } from './field-tree'
 import type { IDFormFieldDateAttrs } from './field-date'
 import type { IDFormFieldImagesAttrs } from './field-images'
 import type { IDFormFieldCascaderAttrs } from './field-cascader'
 import type { IDFormFieldInputAttrs } from './field-input'
+import type { IDFormType } from './index'
 
 // 表单域配置
 export interface IDFormFieldAttrs extends
@@ -24,7 +25,7 @@ export interface IDFormItemAttrs extends IDFieldBase, IElFormItemAttrs {
   // 插槽
   // formSlot?: boolean
   // 动态响应
-  listen?: any
+  listen?: ((model: IDModel, field: IDFormFieldAttrs, type: IDFormType) => boolean) | { hide?: Record<string, any>, show?: Record<string, any> }
   disabled?: boolean
   createDisabled?: boolean
   updateDisabled?: boolean

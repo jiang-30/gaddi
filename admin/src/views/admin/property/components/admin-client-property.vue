@@ -9,8 +9,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import type { IDFormOption } from '@gaddi/components'
-import { updateProperties } from '@/api/admin/properties'
-import { ElMessage } from 'element-plus'
+
+const emit = defineEmits(['save-property'])
 
 let rowData: any = null
 const visible = ref(false)
@@ -49,7 +49,7 @@ const option: IDFormOption = {
       prop: 'appBanner',
       type: 'image',
       imageWidth: '450px',
-      imageheight: '150px',
+      imageHeight: '150px',
       prefix: '/api',
     },
   ],
@@ -60,11 +60,11 @@ const onSave = (data: any) => {
     ...rowData,
     value: data,
   }
+  emit('save-property', params)
+}
 
-  updateProperties(params).then(() => {
-    ElMessage.success('保存成功')
-    visible.value = false
-  })
+const close = () => {
+  visible.value = false
 }
 
 const open = (row: any) => {
@@ -75,5 +75,6 @@ const open = (row: any) => {
 
 defineExpose({
   open,
+  close,
 })
 </script>

@@ -10,6 +10,7 @@ export const useModel = () => {
     labelWidth: 100,
     rowActionWidth: 140,
     isDeleteBtn: false,
+    isCreateBtn: false,
     fields: [
       {
         prop: "name",
@@ -21,6 +22,7 @@ export const useModel = () => {
         prop: "code",
         label: "配置标识",
         type: "input",
+        isSearch: true,
       },
       {
         prop: "value",

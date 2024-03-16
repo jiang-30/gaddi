@@ -6,8 +6,10 @@
         <el-col v-for="field in formFields" :key="field.prop" :span="field.span">
           <!-- 传递插槽 -->
           <FormItem :field="field" :form-model="formModel" :row="formModel">
-            <template v-for="item in Object.keys($slots).filter(item => item.endsWith('Form'))"
-              v-slot:[item]="scopeProps">
+            <template
+              v-for="item in Object.keys($slots).filter(item => item.endsWith('Form'))"
+              v-slot:[item]="scopeProps"
+            >
               <slot :name="item" v-bind="scopeProps"></slot>
             </template>
           </FormItem>
@@ -38,10 +40,7 @@ defineOptions({ name: 'DForm' })
 const props = defineProps(formProps)
 const emit = defineEmits(formEmits)
 
-const {
-  __formAttrs,
-  __formFields,
-} = useFormOption(props.option, props.type)
+const { __formAttrs, __formFields } = useFormOption(props.option, props.type)
 
 const formRef = ref<FormInstance>()
 
@@ -65,7 +64,14 @@ watch(
 const formFields = computed(() => {
   return __formFields.value.filter(field => {
     if (field.__listen) {
+      if (typeof field.__listen == 'function') {
+        return field.__listen(props.formModel, props.type, field)
+      }
+
       if (field.__listen.show) {
+        // if(typeof field.__listen.show == = 'function') {
+
+        // }
         return Object.keys(field.__listen.show).every(
           key => field.__listen.show[key] === props.formModel[key],
         )
@@ -99,6 +105,6 @@ const _onConfirm = () => {
 defineExpose({
   getForm: formRef.value as any,
   save: _onConfirm,
-  reset: _onReset
+  reset: _onReset,
 })
 </script>

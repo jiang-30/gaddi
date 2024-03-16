@@ -62,6 +62,28 @@
           </el-radio-button>
         </el-radio-group>
 
+        <!-- checkbox -->
+        <el-checkbox-group
+          v-else-if="field.type === 'checkbox'"
+          v-model="formModel[field.prop]"
+          v-bind="field.__formFieldAttrs"
+        >
+          <el-checkbox v-for="item in field.dictData" :label="item.value">
+            {{ item.label }}
+          </el-checkbox>
+        </el-checkbox-group>
+
+        <!-- checkboxButton -->
+        <el-checkbox-group
+          v-else-if="field.type === 'radioButton'"
+          v-model="formModel[field.prop]"
+          v-bind="field.__formFieldAttrs"
+        >
+          <el-checkbox-button v-for="item in field.dictData" :label="item.value">
+            {{ item.label }}
+          </el-checkbox-button>
+        </el-checkbox-group>
+
         <!-- cascader 级联选择 -->
         <el-cascader
           v-else-if="field.type === 'cascader'"

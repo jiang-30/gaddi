@@ -6,29 +6,28 @@ meta:
 
 <template>
   <PageContainer>
-    <DCrud :option="option" :api="api" :before-fetch="beforeFetchHandler">
+    <DCrud ref="crudRef" :option="option" :api="api" :before-fetch="beforeFetchHandler">
       <template #row-action="{ row }">
         <el-button type="primary" text size="small" @click="onOpenProperty(row)">配置</el-button>
       </template>
     </DCrud>
 
-    <AdminClientProperty ref="adminClientRef"></AdminClientProperty>
-
-    <SecurityPassword ref="securityPasswordRef"></SecurityPassword>
+    <AdminClientProperty ref="adminClientRef" @save-property="onSaveProperty"></AdminClientProperty>
+    <SecurityPassword ref="securityPasswordRef" @save-property="onSaveProperty"></SecurityPassword>
   </PageContainer>
 </template>
 
 <script setup lang="ts">
+import type { IDCrudBeforeFetchFn, IDCrud, IDModel } from '@gaddi/components'
 import { ref } from 'vue'
 import { useModel } from './model'
 import AdminClientProperty from './components/admin-client-property.vue'
 import SecurityPassword from './components/security-password.vue'
-import type { IDCrudBeforeFetchFn } from '@gaddi/components'
-import type { IDModel } from '@gaddi/components/es/typings'
+import { updateProperties } from '@/api/admin/properties'
+import { ElMessage } from 'element-plus'
 
-// 默认密码
-// 邮箱
 const { option, api } = useModel()
+const crudRef = ref<IDCrud>()
 const adminClientRef = ref<InstanceType<typeof AdminClientProperty>>()
 const securityPasswordRef = ref<InstanceType<typeof SecurityPassword>>()
 
@@ -38,16 +37,30 @@ const beforeFetchHandler: IDCrudBeforeFetchFn = (type, config) => {
   }
 }
 
-const componentsRef: Record<string, (data: IDModel) => void> = {
-  ADMIN_CLIENT_PROPERTY(data: IDModel) {
-    adminClientRef.value?.open(data)
-  },
-  SECURITY_PASSWORD(data: IDModel) {
-    securityPasswordRef.value?.open(data)
-  },
+const componentsRef: Record<
+  string,
+  {
+    value: {
+      open?: (data: IDModel) => void
+      close?: () => void
+    }
+  }
+> = {
+  ADMIN_CLIENT_PROPERTY: adminClientRef,
+  SECURITY_PASSWORD: securityPasswordRef,
 }
 
+// 打开配置
 const onOpenProperty = (data: IDModel) => {
-  componentsRef[data.code](data)
+  componentsRef[data.code].value?.open(data)
+}
+
+// 关闭配置
+const onSaveProperty = (data: IDModel) => {
+  updateProperties(data).then(() => {
+    ElMessage.success('保存成功')
+    crudRef.value?.refresh()
+    componentsRef[data.code].value?.close()
+  })
 }
 </script>

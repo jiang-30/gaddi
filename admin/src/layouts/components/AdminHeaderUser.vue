@@ -3,11 +3,11 @@
     class="admin-header-user"
     placement="bottom-end"
     :tabindex="9999"
-    trigger="hover"
+    trigger="click"
     @command="onCommand"
   >
     <div class="admin-header-user-wrapper">
-      <el-avatar :icon="UserFilled" :src="userinfo.avatar" :size="30" />
+      <el-avatar :icon="UserFilled" :src="_avatar" :size="30" />
       <span class="admin-header-user__name">{{ _username }}</span>
       <el-icon :color="textColor">
         <ArrowDown />
@@ -42,9 +42,14 @@ defineProps<{
 const router = useRouter()
 const appSettingRef = ref()
 const configStore = useConfigStore()
-const userinfo = useUserStore().userInfo
+const userStore = useUserStore()
+// 用户名
 const _username = computed(() => {
-  return userinfo.nickname || userinfo.username
+  return userStore.userInfo.nickname || userStore.userInfo.username
+})
+// 头像
+const _avatar = computed(() => {
+  return userStore.userInfo.avatar || ''
 })
 
 const actionList = [

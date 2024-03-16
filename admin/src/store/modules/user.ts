@@ -101,13 +101,18 @@ export const useUserStore = defineStore({
         IS_INIT = true;
       }
 
-      await Promise.all([
-        this.init(IS_INIT),
-        useConfigStore().init(IS_INIT, this.isLogin), // 配置信息
-        useDictStore().init(IS_INIT, this.isLogin), // 字典信息
-        useMenuStore().init(IS_INIT, this.isLogin), // 菜单权限信息
-      ])
-      IS_INIT = false
+      try {
+        await Promise.all([
+          this.init(IS_INIT),
+          useConfigStore().init(IS_INIT, this.isLogin), // 配置信息
+          useDictStore().init(IS_INIT, this.isLogin), // 字典信息
+          useMenuStore().init(IS_INIT, this.isLogin), // 菜单权限信息
+        ])
+        IS_INIT = false
+      } catch (error) {
+        ElMessage.error("初始化失败")
+      }
+
     },
 
     /**

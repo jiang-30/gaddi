@@ -35,7 +35,15 @@ import { useUserStore } from '@/store'
 import { fetchUpdatePassword } from '@/api/common'
 import type { FormInstance, FormRules, FormItemRule } from 'element-plus'
 import { ref } from 'vue'
+import { queryPropertiesByCode } from '@/api/admin/properties'
 
+const passwordValidation: any = {}
+const loadPasswordValidation = () => {
+  queryPropertiesByCode('SECURITY_PASSWORD').then(res => {
+    passwordValidation.value = res.data.value
+  })
+}
+loadPasswordValidation()
 const loading = ref(false)
 const formRef = ref<FormInstance>()
 const formModel = ref({
@@ -52,6 +60,7 @@ const passwordValidator: FormItemRule['validator'] = (rule, value, callback) => 
   ) {
     callback(new Error('俩次密码输入不一致'))
   }
+  // if(formModel.value.password )
   callback()
 }
 const formRules: FormRules = {

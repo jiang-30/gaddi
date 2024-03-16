@@ -1,5 +1,11 @@
 # @gaddi/components
 
+## 0.0.1-alpha.32
+
+### Patch Changes
+
+- 设置字典值
+
 ## 0.0.1-alpha.31
 
 ### Patch Changes

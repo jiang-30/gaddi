@@ -6,6 +6,16 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 const dist = resolve(__dirname, 'admin-template')
 
+// "@element-plus/icons-vue": "2.1.0",
+// "@vueuse/core": "9.13.0",
+// "axios": "1.5.0",
+// "ejs": "^3.1.9",
+// "element-plus": "2.3.8",
+// "fs-extra": "^11.1.1",
+// "mysql2": "^3.6.5",
+// "nprogress": "^0.2.0",
+// "shelljs": "^0.8.5",
+
 // 1. 清空目录
 emptyDir(dist)
 
